@@ -28,6 +28,21 @@ export default function Navbar({ onSearchProduct }) {
   }, []);
 
   useEffect(() => {
+    const handlePopState = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        setTimeout(() => {
+          document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
     document.body.style.overflow = (menuOpen || searchOpen) ? 'hidden' : '';
   }, [menuOpen, searchOpen]);
 
@@ -40,7 +55,11 @@ export default function Navbar({ onSearchProduct }) {
   const scrollTo = (id) => {
     setMenuOpen(false);
     setSearchOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    const el = document.getElementById(id);
+    if (el) {
+      window.history.pushState(null, '', `#${id}`);
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleSearch = (e) => {

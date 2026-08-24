@@ -26,7 +26,10 @@ export default function ProductCollection({ activeCategory }) {
   const handleFilter = (val) => {
     setActiveFilter(val);
     const el = document.getElementById('products');
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (el) {
+      window.history.pushState(null, '', '#products');
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   const getImage = (p) => {

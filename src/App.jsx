@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './admin/context/AuthContext';
 import { SiteProvider } from './context/SiteContext';
@@ -51,6 +51,15 @@ function ProtectedAdmin({ children }) {
 
 function CustomerSite() {
   const [activeCategory, setActiveCategory] = useState(null);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth' });
+      }, 500);
+    }
+  }, []);
 
   const handleMaterialClick = (category) => {
     setActiveCategory(category);
