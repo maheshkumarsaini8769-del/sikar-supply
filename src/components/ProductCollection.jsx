@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSite } from '../context/SiteContext';
 import { trackClick } from '../utils/analytics';
 import ScrollReveal from './ScrollReveal';
@@ -13,6 +13,23 @@ export default function ProductCollection({ activeCategory }) {
   useEffect(() => {
     if (activeCategory) setActiveFilter(activeCategory);
   }, [activeCategory]);
+
+  const closeModal = useCallback(() => {
+    setSelectedProduct(null);
+    if (window.history.state?.modal) {
+      window.history.back();
+    }
+  }, []);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (selectedProduct && !window.history.state?.modal) {
+        setSelectedProduct(null);
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [selectedProduct]);
 
   const allFilters = [
     { label: 'All', slug: 'all' },
@@ -73,7 +90,7 @@ export default function ProductCollection({ activeCategory }) {
         <div className="product-grid">
           {filtered.map((product, i) => (
             <ScrollReveal key={product._id} delay={i * 100}>
-              <div className="product-card" onClick={() => { trackClick(product); setSelectedProduct(product); }}>
+              <div className="product-card" onClick={() => { trackClick(product); setSelectedProduct(product); window.history.pushState({ modal: true }, ''); }}>
                 <div className="product-card-image">
                   <img src={getImage(product)} alt={`${product.name} - Premium interior material`} loading="lazy" />
                   <div className="product-card-number">{String(i + 1).padStart(2, '0')}</div>
@@ -111,7 +128,7 @@ export default function ProductCollection({ activeCategory }) {
       {selectedProduct && (
         <ProductModal
           product={{ ...selectedProduct, images: modalImages(selectedProduct), title: selectedProduct.name, category: selectedProduct.category?.slug || '', pricePerSqFt: selectedProduct.price }}
-          onClose={() => setSelectedProduct(null)}
+          onClose={closeModal}
         />
       )}
     </section>

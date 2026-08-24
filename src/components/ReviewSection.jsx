@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSite } from '../context/SiteContext';
 import ScrollReveal from './ScrollReveal';
 
@@ -8,6 +8,22 @@ export default function ReviewSection() {
   const [form, setForm] = useState({ name: '', rating: 5, text: '' });
   const [submitted, setSubmitted] = useState(false);
 
+  useEffect(() => {
+    const handlePopState = () => {
+      if (showForm) {
+        setShowForm(false);
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [showForm]);
+
+  const toggleForm = () => {
+    if (!showForm) window.history.pushState({ reviewForm: true }, '');
+    else if (window.history.state?.reviewForm) window.history.back();
+    setShowForm(!showForm);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     addReview({
@@ -16,6 +32,7 @@ export default function ReviewSection() {
     });
     setForm({ name: '', rating: 5, text: '' });
     setShowForm(false);
+    if (window.history.state?.reviewForm) window.history.back();
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
   };
@@ -36,7 +53,7 @@ export default function ReviewSection() {
 
         <div className="reviews-header">
           {submitted && <div className="review-success">Thank you! Your review has been submitted.</div>}
-          <button className="btn-primary" onClick={() => setShowForm(!showForm)}>
+          <button className="btn-primary" onClick={toggleForm}>
             {showForm ? 'Cancel' : 'Write a Review'}
           </button>
         </div>

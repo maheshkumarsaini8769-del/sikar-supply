@@ -29,6 +29,10 @@ export default function Navbar({ onSearchProduct }) {
 
   useEffect(() => {
     const handlePopState = () => {
+      if (searchOpen) {
+        setSearchOpen(false);
+        return;
+      }
       const hash = window.location.hash;
       if (hash) {
         setTimeout(() => {
@@ -40,7 +44,7 @@ export default function Navbar({ onSearchProduct }) {
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  }, [searchOpen]);
 
   useEffect(() => {
     document.body.style.overflow = (menuOpen || searchOpen) ? 'hidden' : '';
@@ -106,7 +110,7 @@ export default function Navbar({ onSearchProduct }) {
             ))}
           </ul>
           <div className="navbar-actions">
-            <button className="navbar-search-btn" onClick={() => setSearchOpen(!searchOpen)} aria-label="Search">
+            <button className="navbar-search-btn" onClick={() => { if (!searchOpen) window.history.pushState({ search: true }, ''); setSearchOpen(!searchOpen); }} aria-label="Search">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             </button>
             <a href="https://wa.me/918239409535?text=Hi%2C%20I%27m%20interested%20in%20your%20products" target="_blank" rel="noopener noreferrer" className="navbar-whatsapp-btn">
@@ -115,7 +119,7 @@ export default function Navbar({ onSearchProduct }) {
             </a>
           </div>
           <div className="mobile-nav-right">
-            <button className="navbar-search-btn" onClick={() => setSearchOpen(!searchOpen)} aria-label="Search">
+            <button className="navbar-search-btn" onClick={() => { if (!searchOpen) window.history.pushState({ search: true }, ''); setSearchOpen(!searchOpen); }} aria-label="Search">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             </button>
             <div className="navbar-quote-icon">
