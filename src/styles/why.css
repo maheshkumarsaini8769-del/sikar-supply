@@ -1,0 +1,106 @@
+/* Why Star Home Design */
+.why {
+  padding: var(--section-gap) 0;
+  background: var(--color-dark);
+  overflow: hidden;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 64px;
+}
+
+.why-left {
+  position: sticky;
+  top: 140px;
+  align-self: start;
+}
+
+.why-left .section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--color-warm-white);
+}
+
+.why-left .section-heading span {
+  display: block;
+}
+
+.why-left p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  margin-top: 20px;
+}
+
+.why-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.why-feature {
+  padding: 36px 0;
+  border-bottom: 1px solid var(--color-border);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 0.25;
+  transform: translateY(8px);
+}
+
+.why-feature.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.why-feature:first-child {
+  padding-top: 0;
+}
+
+.why-feature-number {
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--color-accent);
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+
+.why-feature-title {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 400;
+  color: var(--color-warm-white);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.why-feature-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .why {
+    padding: var(--section-gap) 0;
+  }
+
+  .why-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .why-left {
+    position: relative;
+    top: 0;
+  }
+
+  .why-feature {
+    opacity: 1;
+    transform: none;
+    padding: 24px 0;
+  }
+}

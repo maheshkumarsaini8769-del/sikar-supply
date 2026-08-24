@@ -1,0 +1,224 @@
+/* Footer */
+.footer {
+  padding: 80px 0 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 56px;
+  padding-bottom: 56px;
+}
+
+.footer-brand .logo-link {
+  margin-bottom: 20px;
+  display: inline-flex;
+}
+
+.footer-brand p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 300px;
+}
+
+.footer-col h4 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-col a {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
+}
+
+.footer-col a:hover {
+  color: var(--color-accent);
+}
+
+.footer-contact-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.footer-contact-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-accent);
+  font-size: 14px;
+}
+
+.footer-contact-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.footer-bottom {
+  padding: 24px 0;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.footer-bottom p {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.footer-socials {
+  display: flex;
+  gap: 12px;
+}
+
+.footer-socials a {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.footer-socials a:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Floating Actions */
+.floating-actions {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 998;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  animation: floatIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0;
+  transform: translateY(40px) scale(0.8);
+}
+
+@keyframes floatIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.whatsapp-btn {
+  width: 56px;
+  height: 56px;
+  background: #25d366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+  opacity: 0;
+  transform: scale(0);
+}
+
+@keyframes bounceIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.whatsapp-btn:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 28px rgba(37, 211, 102, 0.55);
+}
+
+.whatsapp-btn svg {
+  width: 28px;
+  height: 28px;
+  fill: white;
+}
+
+.call-btn {
+  width: 52px;
+  height: 52px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(184, 149, 106, 0.35);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s forwards;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.call-btn:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 24px rgba(184, 149, 106, 0.5);
+}
+
+.call-btn svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--color-black);
+  fill: none;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .footer {
+    padding: 56px 0 0;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .floating-actions {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .whatsapp-btn {
+    width: 52px;
+    height: 52px;
+  }
+
+  .call-btn {
+    width: 48px;
+    height: 48px;
+  }
+}
