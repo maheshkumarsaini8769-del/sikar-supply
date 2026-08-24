@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 
 const SiteContext = createContext(null);
-const API_URL = 'http://localhost:5000/api';
+const API_URL = '/api';
 
 export function SiteProvider({ children }) {
   const [settings, setSettings] = useState(null);

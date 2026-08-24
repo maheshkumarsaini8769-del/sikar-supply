@@ -1,5 +1,5 @@
-const API_URL = 'http://localhost:5000/api';
-const UPLOAD_URL = 'http://localhost:5000/uploads';
+const API_URL = '/api';
+const UPLOAD_URL = '/uploads';
 
 export { API_URL, UPLOAD_URL };
 
