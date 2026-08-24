@@ -827,8 +827,17 @@
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .adm-dashboard-charts { grid-template-columns: 1fr; }
+  .adm-stat-cards { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+}
+
 @media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    width: 260px;
+  }
   .sidebar.open { transform: translateX(0); }
 
   .sidebar-overlay {
@@ -841,18 +850,65 @@
     pointer-events: none;
     transition: opacity 0.3s;
   }
-
   .sidebar-overlay.open { opacity: 1; pointer-events: all; }
 
   .admin-main { margin-left: 0; }
   .hamburger-btn { display: flex; }
-  .admin-content { padding: 16px; }
+  .admin-content { padding: 12px; }
+
+  .topbar { padding: 10px 12px; }
+  .topbar-right { gap: 8px; }
+  .admin-name { display: none; }
+  .topbar-visit { font-size: 11px; padding: 5px 8px; }
+
+  .adm-page-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .adm-page-title { font-size: 18px; }
+
   .adm-form-grid { grid-template-columns: 1fr; }
   .adm-dashboard-charts { grid-template-columns: 1fr; }
   .adm-detail-grid { grid-template-columns: 1fr; }
-  .adm-filters { flex-direction: column; }
+  .adm-filters { flex-direction: column; gap: 8px; }
   .adm-filter-input, .adm-filter-select { min-width: 100%; }
-  .adm-stat-cards { grid-template-columns: 1fr 1fr; }
+  .adm-stat-cards { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .adm-stat-card { padding: 14px; }
+  .adm-stat-value { font-size: 20px; }
   .adm-hero-slides-grid { grid-template-columns: 1fr; }
-  .adm-media-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  .adm-media-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+  .adm-media-item img { height: 100px; }
+
+  .adm-table-wrapper { margin: 0 -12px; padding: 0 12px; }
+
+  .login-card { margin: 16px; padding: 24px; }
+
+  .adm-modal { margin: 10px; max-height: 95vh; }
+  .adm-modal-body { padding: 12px; }
+
+  .adm-btn { padding: 8px 12px; font-size: 12px; }
+  .adm-btn-sm { padding: 4px 8px; font-size: 10px; }
+
+  .adm-tabs { gap: 0; overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+  .adm-tab-btn { padding: 10px 12px; font-size: 12px; white-space: nowrap; flex-shrink: 0; }
+
+  .adm-settings-content { padding: 16px; }
+  .adm-chart-card { padding: 12px; }
+  .adm-recent-section { padding: 12px; }
+
+  .adm-actions-cell { flex-direction: column; }
+  .adm-actions-cell .adm-btn { width: 100%; text-align: center; }
+
+  .adm-order-total { font-size: 14px; }
+}
+
+@media (max-width: 480px) {
+  .adm-stat-cards { grid-template-columns: 1fr; }
+  .adm-stat-card { padding: 12px; }
+  .adm-stat-value { font-size: 18px; }
+  .adm-media-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 6px; }
+  .adm-media-item img { height: 80px; }
+  .adm-media-info { padding: 6px; }
+  .adm-media-name { font-size: 10px; }
+  .adm-detail-grid { gap: 8px; }
+  .adm-page-title { font-size: 16px; }
+  .adm-form-row { flex-direction: column; }
+  .adm-form-row .adm-btn { width: 100%; }
 }
