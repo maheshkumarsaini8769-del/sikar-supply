@@ -23,7 +23,7 @@ export default function MaterialStory({ onProductClick }) {
                 onClick={() => onProductClick(cat.slug)}
                 style={{ cursor: 'pointer' }}
               >
-                {cat.image ? (
+                {cat.image && typeof cat.image === 'string' ? (
                   <div className="material-card-image">
                     <img
                       src={cat.image.startsWith('http') ? cat.image : UPLOAD_URL + cat.image}

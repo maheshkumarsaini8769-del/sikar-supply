@@ -49,7 +49,7 @@ export default function Settings() {
               <div className="adm-form-grid">
                 <div className="adm-form-group"><label>Site Name</label><input type="text" value={settings.siteName || ''} onChange={e => uf('siteName', e.target.value)} /></div>
                 <div className="adm-form-group"><label>Tagline</label><input type="text" value={settings.siteTagline || ''} onChange={e => uf('siteTagline', e.target.value)} /></div>
-                <div className="adm-form-group"><label>Logo</label><input type="file" accept="image/*" onChange={e => uf('logo', e.target.files[0])} />{settings.logo && <img src={settings.logo.startsWith('http') ? settings.logo : UPLOAD_URL + settings.logo} alt="" className="adm-settings-img" />}</div>
+                <div className="adm-form-group"><label>Logo</label><input type="file" accept="image/*" onChange={e => uf('logo', e.target.files[0])} />{settings.logo && typeof settings.logo === 'string' && <img src={settings.logo.startsWith('http') ? settings.logo : UPLOAD_URL + settings.logo} alt="" className="adm-settings-img" />}</div>
                 <div className="adm-form-group"><label>Copyright</label><input type="text" value={settings.copyrightText || ''} onChange={e => uf('copyrightText', e.target.value)} /></div>
                 <div className="adm-form-group adm-full-width"><label>Footer Description</label><textarea rows="2" value={settings.footerDescription || ''} onChange={e => uf('footerDescription', e.target.value)} /></div>
               </div>
