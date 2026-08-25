@@ -198,6 +198,8 @@
   cursor: pointer;
   padding: 4px;
   z-index: 1001;
+  background: none;
+  border: none;
 }
 
 .hamburger span {

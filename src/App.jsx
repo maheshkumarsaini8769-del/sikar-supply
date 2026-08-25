@@ -94,6 +94,8 @@ function CustomerSite() {
   );
 }
 
+import NotFound from './pages/NotFound';
+
 function App() {
   return (
     <AuthProvider>
@@ -111,7 +113,9 @@ function App() {
             <Route path="gallery" element={<AdminGallery />} />
             <Route path="reviews" element={<AdminReviews />} />
           </Route>
-          <Route path="/*" element={<CustomerSite />} />
+          <Route path="/" element={<CustomerSite />} />
+          <Route path="/:slug" element={<CustomerSite />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

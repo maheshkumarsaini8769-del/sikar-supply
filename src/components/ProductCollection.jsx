@@ -92,7 +92,7 @@ export default function ProductCollection({ activeCategory }) {
             <ScrollReveal key={product._id} delay={i * 100}>
               <div className="product-card" onClick={() => { trackClick(product); setSelectedProduct(product); window.history.pushState({ modal: true }, ''); }} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { trackClick(product); setSelectedProduct(product); window.history.pushState({ modal: true }, ''); } }}>
                 <div className="product-card-image">
-                  <img src={getImage(product)} alt={`${product.name} - Premium interior material`} loading="lazy" />
+                  <img src={getImage(product)} alt={`${product.name} - Premium interior material`} loading="lazy" width="800" height="600" />
                   <div className="product-card-number">{String(i + 1).padStart(2, '0')}</div>
                   {product.stockStatus === 'out_of_stock' && <div className="out-of-stock-badge">OUT OF STOCK</div>}
                 </div>

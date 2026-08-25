@@ -30,8 +30,10 @@ export default function MaterialStory({ onProductClick }) {
                   <div className="material-card-image">
                     <img
                       src={(cat.image.startsWith('http') || cat.image.startsWith('data:')) ? cat.image : UPLOAD_URL + cat.image}
-                      alt={cat.name}
+                      alt={`${cat.name} - premium interior material in Sikar`}
                       loading="lazy"
+                      width="400"
+                      height="300"
                     />
                   </div>
                 ) : (
