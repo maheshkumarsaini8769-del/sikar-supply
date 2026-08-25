@@ -63,14 +63,14 @@ export function SiteProvider({ children }) {
     refreshReviews();
   };
 
-  const addReview = async (review) => {
+  const addReview = async (fd) => {
     const res = await fetch(`${API_URL}/reviews`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(review),
+      body: fd,
     });
     const data = await res.json();
     if (data.success) refreshReviews();
+    return data;
   };
 
   return (

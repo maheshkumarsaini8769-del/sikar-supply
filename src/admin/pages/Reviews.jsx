@@ -51,11 +51,18 @@ export default function Reviews() {
       <div className="adm-table-wrapper">
         <table className="adm-data-table">
           <thead>
-            <tr><th>Name</th><th>Rating</th><th>Review</th><th>Date</th><th>Status</th><th>Action</th></tr>
+            <tr><th>Photo</th><th>Name</th><th>Rating</th><th>Review</th><th>Date</th><th>Status</th><th>Action</th></tr>
           </thead>
           <tbody>
             {reviews.map((review) => (
               <tr key={review._id} style={{opacity: review.active === false ? 0.5 : 1}}>
+                <td>
+                  {review.image ? (
+                    <img src={review.image} alt="" style={{width:40,height:40,borderRadius:'50%',objectFit:'cover'}} />
+                  ) : (
+                    <div style={{width:40,height:40,borderRadius:'50%',background:'#333',display:'flex',alignItems:'center',justifyContent:'center',color:'#b8956a',fontWeight:700,fontSize:16}}>{review.name.charAt(0).toUpperCase()}</div>
+                  )}
+                </td>
                 <td className="adm-td-bold">{review.name}</td>
                 <td>{renderStars(review.rating)}</td>
                 <td style={{maxWidth:'300px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{review.text}</td>
@@ -74,7 +81,7 @@ export default function Reviews() {
                 </td>
               </tr>
             ))}
-            {reviews.length === 0 && <tr><td colSpan="6" className="adm-empty-row">No reviews yet</td></tr>}
+            {reviews.length === 0 && <tr><td colSpan="7" className="adm-empty-row">No reviews yet</td></tr>}
           </tbody>
         </table>
       </div>

@@ -1,6 +1,7 @@
 const express = require('express');
 const Review = require('../models/Review');
 const { protect } = require('../middleware/auth');
+const upload = require('../middleware/upload');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -21,18 +22,26 @@ router.get('/all', protect, async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', upload.single('image'), async (req, res) => {
   try {
-    const review = await Review.create(req.body);
+    const data = { ...req.body };
+    if (req.file) {
+      data.image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+    }
+    const review = await Review.create(data);
     res.status(201).json({ success: true, review });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 });
 
-router.put('/:id', protect, async (req, res) => {
+router.put('/:id', protect, upload.single('image'), async (req, res) => {
   try {
-    const review = await Review.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const data = { ...req.body };
+    if (req.file) {
+      data.image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+    }
+    const review = await Review.findByIdAndUpdate(req.params.id, data, { new: true });
     res.json({ success: true, review });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

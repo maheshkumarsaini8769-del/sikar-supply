@@ -6,6 +6,8 @@ export default function ReviewSection() {
   const { reviews, addReview, deleteReview } = useSite();
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ name: '', rating: 5, text: '' });
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
@@ -24,13 +26,30 @@ export default function ReviewSection() {
     setShowForm(!showForm);
   };
 
-  const handleSubmit = (e) => {
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onload = (ev) => setImagePreview(ev.target.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addReview({
-      ...form,
-      date: new Date().toISOString(),
-    });
+    const fd = new FormData();
+    fd.append('name', form.name);
+    fd.append('rating', form.rating);
+    fd.append('text', form.text);
+    fd.append('date', new Date().toISOString());
+    if (imageFile) fd.append('image', imageFile);
+
+    await addReview(fd);
+
     setForm({ name: '', rating: 5, text: '' });
+    setImageFile(null);
+    setImagePreview('');
     setShowForm(false);
     if (window.history.state?.reviewForm) window.history.back();
     setSubmitted(true);
@@ -96,6 +115,11 @@ export default function ReviewSection() {
                   placeholder="Share your experience..."
                 />
               </div>
+              <div className="form-group">
+                <label>Photo (optional)</label>
+                <input type="file" accept="image/*" onChange={handleImageChange} />
+                {imagePreview && <img src={imagePreview} alt="" style={{ maxWidth: 100, marginTop: 8, borderRadius: 6 }} />}
+              </div>
               <button type="submit" className="btn-primary">Submit Review</button>
             </form>
           </ScrollReveal>
@@ -106,7 +130,11 @@ export default function ReviewSection() {
             <ScrollReveal key={i} delay={i * 100}>
               <div className="review-card">
                 <div className="review-header">
-                  <div className="review-avatar">{review.name.charAt(0).toUpperCase()}</div>
+                  {review.image ? (
+                    <img src={review.image} alt={review.name} style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover' }} />
+                  ) : (
+                    <div className="review-avatar">{review.name.charAt(0).toUpperCase()}</div>
+                  )}
                   <div>
                     <h4 className="review-name">{review.name}</h4>
                     <div className="review-stars">{renderStars(review.rating)}</div>
