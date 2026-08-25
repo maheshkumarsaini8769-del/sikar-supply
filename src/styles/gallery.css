@@ -58,6 +58,47 @@
   color: var(--color-warm-white);
 }
 
+/* Modal */
+.gallery-modal-container {
+  background: var(--color-dark);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+}
+
+.gallery-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.gallery-modal-header h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--color-warm-white);
+}
+
+.gallery-modal-body {
+  overflow-y: auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.gallery-modal-body .gallery-item {
+  aspect-ratio: 4/3;
+}
+
 /* Lightbox */
 .gallery-lightbox {
   position: fixed;
@@ -85,9 +126,6 @@
 }
 
 .gallery-lightbox-close {
-  position: absolute;
-  top: -40px;
-  right: 0;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -113,16 +151,53 @@
   color: var(--color-text-secondary);
 }
 
+/* Desktop only / Mobile only */
+.gallery-desktop-only {
+  display: block;
+}
+
+.gallery-mobile-only {
+  display: none;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
-  .gallery-grid {
+  .gallery-desktop-only {
+    display: none;
+  }
+
+  .gallery-mobile-only {
+    display: block;
+  }
+
+  .gallery-mobile-only .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
+  }
+
+  .gallery-modal-body {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 16px;
+  }
+
+  .gallery-modal-container {
+    max-height: 90vh;
+    border-radius: 8px;
+  }
+
+  .gallery-lightbox-inner img {
+    max-height: 70vh;
   }
 }
 
 @media (max-width: 480px) {
-  .gallery-grid {
-    grid-template-columns: 1fr;
+  .gallery-mobile-only .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .gallery-mobile-only .gallery-item {
+    aspect-ratio: 1;
   }
 }
