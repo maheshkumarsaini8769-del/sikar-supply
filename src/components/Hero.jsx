@@ -64,6 +64,7 @@ export default function Hero() {
             key={i}
             className={`hero-indicator ${i === current ? 'active' : ''}`}
             onClick={() => setCurrent(i)}
+            aria-label={`Go to slide ${i + 1}`}
           />
         ))}
       </div>

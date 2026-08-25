@@ -90,7 +90,7 @@ export default function ProductCollection({ activeCategory }) {
         <div className="product-grid">
           {filtered.map((product, i) => (
             <ScrollReveal key={product._id} delay={i * 100}>
-              <div className="product-card" onClick={() => { trackClick(product); setSelectedProduct(product); window.history.pushState({ modal: true }, ''); }}>
+              <div className="product-card" onClick={() => { trackClick(product); setSelectedProduct(product); window.history.pushState({ modal: true }, ''); }} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { trackClick(product); setSelectedProduct(product); window.history.pushState({ modal: true }, ''); } }}>
                 <div className="product-card-image">
                   <img src={getImage(product)} alt={`${product.name} - Premium interior material`} loading="lazy" />
                   <div className="product-card-number">{String(i + 1).padStart(2, '0')}</div>

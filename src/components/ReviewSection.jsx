@@ -83,7 +83,7 @@ export default function ReviewSection() {
           <h4 className="review-name">{review.name}</h4>
           <div className="review-stars">{renderStars(review.rating)}</div>
         </div>
-        {!isModal && <button className="review-delete" onClick={() => deleteReview(review._id)} title="Delete review">×</button>}
+        {!isModal &&                    <button className="review-delete" onClick={() => deleteReview(review._id)} title="Delete review" aria-label={`Delete review by ${review.name}`}>×</button>}
       </div>
       <p className="review-text">{review.text}</p>
       <span className="review-date">
@@ -159,11 +159,11 @@ export default function ReviewSection() {
       </div>
 
       {showAll && (
-        <div className="reviews-overlay" onClick={(e) => { if (e.target === e.currentTarget) toggleAll(); }}>
+        <div className="reviews-overlay" onClick={(e) => { if (e.target === e.currentTarget) toggleAll(); }} role="dialog" aria-modal="true" aria-label="All reviews">
           <div className="reviews-modal">
             <div className="reviews-modal-header">
               <h2>All Reviews ({reviews.length})</h2>
-              <button className="reviews-modal-close" onClick={toggleAll}>×</button>
+              <button className="reviews-modal-close" onClick={toggleAll} aria-label="Close all reviews">×</button>
             </div>
             <div className="reviews-modal-body">
               {reviews.map((review, i) => renderCard(review, i, true))}

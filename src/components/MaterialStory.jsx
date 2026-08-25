@@ -21,6 +21,9 @@ export default function MaterialStory({ onProductClick }) {
               <div
                 className="material-card"
                 onClick={() => onProductClick(cat.slug)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onProductClick(cat.slug); }}
                 style={{ cursor: 'pointer' }}
               >
                 {cat.image && typeof cat.image === 'string' ? (

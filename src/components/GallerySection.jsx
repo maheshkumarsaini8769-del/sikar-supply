@@ -43,8 +43,8 @@ export default function GallerySection() {
         <div className="gallery-grid">
           {filtered.map((item, i) => (
             <ScrollReveal key={item._id || i} delay={i * 80}>
-              <div className="gallery-item" onClick={() => setLightbox(item)}>
-                <img src={getImageSrc(item)} alt={item.title || ''} loading="lazy" />
+              <div className="gallery-item" onClick={() => setLightbox(item)} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setLightbox(item); }}>
+                <img src={getImageSrc(item)} alt={item.title || `Gallery image ${i + 1}`} loading="lazy" />
                 {item.title && <div className="gallery-item-overlay"><span>{item.title}</span></div>}
               </div>
             </ScrollReveal>
@@ -58,10 +58,10 @@ export default function GallerySection() {
       </div>
 
       {lightbox && (
-        <div className="gallery-lightbox" onClick={(e) => { if (e.target === e.currentTarget) setLightbox(null); }}>
+        <div className="gallery-lightbox" onClick={(e) => { if (e.target === e.currentTarget) setLightbox(null); }} role="dialog" aria-modal="true" aria-label="Gallery image lightbox">
           <div className="gallery-lightbox-inner">
-            <button className="gallery-lightbox-close" onClick={() => setLightbox(null)}>×</button>
-            <img src={getImageSrc(lightbox)} alt={lightbox.title || ''} />
+            <button className="gallery-lightbox-close" onClick={() => setLightbox(null)} aria-label="Close lightbox">×</button>
+            <img src={getImageSrc(lightbox)} alt={lightbox.title || 'Gallery image'} loading="lazy" />
             {lightbox.title && <p className="gallery-lightbox-caption">{lightbox.title}</p>}
           </div>
         </div>
