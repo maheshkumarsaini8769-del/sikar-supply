@@ -12,7 +12,7 @@ export default function Intro() {
           <ScrollReveal>
             <div className="intro-image">
               <img
-                src={settings?.aboutImage && typeof settings.aboutImage === 'string' ? (settings.aboutImage.startsWith('http') ? settings.aboutImage : UPLOAD_URL + settings.aboutImage) : 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85&auto=format&fit=crop'}
+                src={settings?.aboutImage && typeof settings.aboutImage === 'string' ? ((settings.aboutImage.startsWith('http') || settings.aboutImage.startsWith('data:')) ? settings.aboutImage : UPLOAD_URL + settings.aboutImage) : 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85&auto=format&fit=crop'}
                 alt="About Star Home Design"
               />
             </div>

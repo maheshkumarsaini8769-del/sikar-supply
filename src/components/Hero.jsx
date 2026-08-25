@@ -14,7 +14,7 @@ export default function Hero() {
   const [current, setCurrent] = useState(0);
 
   const slides = settings?.heroSlides?.filter(s => s.active).length > 0
-    ? settings.heroSlides.filter(s => s.active).sort((a, b) => a.displayOrder - b.displayOrder).map(s => s.image?.startsWith('http') ? s.image : UPLOAD_URL + s.image)
+    ? settings.heroSlides.filter(s => s.active).sort((a, b) => a.displayOrder - b.displayOrder).map(s => (s.image?.startsWith('http') || s.image?.startsWith('data:')) ? s.image : UPLOAD_URL + s.image)
     : fallbackSlides;
 
   const duration = settings?.slideDuration || 3000;

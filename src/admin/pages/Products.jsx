@@ -112,7 +112,7 @@ export default function Products() {
             <tbody>
               {products.map(p => (
                 <tr key={p._id}>
-                  <td>{p.images?.[0] ? <img src={p.images[0].url.startsWith('http') ? p.images[0].url : UPLOAD_URL + p.images[0].url} alt="" className="adm-table-img" /> : <div className="adm-table-img-placeholder">No</div>}</td>
+                  <td>{p.images?.[0] ? <img src={(p.images[0].url.startsWith('http') || p.images[0].url.startsWith('data:')) ? p.images[0].url : UPLOAD_URL + p.images[0].url} alt="" className="adm-table-img" /> : <div className="adm-table-img-placeholder">No</div>}</td>
                   <td className="adm-td-bold">{p.name}</td>
                   <td>{p.category?.name || 'N/A'}</td>
                   <td>{p.price ? `₹${p.price}` : 'GET PRICE'}</td>
@@ -164,7 +164,7 @@ export default function Products() {
                     <div className="adm-image-preview-grid">
                       {editing.images.map((img, i) => (
                         <div key={i} className="adm-image-preview-item">
-                          <img src={img.url.startsWith('http') ? img.url : UPLOAD_URL + img.url} alt="" />
+                           <img src={(img.url.startsWith('http') || img.url.startsWith('data:')) ? img.url : UPLOAD_URL + img.url} alt="" />
                           <button type="button" className="adm-remove-img" onClick={() => removeImage(editing._id, i)}>×</button>
                         </div>
                       ))}

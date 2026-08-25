@@ -34,7 +34,7 @@ export default function HeroSlides() {
       <div className="adm-hero-slides-grid">
         {settings.heroSlides?.map((slide, i) => (
           <div key={i} className={`adm-hero-slide-card ${!slide.active ? 'inactive' : ''}`}>
-            <img src={slide.image?.startsWith('http') ? slide.image : UPLOAD_URL + slide.image} alt="" />
+            <img src={(slide.image?.startsWith('http') || slide.image?.startsWith('data:')) ? slide.image : UPLOAD_URL + slide.image} alt="" />
             <div className="adm-hero-slide-info"><span>Slide {i + 1}</span><span className={`adm-slide-status ${slide.active ? 'active' : 'inactive'}`}>{slide.active ? 'Active' : 'Off'}</span></div>
             <div className="adm-hero-slide-actions">
               <button className="adm-btn adm-btn-sm" onClick={() => toggleSlide(i)}>{slide.active ? 'Disable' : 'Enable'}</button>

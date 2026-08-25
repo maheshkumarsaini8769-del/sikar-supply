@@ -12,7 +12,7 @@ export default function Showroom() {
           <ScrollReveal direction="left">
             <div className="showroom-image">
               <img
-                src={settings?.showroomImage && typeof settings.showroomImage === 'string' ? (settings.showroomImage.startsWith('http') ? settings.showroomImage : UPLOAD_URL + settings.showroomImage) : 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1000&q=85&auto=format&fit=crop'}
+                src={settings?.showroomImage && typeof settings.showroomImage === 'string' ? ((settings.showroomImage.startsWith('http') || settings.showroomImage.startsWith('data:')) ? settings.showroomImage : UPLOAD_URL + settings.showroomImage) : 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1000&q=85&auto=format&fit=crop'}
                 alt="Star Home Design premium showroom interior"
                 loading="lazy"
               />

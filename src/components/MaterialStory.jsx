@@ -26,7 +26,7 @@ export default function MaterialStory({ onProductClick }) {
                 {cat.image && typeof cat.image === 'string' ? (
                   <div className="material-card-image">
                     <img
-                      src={cat.image.startsWith('http') ? cat.image : UPLOAD_URL + cat.image}
+                      src={(cat.image.startsWith('http') || cat.image.startsWith('data:')) ? cat.image : UPLOAD_URL + cat.image}
                       alt={cat.name}
                       loading="lazy"
                     />

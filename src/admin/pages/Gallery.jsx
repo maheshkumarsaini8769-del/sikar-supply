@@ -34,7 +34,7 @@ export default function Gallery() {
         <div className="adm-media-grid">
           {gallery.map(item => (
             <div key={item._id} className={`adm-media-item ${!item.active ? 'inactive' : ''}`}>
-              <img src={item.image?.startsWith('http') ? item.image : UPLOAD_URL + item.image} alt={item.title} />
+              <img src={(item.image?.startsWith('http') || item.image?.startsWith('data:')) ? item.image : UPLOAD_URL + item.image} alt={item.title} />
               <div className="adm-media-info"><span className="adm-media-name">{item.title || 'Untitled'}</span>{item.category && <span className="adm-media-section">{item.category}</span>}</div>
               <div className="adm-media-actions">
                 <button className="adm-btn adm-btn-sm" onClick={() => toggleActive(item)}>{item.active ? 'Disable' : 'Enable'}</button>

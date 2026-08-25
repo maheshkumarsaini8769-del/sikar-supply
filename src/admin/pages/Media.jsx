@@ -31,7 +31,7 @@ export default function Media() {
         <div className="adm-media-grid">
           {media.map(m => (
             <div key={m._id} className="adm-media-item">
-              <img src={m.url.startsWith('http') ? m.url : UPLOAD_URL + m.url} alt={m.alt} />
+              <img src={(m.url.startsWith('http') || m.url.startsWith('data:')) ? m.url : UPLOAD_URL + m.url} alt={m.alt} />
               <div className="adm-media-info"><span className="adm-media-name">{m.originalName}</span><span className="adm-media-section">{m.section}</span></div>
               <button className="adm-media-delete" onClick={() => handleDelete(m._id)}>×</button>
             </div>

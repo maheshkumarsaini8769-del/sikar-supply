@@ -52,14 +52,14 @@ export default function ProductCollection({ activeCategory }) {
   const getImage = (p) => {
     if (p.images && p.images.length > 0) {
       const url = p.images.find(i => i.isPrimary)?.url || p.images[0].url;
-      return url.startsWith('http') ? url : UPLOAD_URL + url;
+      return (url.startsWith('http') || url.startsWith('data:')) ? url : UPLOAD_URL + url;
     }
     return 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85&auto=format&fit=crop';
   };
 
   const modalImages = (p) => {
     if (p.images && p.images.length > 0) {
-      return p.images.map(i => i.url.startsWith('http') ? i.url : UPLOAD_URL + i.url);
+      return p.images.map(i => (i.url.startsWith('http') || i.url.startsWith('data:')) ? i.url : UPLOAD_URL + i.url);
     }
     return [
       'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85&auto=format&fit=crop',
