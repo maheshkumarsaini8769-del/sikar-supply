@@ -54,7 +54,7 @@ export default function Navbar({ onSearchProduct }) {
     if (searchOpen) setTimeout(() => document.querySelector('.search-overlay input')?.focus(), 100);
   }, [searchOpen]);
 
-  const navItems = ['Home', 'Products', 'About', 'Why Us', 'Showroom', 'Contact'];
+  const navItems = ['Home', 'Products', 'About', 'Why Us', 'Showroom', 'Gallery', 'Contact'];
 
   const scrollTo = (id) => {
     setMenuOpen(false);

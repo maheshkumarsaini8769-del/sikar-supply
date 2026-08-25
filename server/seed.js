@@ -4,6 +4,7 @@ const User = require('./models/User');
 const Category = require('./models/Category');
 const Product = require('./models/Product');
 const Settings = require('./models/Settings');
+const Gallery = require('./models/Gallery');
 
 const seed = async () => {
   try {
@@ -190,6 +191,23 @@ const seed = async () => {
       console.log(`${products.length} products created`);
     }
 
+    // Create gallery items
+    const galleryExists = await Gallery.countDocuments();
+    if (galleryExists === 0) {
+      const galleryItems = [
+        { image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85&auto=format&fit=crop', title: 'Modern Living Room', category: 'interiors', displayOrder: 1 },
+        { image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=85&auto=format&fit=crop', title: 'Luxury Bedroom Setup', category: 'interiors', displayOrder: 2 },
+        { image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=85&auto=format&fit=crop', title: 'Kitchen with UV Panels', category: 'kitchen', displayOrder: 3 },
+        { image: 'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=800&q=85&auto=format&fit=crop', title: 'PVC Panel Installation', category: 'installation', displayOrder: 4 },
+        { image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=85&auto=format&fit=crop', title: 'Fluted Panel Feature Wall', category: 'interiors', displayOrder: 5 },
+        { image: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=85&auto=format&fit=crop', title: 'Premium Showroom', category: 'showroom', displayOrder: 6 },
+      ];
+      for (const g of galleryItems) {
+        await Gallery.create(g);
+      }
+      console.log(`${galleryItems.length} gallery items created`);
+    }
+
     // Create default settings
     const settingsExists = await Settings.findOne();
     if (!settingsExists) {
@@ -202,8 +220,9 @@ const seed = async () => {
         { id: 'whyus', label: 'Why Us', active: true, order: 6 },
         { id: 'texture', label: 'Texture', active: true, order: 7 },
         { id: 'showroom', label: 'Showroom', active: true, order: 8 },
-        { id: 'reviews', label: 'Reviews', active: true, order: 9 },
-        { id: 'quote', label: 'Quote Form', active: true, order: 10 },
+        { id: 'gallery', label: 'Gallery', active: true, order: 9 },
+        { id: 'reviews', label: 'Reviews', active: true, order: 10 },
+        { id: 'quote', label: 'Quote Form', active: true, order: 11 },
       ];
       await Settings.create({
         homeSections,

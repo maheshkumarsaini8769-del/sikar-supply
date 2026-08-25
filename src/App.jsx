@@ -12,6 +12,7 @@ import ProductCollection from './components/ProductCollection';
 import WhyStarHomeDesign from './components/WhyStarHomeDesign';
 import TextureSection from './components/TextureSection';
 import Showroom from './components/Showroom';
+import GallerySection from './components/GallerySection';
 import QuoteForm from './components/QuoteForm';
 import ReviewSection from './components/ReviewSection';
 import Footer from './components/Footer';
@@ -41,6 +42,7 @@ import './styles/showroom.css';
 import './styles/form.css';
 import './styles/footer.css';
 import './styles/reviews.css';
+import './styles/gallery.css';
 import './styles/admin.css';
 
 function ProtectedAdmin({ children }) {
@@ -82,6 +84,7 @@ function CustomerSite() {
         <WhyStarHomeDesign />
         <TextureSection />
         <Showroom />
+        <GallerySection />
         <ReviewSection />
         <QuoteForm />
       </main>
