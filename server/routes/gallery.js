@@ -26,7 +26,7 @@ router.post('/', protect, upload.single('image'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ success: false, message: 'No file uploaded' });
     const gallery = await Gallery.create({
-      image: `/uploads/${req.file.filename}`,
+      image: `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
       title: req.body.title || '',
       category: req.body.category || '',
       displayOrder: Number(req.body.displayOrder) || 0,

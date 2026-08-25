@@ -45,7 +45,8 @@ router.put('/', protect, upload.fields([
     const fileFields = ['logo', 'favicon', 'aboutImage', 'showroomImage', 'textureImage'];
     fileFields.forEach(field => {
       if (req.files && req.files[field] && req.files[field][0]) {
-        updateData[field] = `/uploads/${req.files[field][0].filename}`;
+        const f = req.files[field][0];
+        updateData[field] = `data:${f.mimetype};base64,${f.buffer.toString('base64')}`;
       }
     });
 
@@ -62,7 +63,7 @@ router.put('/hero-slides', protect, upload.array('slides', 10), async (req, res)
     const settings = await getSettings();
     if (req.files && req.files.length > 0) {
       const newSlides = req.files.map((f, i) => ({
-        image: `/uploads/${f.filename}`,
+        image: `data:${f.mimetype};base64,${f.buffer.toString('base64')}`,
         active: true,
         displayOrder: settings.heroSlides.length + i,
       }));

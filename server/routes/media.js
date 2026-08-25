@@ -20,9 +20,9 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ success: false, message: 'No file uploaded' });
     const media = await Media.create({
-      filename: req.file.filename,
+      filename: req.file.originalname,
       originalName: req.file.originalname,
-      url: `/uploads/${req.file.filename}`,
+      url: `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
       alt: req.body.alt || '',
       section: req.body.section || 'general',
       mimeType: req.file.mimetype,

@@ -57,7 +57,7 @@ router.post('/', protect, upload.array('images', 10), async (req, res) => {
   try {
     const { name, category, description, shortDescription, price, salePrice, sku, stockStatus, stockQuantity, featured, active, displayOrder, specs } = req.body;
     const images = req.files ? req.files.map((f, i) => ({
-      url: `/uploads/${f.filename}`,
+      url: `data:${f.mimetype};base64,${f.buffer.toString('base64')}`,
       alt: name,
       isPrimary: i === 0,
     })) : [];
@@ -96,7 +96,7 @@ router.put('/:id', protect, upload.array('images', 10), async (req, res) => {
 
     if (req.files && req.files.length > 0) {
       const newImages = req.files.map((f, i) => ({
-        url: `/uploads/${f.filename}`,
+        url: `data:${f.mimetype};base64,${f.buffer.toString('base64')}`,
         alt: product.name,
         isPrimary: i === 0 && product.images.length === 0,
       }));
