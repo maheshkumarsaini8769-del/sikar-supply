@@ -601,6 +601,11 @@
   border-radius: 8px;
   overflow: hidden;
   position: relative;
+  transition: border-color 0.2s ease;
+}
+
+.adm-media-item:hover {
+  border-color: #b8956a;
 }
 
 .adm-media-item.inactive { opacity: 0.5; }
