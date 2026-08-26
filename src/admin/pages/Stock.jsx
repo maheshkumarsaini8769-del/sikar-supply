@@ -11,6 +11,10 @@ export default function Stock() {
   const [statusFilter, setStatusFilter] = useState('');
   const [lowFilter, setLowFilter] = useState(false);
 
+  // Edit stock modal
+  const [editProduct, setEditProduct] = useState(null);
+  const [editForm, setEditForm] = useState({ stockQuantity: '', costPrice: '', price: '', lowStockThreshold: '' });
+
   // Add Stock form
   const [addForm, setAddForm] = useState({ productId: '', quantity: '', note: '' });
   const [addMode, setAddMode] = useState('add');
@@ -66,10 +70,42 @@ export default function Stock() {
     } catch { alert('Failed'); }
   };
 
+  const openEdit = (p) => {
+    setEditProduct(p);
+    setEditForm({
+      stockQuantity: p.stockQuantity || 0,
+      costPrice: p.costPrice || '',
+      price: p.price || '',
+      lowStockThreshold: p.lowStockThreshold || 10,
+    });
+  };
+
+  const saveEdit = async () => {
+    if (!editProduct) return;
+    try {
+      const newQty = Number(editForm.stockQuantity);
+      await api.put(`/products/${editProduct._id}`, {
+        costPrice: Number(editForm.costPrice) || 0,
+        price: Number(editForm.price) || 0,
+        stockQuantity: newQty,
+        lowStockThreshold: Number(editForm.lowStockThreshold) || 10,
+        stockStatus: newQty === 0 ? 'out_of_stock' : newQty <= (Number(editForm.lowStockThreshold) || 10) ? 'low_stock' : 'in_stock',
+      });
+      setEditProduct(null);
+      fetchInventory();
+    } catch (err) {
+      alert('Failed: ' + (err.response?.data?.message || err.message));
+    }
+  };
+
   return (
     <div>
       <div className="adm-page-header">
         <h1 className="adm-page-title">Inventory Management</h1>
+        <button className="adm-btn adm-btn-primary" onClick={() => { setAddForm({ productId: '', quantity: '', note: '' }); setAddMode('add'); setTab('add'); }}
+          style={{ padding: '10px 20px', fontSize: 14, fontWeight: 700, background: '#b8956a', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer' }}>
+          + New Stock
+        </button>
       </div>
 
       <div className="adm-filters" style={{ marginBottom: 16 }}>
@@ -120,7 +156,8 @@ export default function Stock() {
                         <td>{p.unit || 'sqft'}</td>
                         <td><span className={`adm-stock-badge adm-stock-${p.stockStatus}`}>{p.stockStatus.replace(/_/g, ' ')}</span></td>
                         <td>
-                          <div className="adm-actions-cell">
+                          <div className="adm-actions-cell" style={{ flexWrap: 'wrap', gap: 4 }}>
+                            <button className="adm-btn adm-btn-sm" onClick={() => openEdit(p)} style={{ background: '#6366f1', color: '#fff' }}>✏️ Edit</button>
                             <button className="adm-btn adm-btn-sm" onClick={() => { setAddForm({ ...addForm, productId: p._id }); setAddMode('add'); setTab('add'); }}>+ Add</button>
                             <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => { setAddForm({ ...addForm, productId: p._id }); setAddMode('remove'); setTab('add'); }}>- Remove</button>
                           </div>
@@ -204,6 +241,49 @@ export default function Stock() {
       )}
 
       {tab === 'stats' && <StockStats />}
+
+      {/* Edit Product Modal */}
+      {editProduct && (
+        <div className="adm-modal-overlay" onClick={() => setEditProduct(null)}>
+          <div className="adm-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 500 }}>
+            <div className="adm-modal-header">
+              <h2>Edit: {editProduct.name}</h2>
+              <button className="adm-modal-close" onClick={() => setEditProduct(null)}>&times;</button>
+            </div>
+            <div className="adm-modal-body">
+              <div className="adm-form-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+                <div className="adm-form-group">
+                  <label>Stock Quantity</label>
+                  <input type="number" min="0" value={editForm.stockQuantity} onChange={e => setEditForm({...editForm, stockQuantity: e.target.value})} />
+                </div>
+                <div className="adm-form-group">
+                  <label>Low Stock Alert</label>
+                  <input type="number" min="0" value={editForm.lowStockThreshold} onChange={e => setEditForm({...editForm, lowStockThreshold: e.target.value})} />
+                </div>
+                <div className="adm-form-group">
+                  <label>Purchase Price (₹)</label>
+                  <input type="number" min="0" value={editForm.costPrice} onChange={e => setEditForm({...editForm, costPrice: e.target.value})} />
+                </div>
+                <div className="adm-form-group">
+                  <label>Selling Price (₹)</label>
+                  <input type="number" min="0" value={editForm.price} onChange={e => setEditForm({...editForm, price: e.target.value})} />
+                </div>
+              </div>
+              {editForm.costPrice > 0 && editForm.price > 0 && (
+                <div style={{ padding: '10px 14px', borderRadius: 8, background: editForm.price > editForm.costPrice ? 'rgba(81,207,102,0.1)' : 'rgba(255,107,107,0.1)', border: `1px solid ${editForm.price > editForm.costPrice ? 'rgba(81,207,102,0.3)' : 'rgba(255,107,107,0.3)'}`, fontSize: 13, marginTop: 12 }}>
+                  <strong style={{ color: editForm.price > editForm.costPrice ? '#51cf66' : '#ff6b6b' }}>
+                    Profit: ₹{editForm.price - editForm.costPrice} per unit ({Math.round(((editForm.price - editForm.costPrice) / editForm.costPrice) * 100)}% margin)
+                  </strong>
+                </div>
+              )}
+              <div style={{ marginTop: 16, display: 'flex', gap: 10 }}>
+                <button className="adm-btn adm-btn-primary" onClick={saveEdit} style={{ background: '#b8956a', color: '#fff', padding: '10px 24px' }}>Save Changes</button>
+                <button className="adm-btn" onClick={() => setEditProduct(null)} style={{ padding: '10px 24px' }}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
