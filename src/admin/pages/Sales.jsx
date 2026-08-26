@@ -9,7 +9,7 @@ export default function Sales({ saleTypeFilter }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(null);
-  const [filter, setFilter] = useState({ saleType: saleTypeFilter || '', source: '' });
+  const [filter, setFilter] = useState({ saleType: saleTypeFilter || '', source: '', product: '' });
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [customerSales, setCustomerSales] = useState([]);
 
@@ -256,6 +256,10 @@ export default function Sales({ saleTypeFilter }) {
           <select value={filter.source} onChange={e => setFilter({...filter, source: e.target.value})} className="adm-filter-select">
             <option value="">All Sources</option><option value="website">Website</option><option value="phone">Phone</option><option value="walk_in">Walk-in</option><option value="whatsapp">WhatsApp</option>
           </select>
+          <select value={filter.product} onChange={e => setFilter({...filter, product: e.target.value})} className="adm-filter-select" style={{ minWidth: 200 }}>
+            <option value="">All Products</option>
+            {products.map(p => <option key={p._id} value={p._id}>{p.name} {p.sku ? `(${p.sku})` : ''}</option>)}
+          </select>
         </div>
       )}
 
@@ -270,6 +274,8 @@ export default function Sales({ saleTypeFilter }) {
                 const cost = item.costPrice || 0;
                 const sell = item.sellingPrice || item.price || s.finalAmount || 0;
                 const profit = sell - (cost * (item.quantity || 1));
+                const productId = item.product?._id || item.product;
+                if (filter.product && productId !== filter.product) return null;
                 return (
                 <tr key={s._id}>
                   <td style={{ whiteSpace: 'nowrap' }}>{new Date(s.saleDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })} {new Date(s.saleDate).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</td>
