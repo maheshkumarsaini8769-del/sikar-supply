@@ -153,6 +153,7 @@ export default function Orders() {
               <div className="adm-detail-grid">
                 <div><strong>Customer: </strong>{selectedOrder.customerName || selectedOrder.name}</div>
                 <div><strong>Phone: </strong>{selectedOrder.phone || selectedOrder.customerPhone}</div>
+                <div><strong>Address: </strong>{selectedOrder.address || 'N/A'}</div>
                 <div><strong>Email: </strong>{selectedOrder.email || 'N/A'}</div>
                 <div><strong>Payment: </strong>{selectedOrder.paymentMethod}</div>
                 <div><strong>Source: </strong>{selectedOrder.source || 'website'}</div>

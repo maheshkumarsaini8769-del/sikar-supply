@@ -6,17 +6,19 @@ const router = express.Router();
 // PUBLIC - Website se order save (no auth)
 router.post('/public', async (req, res) => {
   try {
-    const { customerName, phone, email, items, total, notes, source, whatsappMessage } = req.body;
+    const { customerName, phone, email, address, items, total, notes, source, whatsappMessage } = req.body;
     const order = await Order.create({
       customerName: customerName || 'Website Visitor',
       phone: phone || '',
       email: email || '',
+      address: address || '',
       items: items || [],
       subtotal: Number(total) || 0,
       total: Number(total) || 0,
       status: 'pending',
       paymentMethod: 'whatsapp',
       notes: notes || '',
+      source: source || 'website',
       whatsappMessage: whatsappMessage || '',
     });
     res.status(201).json({ success: true, order });

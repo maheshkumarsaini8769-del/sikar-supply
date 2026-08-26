@@ -14,10 +14,28 @@ export default function QuoteForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const phone = settings?.whatsapp || '918239409535';
     const text = `Hi, I'm interested in a quote.%0A%0AName: ${form.name}%0AMobile: ${form.mobile}%0AProduct: ${form.product}%0AMessage: ${form.message}`;
+
+    // Save order to panel
+    try {
+      await fetch('/api/orders/public', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customerName: form.name,
+          phone: form.mobile,
+          items: [{ productName: form.product, quantity: 1, price: 0, total: 0 }],
+          total: 0,
+          notes: form.message,
+          source: 'website',
+          whatsappMessage: `Quote Request: ${form.product}`,
+        }),
+      });
+    } catch (e) { console.error('Order save failed:', e); }
+
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   };
 
