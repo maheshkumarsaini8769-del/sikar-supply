@@ -10,6 +10,8 @@ export default function Sales({ saleTypeFilter }) {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(null);
   const [filter, setFilter] = useState({ saleType: saleTypeFilter || '', source: '' });
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [customerSales, setCustomerSales] = useState([]);
 
   const [quickForm, setQuickForm] = useState({
     product: '', customerName: '', customerPhone: '', quantity: '', note: '', saleDate: new Date().toISOString().split('T')[0],
@@ -177,6 +179,25 @@ export default function Sales({ saleTypeFilter }) {
   const quickLabel = quickType === 'cash' ? '💵 Cash Sale' : '🌐 Online Sale';
   const waColor = '#25d366';
 
+  const viewCustomerSales = (sale) => {
+    const name = sale.customerName;
+    const phone = sale.customerPhone;
+    const filtered = sales.filter(s => {
+      const nameMatch = s.customerName?.toLowerCase().trim() === name?.toLowerCase().trim();
+      if (phone) return nameMatch && s.customerPhone === phone;
+      return nameMatch;
+    });
+    const totalSpent = filtered.reduce((sum, s) => sum + (s.finalAmount || 0), 0);
+    const totalProfit = filtered.reduce((sum, s) => {
+      const item = s.items?.[0] || {};
+      const cost = item.costPrice || 0;
+      const qty = item.quantity || 1;
+      return sum + ((s.finalAmount || 0) - cost * qty);
+    }, 0);
+    setSelectedCustomer({ name, phone, totalSales: filtered.length, totalSpent, totalProfit });
+    setCustomerSales(filtered);
+  };
+
   return (
     <div>
       <div className="adm-page-header">
@@ -253,7 +274,7 @@ export default function Sales({ saleTypeFilter }) {
                 <tr key={s._id}>
                   <td style={{ whiteSpace: 'nowrap' }}>{new Date(s.saleDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })} {new Date(s.saleDate).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</td>
                   <td className="adm-td-bold" style={{ fontSize: 12 }}>{s.saleNumber}</td>
-                  <td>{s.customerName || '-'}</td>
+                  <td><button onClick={() => viewCustomerSales(s)} style={{ background: 'none', border: 'none', color: '#b8956a', fontWeight: 700, cursor: 'pointer', fontSize: 13, padding: 0 }}>{s.customerName || '-'}</button></td>
                   <td style={{ fontWeight: 600 }}>{item.productName || '-'}</td>
                   <td>{item.quantity || '-'}</td>
                   <td style={{ color: '#ff8a80' }}>{cost ? `₹${cost}` : '-'}</td>
@@ -415,6 +436,62 @@ export default function Sales({ saleTypeFilter }) {
                 <button type="submit" className="adm-btn" style={{ background: '#b8956a', color: '#fff', fontWeight: 700 }}>Save Sale</button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Customer Sales Modal */}
+      {selectedCustomer && (
+        <div className="adm-modal-overlay" onClick={() => setSelectedCustomer(null)}>
+          <div className="adm-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 700 }}>
+            <div className="adm-modal-header">
+              <h2>{selectedCustomer.name} — Sales History</h2>
+              <button className="adm-modal-close" onClick={() => setSelectedCustomer(null)}>&times;</button>
+            </div>
+            <div className="adm-modal-body">
+              <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
+                <div style={{ padding: '8px 14px', background: '#1a1a1a', borderRadius: 8, fontSize: 13 }}>
+                  <span style={{ color: '#888' }}>Phone: </span><span style={{ color: '#e5e5e5' }}>{selectedCustomer.phone || 'N/A'}</span>
+                </div>
+                <div style={{ padding: '8px 14px', background: '#1a1a1a', borderRadius: 8, fontSize: 13 }}>
+                  <span style={{ color: '#888' }}>Total Sales: </span><span style={{ color: '#b8956a', fontWeight: 700 }}>{selectedCustomer.totalSales}</span>
+                </div>
+                <div style={{ padding: '8px 14px', background: '#1a1a1a', borderRadius: 8, fontSize: 13 }}>
+                  <span style={{ color: '#888' }}>Total Spent: </span><span style={{ color: '#25d366', fontWeight: 700 }}>₹{selectedCustomer.totalSpent?.toLocaleString('en-IN')}</span>
+                </div>
+                <div style={{ padding: '8px 14px', background: '#1a1a1a', borderRadius: 8, fontSize: 13 }}>
+                  <span style={{ color: '#888' }}>Profit: </span><span style={{ color: selectedCustomer.totalProfit > 0 ? '#51cf66' : '#ff6b6b', fontWeight: 700 }}>₹{selectedCustomer.totalProfit?.toLocaleString('en-IN')}</span>
+                </div>
+              </div>
+              {customerSales.length === 0 ? (
+                <div style={{ padding: 30, textAlign: 'center', color: '#888' }}>No sales found</div>
+              ) : (
+                <div style={{ background: '#0d0d0d', borderRadius: 8, border: '1px solid #222', overflow: 'hidden' }}>
+                  {customerSales.map((s, i) => {
+                    const item = s.items?.[0] || {};
+                    const cost = item.costPrice || 0;
+                    const qty = item.quantity || 1;
+                    const profit = (s.finalAmount || 0) - (cost * qty);
+                    return (
+                      <div key={s._id} style={{ padding: '10px 14px', borderBottom: i < customerSales.length - 1 ? '1px solid #1a1a1a' : 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                            <span style={{ fontSize: 11, fontWeight: 700, color: s.saleType === 'cash' ? '#25d366' : '#6366f1', textTransform: 'uppercase', background: s.saleType === 'cash' ? 'rgba(37,211,102,0.1)' : 'rgba(99,102,241,0.1)', padding: '2px 6px', borderRadius: 4 }}>{s.saleType}</span>
+                            <span style={{ fontSize: 12, fontWeight: 600, color: '#e5e5e5' }}>{s.saleNumber}</span>
+                            <span style={{ fontSize: 11, color: '#888' }}>{s.paymentMethod}</span>
+                          </div>
+                          <div style={{ fontSize: 11, color: '#888', marginTop: 2 }}>{item.productName || '-'}</div>
+                        </div>
+                        <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                          <div style={{ fontSize: 13, fontWeight: 700, color: '#b8956a' }}>₹{s.finalAmount?.toLocaleString('en-IN')}</div>
+                          <div style={{ fontSize: 10, color: '#888' }}>{new Date(s.saleDate || s.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
