@@ -112,7 +112,7 @@ export default function Products() {
         <div className="adm-table-wrapper">
           <table className="adm-data-table">
             <thead>
-              <tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Cost</th><th>Stock Qty</th><th>Status</th><th>Featured</th><th>Active</th><th>Actions</th></tr>
+              <tr><th>Image</th><th>Name</th><th>Category</th><th>Purchase ₹</th><th>Sell ₹</th><th>Profit ₹</th><th>Margin</th><th>Stock</th><th>Status</th><th>Featured</th><th>Active</th><th>Actions</th></tr>
             </thead>
             <tbody>
               {products.map(p => (
@@ -120,8 +120,14 @@ export default function Products() {
                   <td>{p.images?.[0] ? <img src={(p.images[0].url.startsWith('http') || p.images[0].url.startsWith('data:')) ? p.images[0].url : UPLOAD_URL + p.images[0].url} alt="" className="adm-table-img" /> : <div className="adm-table-img-placeholder">No</div>}</td>
                   <td className="adm-td-bold">{p.name}</td>
                   <td>{p.category?.name || 'N/A'}</td>
-                  <td>{p.price ? `₹${p.price}` : '-'}</td>
-                  <td>{p.costPrice ? `₹${p.costPrice}` : '-'}</td>
+                  <td style={{color:'#ff8a80'}}>{p.costPrice ? `₹${p.costPrice}` : '-'}</td>
+                  <td style={{color:'#b8956a', fontWeight:700}}>{p.price ? `₹${p.price}` : '-'}</td>
+                  <td style={{color: (p.price && p.costPrice && p.price > p.costPrice) ? '#51cf66' : '#ff6b6b', fontWeight:700}}>
+                    {p.price && p.costPrice ? `₹${p.price - p.costPrice}` : '-'}
+                  </td>
+                  <td style={{color: (p.price && p.costPrice && p.price > p.costPrice) ? '#51cf66' : '#ff6b6b', fontWeight:700}}>
+                    {p.price && p.costPrice && p.costPrice > 0 ? `${Math.round(((p.price - p.costPrice) / p.costPrice) * 100)}%` : '-'}
+                  </td>
                   <td style={{fontWeight:600, color: p.stockQuantity <= (p.lowStockThreshold || 10) ? '#ff6b6b' : '#51cf66'}}>{p.stockQuantity} {p.unit || 'sqft'}</td>
                   <td><span className={`adm-stock-badge adm-stock-${p.stockStatus}`}>{p.stockStatus.replace(/_/g, ' ')}</span></td>
                   <td>{p.featured ? '⭐' : '-'}</td>
@@ -136,7 +142,7 @@ export default function Products() {
                   </td>
                 </tr>
               ))}
-              {products.length === 0 && <tr><td colSpan="10" className="adm-empty-row">No products found</td></tr>}
+              {products.length === 0 && <tr><td colSpan="12" className="adm-empty-row">No products found</td></tr>}
             </tbody>
           </table>
         </div>
@@ -153,9 +159,18 @@ export default function Products() {
                 <div className="adm-form-grid">
                   <div className="adm-form-group"><label>Name *</label><input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} required /></div>
                   <div className="adm-form-group"><label>Category *</label><select value={form.category} onChange={e => setForm({...form, category: e.target.value})} required><option value="">Select</option>{categories.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}</select></div>
-                  <div className="adm-form-group"><label>Price (₹)</label><input type="number" value={form.price} onChange={e => setForm({...form, price: e.target.value})} /></div>
-                  <div className="adm-form-group"><label>Sale Price (₹)</label><input type="number" value={form.salePrice} onChange={e => setForm({...form, salePrice: e.target.value})} /></div>
-                  <div className="adm-form-group"><label>Cost Price (₹)</label><input type="number" value={form.costPrice} onChange={e => setForm({...form, costPrice: e.target.value})} /></div>
+                  <div className="adm-form-group"><label>Purchase Price (₹) *</label><input type="number" value={form.costPrice} onChange={e => setForm({...form, costPrice: e.target.value})} required placeholder="Kitne me kharida" /></div>
+                  <div className="adm-form-group"><label>Selling Price (₹) *</label><input type="number" value={form.price} onChange={e => setForm({...form, price: e.target.value})} required placeholder="Kitne me bechoge" /></div>
+                  <div className="adm-form-group"><label>Offer Price (₹)</label><input type="number" value={form.salePrice} onChange={e => setForm({...form, salePrice: e.target.value})} placeholder="Discount price (optional)" /></div>
+                  {form.costPrice > 0 && form.price > 0 && (
+                    <div className="adm-form-group" style={{ gridColumn: '1 / -1' }}>
+                      <div style={{ padding: '10px 14px', borderRadius: 8, background: form.price > form.costPrice ? 'rgba(81,207,102,0.1)' : 'rgba(255,107,107,0.1)', border: `1px solid ${form.price > form.costPrice ? 'rgba(81,207,102,0.3)' : 'rgba(255,107,107,0.3)'}`, fontSize: 13 }}>
+                        <strong style={{ color: form.price > form.costPrice ? '#51cf66' : '#ff6b6b' }}>
+                          Profit: ₹{form.price - form.costPrice} per unit ({Math.round(((form.price - form.costPrice) / form.costPrice) * 100)}% margin)
+                        </strong>
+                      </div>
+                    </div>
+                  )}
                   <div className="adm-form-group"><label>SKU</label><input type="text" value={form.sku} onChange={e => setForm({...form, sku: e.target.value})} /></div>
                   <div className="adm-form-group"><label>Unit</label><select value={form.unit} onChange={e => setForm({...form, unit: e.target.value})}><option value="sqft">Sq Ft</option><option value="box">Box</option><option value="piece">Piece</option><option value="meter">Meter</option><option value="kg">Kg</option></select></div>
                   <div className="adm-form-group"><label>Stock</label><select value={form.stockStatus} onChange={e => setForm({...form, stockStatus: e.target.value})}>{STATUSES.map(s => <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>)}</select></div>

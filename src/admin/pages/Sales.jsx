@@ -165,6 +165,12 @@ export default function Sales({ saleTypeFilter }) {
   const todayTotal = todaySales.reduce((sum, s) => sum + s.finalAmount, 0);
   const todayCash = todaySales.filter(s => s.saleType === 'cash').reduce((sum, s) => sum + s.finalAmount, 0);
   const todayOnline = todaySales.filter(s => s.saleType === 'online').reduce((sum, s) => sum + s.finalAmount, 0);
+  const todayProfit = todaySales.reduce((sum, s) => {
+    const item = s.items?.[0] || {};
+    const cost = item.costPrice || 0;
+    const qty = item.quantity || 1;
+    return sum + (s.finalAmount - cost * qty);
+  }, 0);
 
   const quickType = saleTypeFilter === 'online' ? 'online' : 'cash';
   const quickColor = quickType === 'cash' ? '#25d366' : '#6366f1';
@@ -180,7 +186,7 @@ export default function Sales({ saleTypeFilter }) {
       {/* Stats */}
       <div className="adm-stat-cards" style={{ marginBottom: 16 }}>
         <div className="adm-stat-card" style={{ borderTopColor: '#b8956a' }}>
-          <span className="adm-stat-label">Today</span>
+          <span className="adm-stat-label">Today Revenue</span>
           <span className="adm-stat-value">₹{todayTotal.toLocaleString('en-IN')}</span>
         </div>
         <div className="adm-stat-card" style={{ borderTopColor: '#25d366' }}>
@@ -190,6 +196,10 @@ export default function Sales({ saleTypeFilter }) {
         <div className="adm-stat-card" style={{ borderTopColor: '#6366f1' }}>
           <span className="adm-stat-label">Online Today</span>
           <span className="adm-stat-value">₹{todayOnline.toLocaleString('en-IN')}</span>
+        </div>
+        <div className="adm-stat-card" style={{ borderTopColor: todayProfit > 0 ? '#51cf66' : '#ff6b6b' }}>
+          <span className="adm-stat-label">Today Profit</span>
+          <span className="adm-stat-value" style={{ color: todayProfit > 0 ? '#51cf66' : '#ff6b6b' }}>₹{todayProfit.toLocaleString('en-IN')}</span>
         </div>
       </div>
 
@@ -232,26 +242,35 @@ export default function Sales({ saleTypeFilter }) {
       {loading ? <div className="adm-loading"><div className="adm-spinner"/></div> : (
         <div className="adm-table-wrapper">
           <table className="adm-data-table">
-            <thead><tr><th>Date</th><th>Sale #</th><th>Customer</th><th>Product</th><th>Qty</th><th>Type</th><th>Amount</th><th>Payment</th><th>Note</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Date</th><th>Sale #</th><th>Customer</th><th>Product</th><th>Qty</th><th>Cost ₹</th><th>Sell ₹</th><th>Profit ₹</th><th>Type</th><th>Payment</th><th>Note</th><th>Actions</th></tr></thead>
             <tbody>
-              {sales.map(s => (
+              {sales.map(s => {
+                const item = s.items?.[0] || {};
+                const cost = item.costPrice || 0;
+                const sell = item.sellingPrice || item.price || s.finalAmount || 0;
+                const profit = sell - (cost * (item.quantity || 1));
+                return (
                 <tr key={s._id}>
                   <td style={{ whiteSpace: 'nowrap' }}>{new Date(s.saleDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })} {new Date(s.saleDate).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</td>
                   <td className="adm-td-bold" style={{ fontSize: 12 }}>{s.saleNumber}</td>
                   <td>{s.customerName || '-'}</td>
-                  <td style={{ fontWeight: 600 }}>{s.items?.[0]?.productName || '-'}</td>
-                  <td>{s.items?.[0]?.quantity || '-'}</td>
+                  <td style={{ fontWeight: 600 }}>{item.productName || '-'}</td>
+                  <td>{item.quantity || '-'}</td>
+                  <td style={{ color: '#ff8a80' }}>{cost ? `₹${cost}` : '-'}</td>
+                  <td style={{ color: '#b8956a', fontWeight: 700 }}>₹{sell.toLocaleString('en-IN')}</td>
+                  <td style={{ color: profit > 0 ? '#51cf66' : profit < 0 ? '#ff6b6b' : '#888', fontWeight: 700 }}>
+                    {cost ? `₹${profit.toLocaleString('en-IN')}` : '-'}
+                  </td>
                   <td><span style={{ padding: '3px 10px', borderRadius: 999, fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
                     background: s.saleType === 'cash' ? 'rgba(37,211,102,0.15)' : s.saleType === 'online' ? 'rgba(99,102,241,0.15)' : 'rgba(245,158,11,0.15)',
                     color: s.saleType === 'cash' ? '#25d366' : s.saleType === 'online' ? '#6366f1' : '#f59e0b',
                   }}>{s.saleType}</span></td>
-                  <td style={{ fontWeight: 700, color: '#25d366', fontSize: 15 }}>₹{s.finalAmount.toLocaleString('en-IN')}</td>
                   <td>{s.paymentMethod}</td>
                   <td style={{ color: '#888', maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.note || '-'}</td>
                   <td><button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => handleDelete(s._id)}>Del</button></td>
                 </tr>
-              ))}
-              {sales.length === 0 && <tr><td colSpan="10" className="adm-empty-row">No sales yet</td></tr>}
+              )})}
+              {sales.length === 0 && <tr><td colSpan="13" className="adm-empty-row">No sales yet</td></tr>}
             </tbody>
           </table>
         </div>

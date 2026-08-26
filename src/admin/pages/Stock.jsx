@@ -98,19 +98,26 @@ export default function Stock() {
             <div className="adm-table-wrapper">
               <table className="adm-data-table">
                 <thead>
-                  <tr><th>Product</th><th>SKU</th><th>Category</th><th>Qty</th><th>Unit</th><th>Threshold</th><th>Status</th><th>Quick Actions</th></tr>
+                  <tr><th>Product</th><th>SKU</th><th>Category</th><th>Purchase ₹</th><th>Sell ₹</th><th>Profit ₹</th><th>Qty</th><th>Unit</th><th>Status</th><th>Quick Actions</th></tr>
                 </thead>
                 <tbody>
                   {products.map(p => {
                     const isLow = p.stockQuantity <= (p.lowStockThreshold || 10);
+                    const profit = (p.price && p.costPrice) ? p.price - p.costPrice : 0;
+                    const margin = (p.costPrice > 0) ? Math.round(((p.price - p.costPrice) / p.costPrice) * 100) : 0;
                     return (
                       <tr key={p._id} style={isLow ? { background: 'rgba(255,107,107,0.05)' } : {}}>
                         <td className="adm-td-bold">{p.name}</td>
                         <td>{p.sku || '-'}</td>
                         <td>{p.category?.name || '-'}</td>
+                        <td style={{ color: '#ff8a80' }}>{p.costPrice ? `₹${p.costPrice}` : '-'}</td>
+                        <td style={{ color: '#b8956a', fontWeight: 700 }}>{p.price ? `₹${p.price}` : '-'}</td>
+                        <td style={{ color: profit > 0 ? '#51cf66' : '#ff6b6b', fontWeight: 700 }}>
+                          {profit > 0 ? `₹${profit}` : '-'}
+                          {margin > 0 && <span style={{ fontSize: 10, marginLeft: 4, opacity: 0.7 }}>({margin}%)</span>}
+                        </td>
                         <td style={{ fontWeight: 700, color: isLow ? '#ff6b6b' : '#51cf66' }}>{p.stockQuantity}</td>
                         <td>{p.unit || 'sqft'}</td>
-                        <td>{p.lowStockThreshold || 10}</td>
                         <td><span className={`adm-stock-badge adm-stock-${p.stockStatus}`}>{p.stockStatus.replace(/_/g, ' ')}</span></td>
                         <td>
                           <div className="adm-actions-cell">
@@ -121,7 +128,7 @@ export default function Stock() {
                       </tr>
                     );
                   })}
-                  {products.length === 0 && <tr><td colSpan="8" className="adm-empty-row">No products found</td></tr>}
+                  {products.length === 0 && <tr><td colSpan="10" className="adm-empty-row">No products found</td></tr>}
                 </tbody>
               </table>
             </div>
@@ -236,18 +243,28 @@ function LowStockAlerts() {
 
 function StockStats() {
   const [stats, setStats] = useState(null);
+  const [products, setProducts] = useState([]);
   useEffect(() => {
-    api.get('/stock/stats').then(r => setStats(r.data.stats)).catch(console.error);
+    Promise.all([
+      api.get('/stock/stats').then(r => setStats(r.data.stats)),
+      api.get('/stock/inventory').then(r => setProducts(r.data.products)),
+    ]).catch(console.error);
   }, []);
 
   if (!stats) return <div className="adm-loading"><div className="adm-spinner"/></div>;
+
+  const totalCost = products.reduce((sum, p) => sum + (p.costPrice || 0) * (p.stockQuantity || 0), 0);
+  const totalSelling = products.reduce((sum, p) => sum + (p.price || 0) * (p.stockQuantity || 0), 0);
+  const totalProfit = totalSelling - totalCost;
 
   const cards = [
     { label: 'Total Products', value: stats.totalProducts, color: '#b8956a' },
     { label: 'In Stock', value: stats.inStock, color: '#51cf66' },
     { label: 'Low Stock', value: stats.lowStock, color: '#ffa500' },
     { label: 'Out of Stock', value: stats.outOfStock, color: '#ff6b6b' },
-    { label: 'Stock Value', value: `₹${stats.stockValue.toLocaleString('en-IN')}`, color: '#b8956a' },
+    { label: 'Stock Cost Value', value: `₹${totalCost.toLocaleString('en-IN')}`, color: '#ff8a80' },
+    { label: 'Stock Sell Value', value: `₹${totalSelling.toLocaleString('en-IN')}`, color: '#b8956a' },
+    { label: 'Potential Profit', value: `₹${totalProfit.toLocaleString('en-IN')}`, color: totalProfit > 0 ? '#51cf66' : '#ff6b6b' },
   ];
 
   return (
