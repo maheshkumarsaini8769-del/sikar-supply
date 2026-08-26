@@ -221,25 +221,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Recent Activity */}
-      {analytics?.recentActivity?.length > 0 && (
-        <div className="adm-recent-section">
-          <h3>Recent Activity</h3>
-          <div style={{maxHeight:300,overflowY:'auto'}}>
-            {analytics.recentActivity.map((a, i) => (
-              <div key={i} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'8px 0',borderBottom:'1px solid #2a2a2a',fontSize:'13px'}}>
-                <span style={{color:'#e5e5e5'}}>
-                  <span style={{color:'#b8956a',fontWeight:600}}>{a.type.toUpperCase()}</span>
-                  {a.data?.product && ` — ${a.data.product}`}
-                  {a.data?.query && ` — "${a.data.query}"`}
-                </span>
-                <span style={{color:'#888',fontSize:'11px'}}>{new Date(a.createdAt).toLocaleString()}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Recent Orders */}
       <div className="adm-recent-section" style={{marginTop:16}}>
         <h3>Recent Orders</h3>
