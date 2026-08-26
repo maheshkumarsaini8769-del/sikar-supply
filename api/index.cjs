@@ -38,6 +38,9 @@ app.use('/api/gallery', require('../server/routes/gallery'));
 app.use('/api/analytics', require('../server/routes/analytics'));
 app.use('/api/reviews', require('../server/routes/reviews'));
 app.use('/api/stock', require('../server/routes/stock'));
+app.use('/api/customers', require('../server/routes/customers'));
+app.use('/api/purchases', require('../server/routes/purchases'));
+app.use('/api/sales', require('../server/routes/sales'));
 
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'Server running on Vercel' });

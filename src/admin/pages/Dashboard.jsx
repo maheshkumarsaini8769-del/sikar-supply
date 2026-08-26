@@ -8,6 +8,8 @@ export default function Dashboard() {
   const [orderStats, setOrderStats] = useState(null);
   const [analytics, setAnalytics] = useState(null);
   const [stockStats, setStockStats] = useState(null);
+  const [saleStats, setSaleStats] = useState(null);
+  const [purchaseStats, setPurchaseStats] = useState(null);
   const [period, setPeriod] = useState('all');
   const [loading, setLoading] = useState(true);
 
@@ -17,10 +19,14 @@ export default function Dashboard() {
       api.get('/orders/stats'),
       api.get('/analytics/stats', { params: { period } }),
       api.get('/stock/stats'),
-    ]).then(([orders, analyticsRes, stockRes]) => {
+      api.get('/sales/stats', { params: { period } }),
+      api.get('/purchases/stats', { params: { period } }),
+    ]).then(([orders, analyticsRes, stockRes, salesRes, purchaseRes]) => {
       setOrderStats(orders.data.stats);
       setAnalytics(analyticsRes.data.stats);
       setStockStats(stockRes.data.stats);
+      setSaleStats(salesRes.data.stats);
+      setPurchaseStats(purchaseRes.data.stats);
     }).catch(console.error).finally(() => setLoading(false));
   };
 
@@ -94,6 +100,38 @@ export default function Dashboard() {
             { label: 'Low Stock', value: stockStats.lowStock, color: '#f59e0b' },
             { label: 'Out of Stock', value: stockStats.outOfStock, color: '#ef4444' },
             { label: 'Stock Value', value: `₹${stockStats.stockValue.toLocaleString()}`, color: '#6366f1' },
+          ].map((card, i) => (
+            <div key={i} className="adm-stat-card" style={{ borderTopColor: card.color }}>
+              <span className="adm-stat-label">{card.label}</span>
+              <span className="adm-stat-value">{card.value}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Sales Stats */}
+      {saleStats && saleStats.totalSales > 0 && (
+        <div className="adm-stat-cards">
+          {[
+            { label: 'Total Sales', value: saleStats.totalSales || 0, color: '#25d366' },
+            { label: 'Revenue', value: `₹${(saleStats.totalRevenue || 0).toLocaleString()}`, color: '#b8956a' },
+            { label: 'Avg Sale', value: `₹${(saleStats.avgSale || 0).toLocaleString()}`, color: '#6366f1' },
+          ].map((card, i) => (
+            <div key={i} className="adm-stat-card" style={{ borderTopColor: card.color }}>
+              <span className="adm-stat-label">{card.label}</span>
+              <span className="adm-stat-value">{card.value}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Purchase Stats */}
+      {purchaseStats && purchaseStats.totalPurchases > 0 && (
+        <div className="adm-stat-cards">
+          {[
+            { label: 'Purchases', value: purchaseStats.totalPurchases || 0, color: '#f59e0b' },
+            { label: 'Total Spent', value: `₹${(purchaseStats.totalAmount || 0).toLocaleString()}`, color: '#ef4444' },
+            { label: 'Pending Payment', value: `₹${(purchaseStats.pendingAmount || 0).toLocaleString()}`, color: '#ff6b6b' },
           ].map((card, i) => (
             <div key={i} className="adm-stat-card" style={{ borderTopColor: card.color }}>
               <span className="adm-stat-label">{card.label}</span>
