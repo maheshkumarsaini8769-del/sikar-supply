@@ -57,16 +57,33 @@ export default function Customers() {
     setOrdersLoading(true);
     try {
       const [ordersRes, salesRes] = await Promise.all([
-        api.get('/orders', { params: { search: customer.phone || customer.name, limit: 50 } }),
-        api.get('/sales', { params: { limit: 100 } }),
+        api.get('/orders', { params: { limit: 200 } }),
+        api.get('/sales', { params: { limit: 200 } }),
       ]);
+
+      const matchOrder = (o) => {
+        const nameMatch = o.customerName?.toLowerCase().trim() === customer.name?.toLowerCase().trim();
+        if (customer.phone) {
+          return nameMatch && (o.phone === customer.phone || o.customerPhone === customer.phone);
+        }
+        return nameMatch;
+      };
+
+      const matchSale = (s) => {
+        const nameMatch = s.customerName?.toLowerCase().trim() === customer.name?.toLowerCase().trim();
+        if (customer.phone) {
+          return nameMatch && (s.customerPhone === customer.phone);
+        }
+        return nameMatch;
+      };
+
       const allOrders = [
-        ...(ordersRes.data.orders || []).map(o => ({
+        ...(ordersRes.data.orders || []).filter(matchOrder).map(o => ({
           type: 'order', number: o.orderNumber, date: o.createdAt,
           items: o.items?.map(i => `${i.productName} × ${i.quantity}`).join(', ') || '-',
           total: o.total, status: o.status, source: o.source || 'website',
         })),
-        ...(salesRes.data.sales || []).filter(s => s.customerName === customer.name || s.customerPhone === customer.phone).map(s => ({
+        ...(salesRes.data.sales || []).filter(matchSale).map(s => ({
           type: 'sale', number: s.saleNumber, date: s.saleDate || s.createdAt,
           items: s.items?.map(i => `${i.productName} × ${i.quantity}`).join(', ') || '-',
           total: s.finalAmount, status: s.paymentMethod, source: s.source || s.saleType,
