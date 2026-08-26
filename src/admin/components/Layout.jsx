@@ -13,6 +13,7 @@ const navItems = [
   { path: '/admin/purchases', label: 'Purchases', icon: '📥' },
   { path: '/admin/customers', label: 'Customers', icon: '👤' },
   { path: '/admin/profit-loss', label: 'Profit & Loss', icon: '📈' },
+  { path: '/admin/activity', label: 'Recent Activity', icon: '🕐' },
   { path: '/admin/categories', label: 'Categories', icon: '📁' },
   { path: '/admin/hero-slides', label: 'Hero Slides', icon: '🖼️' },
   { path: '/admin/gallery', label: 'Gallery', icon: '🎨' },
