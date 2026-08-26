@@ -31,7 +31,8 @@ export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState({ products: [], customers: [], orders: [] });
+  const [searchTab, setSearchTab] = useState('products');
+  const [searchResults, setSearchResults] = useState({ products: [], sales: [], customers: [] });
   const [searching, setSearching] = useState(false);
 
   const handleLogout = () => { logout(); navigate('/admin/login'); };
@@ -40,18 +41,19 @@ export default function Layout() {
 
   useEffect(() => {
     const t = setTimeout(() => {
-      if (searchQuery.trim().length < 2) { setSearchResults({ products: [], customers: [], orders: [] }); return; }
+      if (searchQuery.trim().length < 2) { setSearchResults({ products: [], sales: [], customers: [] }); return; }
       setSearching(true);
       const q = searchQuery.trim();
-      Promise.all([
-        api.get('/products', { params: { search: q } }).catch(() => ({ data: { products: [] } })),
-        api.get('/customers', { params: { search: q } }).catch(() => ({ data: { customers: [] } })),
-        api.get('/orders', { params: { search: q, limit: 20 } }).catch(() => ({ data: { orders: [] } })),
-      ]).then(([pRes, cRes, oRes]) => {
+      const fetches = {
+        products: api.get('/products', { params: { search: q } }).catch(() => ({ data: { products: [] } })),
+        sales: api.get('/sales', { params: { search: q, limit: 50 } }).catch(() => ({ data: { sales: [] } })),
+        customers: api.get('/customers', { params: { search: q } }).catch(() => ({ data: { customers: [] } })),
+      };
+      Promise.all(Object.values(fetches)).then(([pRes, sRes, cRes]) => {
         setSearchResults({
           products: pRes.data.products || [],
+          sales: sRes.data.sales || [],
           customers: cRes.data.customers || [],
-          orders: oRes.data.orders || [],
         });
         setSearching(false);
       });
@@ -59,9 +61,15 @@ export default function Layout() {
     return () => clearTimeout(t);
   }, [searchQuery]);
 
-  const hasResults = searchResults.products.length || searchResults.customers.length || searchResults.orders.length;
+  const hasResults = searchResults.products.length || searchResults.sales.length || searchResults.customers.length;
 
   const goTo = (path) => { setSearchOpen(false); setSearchQuery(''); navigate(path); };
+
+  const tabs = [
+    { key: 'products', label: 'Products', icon: '🏷️', count: searchResults.products.length },
+    { key: 'sales', label: 'Sales', icon: '💰', count: searchResults.sales.length },
+    { key: 'customers', label: 'Customers', icon: '👤', count: searchResults.customers.length },
+  ];
 
   return (
     <div className="admin-layout">
@@ -109,12 +117,12 @@ export default function Layout() {
       {/* Global Search Modal */}
       {searchOpen && (
         <div className="adm-modal-overlay" onClick={() => { setSearchOpen(false); setSearchQuery(''); }} style={{ zIndex: 9999 }}>
-          <div className="adm-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 550, top: '10vh' }}>
+          <div className="adm-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 600, top: '10vh' }}>
             <div className="adm-modal-header" style={{ padding: '12px 16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1 }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 <input
-                  type="text" placeholder="Search products, customers, orders..."
+                  type="text" placeholder={searchTab === 'products' ? 'Search products by name...' : searchTab === 'sales' ? 'Search sales by product name...' : 'Search customers by name or phone...'}
                   value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
                   autoFocus style={{ flex: 1, background: 'transparent', border: 'none', color: '#e5e5e5', fontSize: 15, outline: 'none' }}
                   onKeyDown={e => { if (e.key === 'Escape') { setSearchOpen(false); setSearchQuery(''); } }}
@@ -122,7 +130,22 @@ export default function Layout() {
               </div>
               <button className="adm-modal-close" onClick={() => { setSearchOpen(false); setSearchQuery(''); }}>&times;</button>
             </div>
-            <div className="adm-modal-body" style={{ maxHeight: '60vh', overflowY: 'auto', padding: searchQuery.length < 2 ? 20 : '8px 0' }}>
+
+            {/* Filter Tabs */}
+            <div style={{ display: 'flex', borderBottom: '1px solid #222', padding: '0 16px', gap: 4 }}>
+              {tabs.map(t => (
+                <button key={t.key} onClick={() => setSearchTab(t.key)} style={{
+                  padding: '10px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', border: 'none', background: 'transparent',
+                  color: searchTab === t.key ? '#b8956a' : '#666', borderBottom: searchTab === t.key ? '2px solid #b8956a' : '2px solid transparent',
+                  transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: 6
+                }}>
+                  {t.icon} {t.label}
+                  {searchQuery.length >= 2 && t.count > 0 && <span style={{ background: '#b8956a', color: '#000', borderRadius: 10, padding: '1px 6px', fontSize: 10, fontWeight: 700 }}>{t.count}</span>}
+                </button>
+              ))}
+            </div>
+
+            <div className="adm-modal-body" style={{ maxHeight: '55vh', overflowY: 'auto', padding: searchQuery.length < 2 ? 20 : '8px 0' }}>
               {searchQuery.length < 2 ? (
                 <div style={{ textAlign: 'center', color: '#666', padding: 30, fontSize: 13 }}>
                   Type at least 2 characters to search...
@@ -136,41 +159,58 @@ export default function Layout() {
                 </div>
               ) : (
                 <>
-                  {searchResults.products.length > 0 && (
-                    <div style={{ marginBottom: 12 }}>
-                      <div style={{ fontSize: 11, fontWeight: 700, color: '#b8956a', textTransform: 'uppercase', padding: '6px 14px', letterSpacing: 1 }}>Products ({searchResults.products.length})</div>
-                      {searchResults.products.map(p => (
-                        <div key={p._id} onClick={() => goTo('/admin/products')} style={{ padding: '8px 14px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #1a1a1a' }}
-                          onMouseEnter={e => e.currentTarget.style.background = '#1a1a1a'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                          <span style={{ color: '#e5e5e5', fontSize: 13 }}>{p.name}</span>
-                          <span style={{ color: '#888', fontSize: 12 }}>₹{p.price} | Stock: {p.stockQuantity || 0}</span>
-                        </div>
-                      ))}
+                  {/* Products Tab */}
+                  {searchTab === 'products' && searchResults.products.length > 0 && searchResults.products.map(p => (
+                    <div key={p._id} onClick={() => goTo('/admin/products')} style={{ padding: '10px 16px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #1a1a1a' }}
+                      onMouseEnter={e => e.currentTarget.style.background = '#1a1a1a'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                      <div>
+                        <div style={{ color: '#e5e5e5', fontSize: 13, fontWeight: 600 }}>{p.name}</div>
+                        <div style={{ color: '#666', fontSize: 11, marginTop: 2 }}>{p.category?.name || 'Uncategorized'} | SKU: {p.sku || '-'}</div>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <div style={{ color: '#b8956a', fontSize: 13, fontWeight: 700 }}>₹{p.price?.toLocaleString('en-IN')}</div>
+                        <div style={{ fontSize: 11, color: (p.stockQuantity || 0) > 0 ? '#25d366' : '#ef4444' }}>Stock: {p.stockQuantity || 0} {p.unit || 'sqft'}</div>
+                      </div>
                     </div>
+                  ))}
+                  {searchTab === 'products' && searchQuery.length >= 2 && searchResults.products.length === 0 && !searching && (
+                    <div style={{ textAlign: 'center', padding: 30, color: '#666', fontSize: 13 }}>No products found</div>
                   )}
-                  {searchResults.customers.length > 0 && (
-                    <div style={{ marginBottom: 12 }}>
-                      <div style={{ fontSize: 11, fontWeight: 700, color: '#25d366', textTransform: 'uppercase', padding: '6px 14px', letterSpacing: 1 }}>Customers ({searchResults.customers.length})</div>
-                      {searchResults.customers.map(c => (
-                        <div key={c._id} onClick={() => goTo('/admin/customers')} style={{ padding: '8px 14px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #1a1a1a' }}
-                          onMouseEnter={e => e.currentTarget.style.background = '#1a1a1a'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                          <span style={{ color: '#e5e5e5', fontSize: 13 }}>{c.name} {c.phone && <span style={{ color: '#888', fontSize: 12 }}>({c.phone})</span>}</span>
-                          <span style={{ color: '#b8956a', fontSize: 12 }}>{c.totalOrders} orders | ₹{c.totalSpent?.toLocaleString('en-IN')}</span>
-                        </div>
-                      ))}
+
+                  {/* Sales Tab */}
+                  {searchTab === 'sales' && searchResults.sales.length > 0 && searchResults.sales.map(s => (
+                    <div key={s._id} onClick={() => goTo('/admin/all-sales')} style={{ padding: '10px 16px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #1a1a1a' }}
+                      onMouseEnter={e => e.currentTarget.style.background = '#1a1a1a'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                      <div>
+                        <div style={{ color: '#e5e5e5', fontSize: 13, fontWeight: 600 }}>{s.saleNumber}</div>
+                        <div style={{ color: '#666', fontSize: 11, marginTop: 2 }}>{s.customerName || 'Walk-in'} | {s.items?.map(i => i.productName).join(', ') || '-'}</div>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <div style={{ color: '#25d366', fontSize: 13, fontWeight: 700 }}>₹{s.finalAmount?.toLocaleString('en-IN')}</div>
+                        <div style={{ fontSize: 11, color: '#888' }}>{new Date(s.saleDate || s.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })} | {s.saleType || s.source || 'cash'}</div>
+                      </div>
                     </div>
+                  ))}
+                  {searchTab === 'sales' && searchQuery.length >= 2 && searchResults.sales.length === 0 && !searching && (
+                    <div style={{ textAlign: 'center', padding: 30, color: '#666', fontSize: 13 }}>No sales found for this product</div>
                   )}
-                  {searchResults.orders.length > 0 && (
-                    <div>
-                      <div style={{ fontSize: 11, fontWeight: 700, color: '#f59e0b', textTransform: 'uppercase', padding: '6px 14px', letterSpacing: 1 }}>Orders ({searchResults.orders.length})</div>
-                      {searchResults.orders.map(o => (
-                        <div key={o._id} onClick={() => goTo('/admin/orders')} style={{ padding: '8px 14px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #1a1a1a' }}
-                          onMouseEnter={e => e.currentTarget.style.background = '#1a1a1a'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                          <span style={{ color: '#e5e5e5', fontSize: 13 }}>{o.orderNumber} — {o.customerName || 'N/A'}</span>
-                          <span style={{ color: '#888', fontSize: 12 }}>₹{o.total?.toLocaleString('en-IN')} | {o.status}</span>
-                        </div>
-                      ))}
+
+                  {/* Customers Tab */}
+                  {searchTab === 'customers' && searchResults.customers.length > 0 && searchResults.customers.map(c => (
+                    <div key={c._id} onClick={() => goTo('/admin/customers')} style={{ padding: '10px 16px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #1a1a1a' }}
+                      onMouseEnter={e => e.currentTarget.style.background = '#1a1a1a'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                      <div>
+                        <div style={{ color: '#e5e5e5', fontSize: 13, fontWeight: 600 }}>{c.name}</div>
+                        <div style={{ color: '#666', fontSize: 11, marginTop: 2 }}>{c.phone || 'No phone'} | {c.city || '-'}</div>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <div style={{ color: '#b8956a', fontSize: 13, fontWeight: 700 }}>{c.totalOrders} orders</div>
+                        <div style={{ fontSize: 11, color: '#25d366' }}>₹{c.totalSpent?.toLocaleString('en-IN')} spent</div>
+                      </div>
                     </div>
+                  ))}
+                  {searchTab === 'customers' && searchQuery.length >= 2 && searchResults.customers.length === 0 && !searching && (
+                    <div style={{ textAlign: 'center', padding: 30, color: '#666', fontSize: 13 }}>No customers found</div>
                   )}
                 </>
               )}
