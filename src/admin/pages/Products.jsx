@@ -74,6 +74,11 @@ export default function Products() {
     try { await api.delete(`/products/${id}`); fetchData(); } catch { alert('Failed'); }
   };
 
+  const shareProduct = (p) => {
+    const msg = `*🛒 STAR HOME DESIGN*\n\n📦 *${p.name}*\n💰 Price: ₹${p.salePrice || p.price || 'N/A'}/${p.unit || 'sqft'}\n📊 Stock: ${p.stockQuantity} ${p.unit || 'sqft'}\n${p.sku ? `🏷️ SKU: ${p.sku}\n` : ''}${p.description ? `\n${p.description}` : ''}\n\n_Order now!_`;
+    window.open(`https://wa.me/918239409535?text=${encodeURIComponent(msg)}`, '_blank');
+  };
+
   const handleDuplicate = async (id) => {
     try { await api.post(`/products/${id}/duplicate`); fetchData(); } catch { alert('Failed'); }
   };
@@ -124,6 +129,7 @@ export default function Products() {
                   <td>
                     <div className="adm-actions-cell">
                       <button className="adm-btn adm-btn-sm" onClick={() => openEdit(p)}>Edit</button>
+                      <button className="adm-btn adm-btn-sm" onClick={() => shareProduct(p)} style={{ background: '#25d366', color: '#fff' }}>📲</button>
                       <button className="adm-btn adm-btn-sm" onClick={() => handleDuplicate(p._id)}>Dup</button>
                       <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => handleDelete(p._id)}>Off</button>
                     </div>
