@@ -117,7 +117,7 @@ export default function Purchases() {
         <div className="adm-table-wrapper">
           <table className="adm-data-table">
             <thead>
-              <tr><th>Date</th><th>Invoice</th><th>Supplier</th><th>Items</th><th>Total</th><th>Paid</th><th>Status</th><th>Actions</th></tr>
+              <tr><th>Date</th><th>Invoice</th><th>Supplier</th><th>Product</th><th>Qty</th><th>Rate ₹</th><th>Total ₹</th><th>Paid ₹</th><th>Status</th><th>Actions</th></tr>
             </thead>
             <tbody>
               {purchases.map(p => (
@@ -125,7 +125,9 @@ export default function Purchases() {
                   <td>{new Date(p.purchaseDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                   <td className="adm-td-bold">{p.invoiceNumber || '-'}</td>
                   <td>{p.supplier || '-'}</td>
-                  <td>{p.items?.length || 0} items</td>
+                  <td style={{ fontWeight: 600 }}>{p.items?.[0]?.productName || '-'}</td>
+                  <td style={{ fontWeight: 700, color: '#b8956a' }}>{p.items?.[0]?.quantity || 0} {p.items?.[0]?.unit || ''}</td>
+                  <td>₹{p.items?.[0]?.costPrice?.toLocaleString('en-IN') || 0}</td>
                   <td style={{ fontWeight: 600 }}>₹{p.totalAmount.toLocaleString('en-IN')}</td>
                   <td>₹{p.paidAmount.toLocaleString('en-IN')}</td>
                   <td><span className={`adm-stock-badge adm-stock-${p.paymentStatus === 'paid' ? 'in_stock' : p.paymentStatus === 'pending' ? 'out_of_stock' : 'low_stock'}`}>{p.paymentStatus}</span></td>
