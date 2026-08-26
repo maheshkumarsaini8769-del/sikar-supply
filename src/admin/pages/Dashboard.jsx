@@ -7,6 +7,7 @@ const COLORS = ['#b8956a', '#25d366', '#f59e0b', '#ef4444', '#6366f1'];
 export default function Dashboard() {
   const [orderStats, setOrderStats] = useState(null);
   const [analytics, setAnalytics] = useState(null);
+  const [stockStats, setStockStats] = useState(null);
   const [period, setPeriod] = useState('all');
   const [loading, setLoading] = useState(true);
 
@@ -15,9 +16,11 @@ export default function Dashboard() {
     Promise.all([
       api.get('/orders/stats'),
       api.get('/analytics/stats', { params: { period } }),
-    ]).then(([orders, analyticsRes]) => {
+      api.get('/stock/stats'),
+    ]).then(([orders, analyticsRes, stockRes]) => {
       setOrderStats(orders.data.stats);
       setAnalytics(analyticsRes.data.stats);
+      setStockStats(stockRes.data.stats);
     }).catch(console.error).finally(() => setLoading(false));
   };
 
@@ -73,6 +76,24 @@ export default function Dashboard() {
             { label: 'Total Searches', value: analytics.searches, color: '#6366f1' },
             { label: 'Total Orders', value: analytics.orders, color: '#b8956a' },
             { label: 'Page Views', value: analytics.pageviews, color: '#f59e0b' },
+          ].map((card, i) => (
+            <div key={i} className="adm-stat-card" style={{ borderTopColor: card.color }}>
+              <span className="adm-stat-label">{card.label}</span>
+              <span className="adm-stat-value">{card.value}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Stock Stats */}
+      {stockStats && (
+        <div className="adm-stat-cards">
+          {[
+            { label: 'Total Products', value: stockStats.totalProducts, color: '#b8956a' },
+            { label: 'In Stock', value: stockStats.inStock, color: '#25d366' },
+            { label: 'Low Stock', value: stockStats.lowStock, color: '#f59e0b' },
+            { label: 'Out of Stock', value: stockStats.outOfStock, color: '#ef4444' },
+            { label: 'Stock Value', value: `₹${stockStats.stockValue.toLocaleString()}`, color: '#6366f1' },
           ].map((card, i) => (
             <div key={i} className="adm-stat-card" style={{ borderTopColor: card.color }}>
               <span className="adm-stat-label">{card.label}</span>

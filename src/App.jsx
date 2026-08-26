@@ -31,6 +31,7 @@ import AdminMedia from './admin/pages/Media';
 import AdminHeroSlides from './admin/pages/HeroSlides';
 import AdminGallery from './admin/pages/Gallery';
 import AdminReviews from './admin/pages/Reviews';
+import AdminStock from './admin/pages/Stock';
 
 import './styles/global.css';
 import './styles/animations.css';
@@ -122,6 +123,7 @@ function App() {
             <Route path="hero-slides" element={<AdminHeroSlides />} />
             <Route path="gallery" element={<AdminGallery />} />
             <Route path="reviews" element={<AdminReviews />} />
+            <Route path="stock" element={<AdminStock />} />
           </Route>
           <Route path="/" element={<CustomerSite />} />
           <Route path="/:slug" element={<CustomerSite />} />

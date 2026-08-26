@@ -21,7 +21,7 @@ export default function Products() {
   const [sort, setSort] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ name: '', category: '', description: '', price: '', salePrice: '', sku: '', stockStatus: 'in_stock', stockQuantity: '', featured: false, active: true, displayOrder: '' });
+  const [form, setForm] = useState({ name: '', category: '', description: '', price: '', salePrice: '', costPrice: '', sku: '', unit: 'sqft', stockStatus: 'in_stock', stockQuantity: '', lowStockThreshold: '10', featured: false, active: true, displayOrder: '' });
   const [images, setImages] = useState([]);
   const [saving, setSaving] = useState(false);
 
@@ -40,14 +40,14 @@ export default function Products() {
 
   const openAdd = () => {
     setEditing(null);
-    setForm({ name: '', category: categories[0]?._id || '', description: '', price: '', salePrice: '', sku: '', stockStatus: 'in_stock', stockQuantity: '', featured: false, active: true, displayOrder: '' });
+    setForm({ name: '', category: categories[0]?._id || '', description: '', price: '', salePrice: '', costPrice: '', sku: '', unit: 'sqft', stockStatus: 'in_stock', stockQuantity: '', lowStockThreshold: '10', featured: false, active: true, displayOrder: '' });
     setImages([]);
     setShowForm(true);
   };
 
   const openEdit = (p) => {
     setEditing(p);
-    setForm({ name: p.name, category: p.category?._id || '', description: p.description || '', price: p.price || '', salePrice: p.salePrice || '', sku: p.sku || '', stockStatus: p.stockStatus, stockQuantity: p.stockQuantity || '', featured: p.featured, active: p.active, displayOrder: p.displayOrder || '' });
+    setForm({ name: p.name, category: p.category?._id || '', description: p.description || '', price: p.price || '', salePrice: p.salePrice || '', costPrice: p.costPrice || '', sku: p.sku || '', unit: p.unit || 'sqft', stockStatus: p.stockStatus, stockQuantity: p.stockQuantity || '', lowStockThreshold: p.lowStockThreshold || '10', featured: p.featured, active: p.active, displayOrder: p.displayOrder || '' });
     setImages([]);
     setShowForm(true);
   };
@@ -107,7 +107,7 @@ export default function Products() {
         <div className="adm-table-wrapper">
           <table className="adm-data-table">
             <thead>
-              <tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Featured</th><th>Active</th><th>Actions</th></tr>
+              <tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Cost</th><th>Stock Qty</th><th>Status</th><th>Featured</th><th>Active</th><th>Actions</th></tr>
             </thead>
             <tbody>
               {products.map(p => (
@@ -115,7 +115,9 @@ export default function Products() {
                   <td>{p.images?.[0] ? <img src={(p.images[0].url.startsWith('http') || p.images[0].url.startsWith('data:')) ? p.images[0].url : UPLOAD_URL + p.images[0].url} alt="" className="adm-table-img" /> : <div className="adm-table-img-placeholder">No</div>}</td>
                   <td className="adm-td-bold">{p.name}</td>
                   <td>{p.category?.name || 'N/A'}</td>
-                  <td>{p.price ? `₹${p.price}` : 'GET PRICE'}</td>
+                  <td>{p.price ? `₹${p.price}` : '-'}</td>
+                  <td>{p.costPrice ? `₹${p.costPrice}` : '-'}</td>
+                  <td style={{fontWeight:600, color: p.stockQuantity <= (p.lowStockThreshold || 10) ? '#ff6b6b' : '#51cf66'}}>{p.stockQuantity} {p.unit || 'sqft'}</td>
                   <td><span className={`adm-stock-badge adm-stock-${p.stockStatus}`}>{p.stockStatus.replace(/_/g, ' ')}</span></td>
                   <td>{p.featured ? '⭐' : '-'}</td>
                   <td>{p.active ? '✅' : '❌'}</td>
@@ -128,7 +130,7 @@ export default function Products() {
                   </td>
                 </tr>
               ))}
-              {products.length === 0 && <tr><td colSpan="8" className="adm-empty-row">No products found</td></tr>}
+              {products.length === 0 && <tr><td colSpan="10" className="adm-empty-row">No products found</td></tr>}
             </tbody>
           </table>
         </div>
@@ -147,9 +149,12 @@ export default function Products() {
                   <div className="adm-form-group"><label>Category *</label><select value={form.category} onChange={e => setForm({...form, category: e.target.value})} required><option value="">Select</option>{categories.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}</select></div>
                   <div className="adm-form-group"><label>Price (₹)</label><input type="number" value={form.price} onChange={e => setForm({...form, price: e.target.value})} /></div>
                   <div className="adm-form-group"><label>Sale Price (₹)</label><input type="number" value={form.salePrice} onChange={e => setForm({...form, salePrice: e.target.value})} /></div>
+                  <div className="adm-form-group"><label>Cost Price (₹)</label><input type="number" value={form.costPrice} onChange={e => setForm({...form, costPrice: e.target.value})} /></div>
                   <div className="adm-form-group"><label>SKU</label><input type="text" value={form.sku} onChange={e => setForm({...form, sku: e.target.value})} /></div>
+                  <div className="adm-form-group"><label>Unit</label><select value={form.unit} onChange={e => setForm({...form, unit: e.target.value})}><option value="sqft">Sq Ft</option><option value="box">Box</option><option value="piece">Piece</option><option value="meter">Meter</option><option value="kg">Kg</option></select></div>
                   <div className="adm-form-group"><label>Stock</label><select value={form.stockStatus} onChange={e => setForm({...form, stockStatus: e.target.value})}>{STATUSES.map(s => <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>)}</select></div>
                   <div className="adm-form-group"><label>Qty</label><input type="number" value={form.stockQuantity} onChange={e => setForm({...form, stockQuantity: e.target.value})} /></div>
+                  <div className="adm-form-group"><label>Low Stock Alert</label><input type="number" value={form.lowStockThreshold} onChange={e => setForm({...form, lowStockThreshold: e.target.value})} /></div>
                   <div className="adm-form-group"><label>Order</label><input type="number" value={form.displayOrder} onChange={e => setForm({...form, displayOrder: e.target.value})} /></div>
                 </div>
                 <div className="adm-form-group"><label>Description</label><textarea rows="3" value={form.description} onChange={e => setForm({...form, description: e.target.value})} /></div>

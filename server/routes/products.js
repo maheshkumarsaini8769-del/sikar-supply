@@ -55,7 +55,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', protect, upload.array('images', 10), async (req, res) => {
   try {
-    const { name, category, description, shortDescription, price, salePrice, sku, stockStatus, stockQuantity, featured, active, displayOrder, specs } = req.body;
+    const { name, category, description, shortDescription, price, salePrice, costPrice, sku, unit, stockStatus, stockQuantity, lowStockThreshold, featured, active, displayOrder, specs } = req.body;
     const images = req.files ? req.files.map((f, i) => ({
       url: `data:${f.mimetype};base64,${f.buffer.toString('base64')}`,
       alt: name,
@@ -66,7 +66,10 @@ router.post('/', protect, upload.array('images', 10), async (req, res) => {
       name, category, description, shortDescription,
       price: Number(price) || 0,
       salePrice: Number(salePrice) || 0,
-      sku, stockStatus, stockQuantity: Number(stockQuantity) || 0,
+      costPrice: Number(costPrice) || 0,
+      sku, unit: unit || 'sqft',
+      stockStatus, stockQuantity: Number(stockQuantity) || 0,
+      lowStockThreshold: Number(lowStockThreshold) || 10,
       featured: featured === 'true',
       active: active !== 'false',
       displayOrder: Number(displayOrder) || 0,
@@ -88,7 +91,10 @@ router.put('/:id', protect, upload.array('images', 10), async (req, res) => {
     const updateData = { ...req.body };
     if (req.body.price !== undefined) updateData.price = Number(req.body.price);
     if (req.body.salePrice !== undefined) updateData.salePrice = Number(req.body.salePrice);
+    if (req.body.costPrice !== undefined) updateData.costPrice = Number(req.body.costPrice);
     if (req.body.stockQuantity !== undefined) updateData.stockQuantity = Number(req.body.stockQuantity);
+    if (req.body.lowStockThreshold !== undefined) updateData.lowStockThreshold = Number(req.body.lowStockThreshold);
+    if (req.body.unit !== undefined) updateData.unit = req.body.unit;
     if (req.body.displayOrder !== undefined) updateData.displayOrder = Number(req.body.displayOrder);
     if (req.body.featured !== undefined) updateData.featured = req.body.featured === 'true';
     if (req.body.active !== undefined) updateData.active = req.body.active === 'true';

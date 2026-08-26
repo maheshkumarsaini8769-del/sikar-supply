@@ -8,9 +8,12 @@ const productSchema = new mongoose.Schema({
   shortDescription: { type: String, default: '' },
   price: { type: Number, default: 0 },
   salePrice: { type: Number, default: 0 },
+  costPrice: { type: Number, default: 0 },
   sku: { type: String, default: '' },
+  unit: { type: String, default: 'sqft' },
   stockStatus: { type: String, enum: ['in_stock', 'low_stock', 'out_of_stock'], default: 'in_stock' },
   stockQuantity: { type: Number, default: 0 },
+  lowStockThreshold: { type: Number, default: 10 },
   images: [{
     url: String,
     alt: String,
