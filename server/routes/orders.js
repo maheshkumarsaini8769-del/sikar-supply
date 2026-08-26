@@ -3,6 +3,28 @@ const Order = require('../models/Order');
 const { protect } = require('../middleware/auth');
 const router = express.Router();
 
+// PUBLIC - Website se order save (no auth)
+router.post('/public', async (req, res) => {
+  try {
+    const { customerName, phone, email, items, total, notes, source, whatsappMessage } = req.body;
+    const order = await Order.create({
+      customerName: customerName || 'Website Visitor',
+      phone: phone || '',
+      email: email || '',
+      items: items || [],
+      subtotal: Number(total) || 0,
+      total: Number(total) || 0,
+      status: 'pending',
+      paymentMethod: 'whatsapp',
+      notes: notes || '',
+      whatsappMessage: whatsappMessage || '',
+    });
+    res.status(201).json({ success: true, order });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 router.get('/', protect, async (req, res) => {
   try {
     const { status, search, sort, page = 1, limit = 20 } = req.query;

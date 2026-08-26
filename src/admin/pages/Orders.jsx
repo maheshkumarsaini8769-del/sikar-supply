@@ -100,8 +100,8 @@ export default function Orders() {
                   <td style={{ fontWeight: 700, color: '#b8956a' }}>₹{(order.total || order.totalAmount || 0).toLocaleString()}</td>
                   <td>
                     <span style={{ padding: '2px 8px', borderRadius: 999, fontSize: 10, fontWeight: 700,
-                      background: order.source === 'whatsapp' ? 'rgba(37,211,102,0.15)' : 'rgba(99,102,241,0.15)',
-                      color: order.source === 'whatsapp' ? '#25d366' : '#6366f1',
+                      background: order.source === 'whatsapp' ? 'rgba(37,211,102,0.15)' : order.source === 'website' ? 'rgba(184,149,106,0.15)' : 'rgba(99,102,241,0.15)',
+                      color: order.source === 'whatsapp' ? '#25d366' : order.source === 'website' ? '#b8956a' : '#6366f1',
                     }}>{order.source || 'website'}</span>
                   </td>
                   <td>
