@@ -249,17 +249,19 @@ export default function Sales({ saleTypeFilter }) {
 
       {/* Filters */}
       {!saleTypeFilter && (
-        <div className="adm-filters">
+        <div className="adm-filters" style={{ gap: 12 }}>
           <select value={filter.saleType} onChange={e => setFilter({...filter, saleType: e.target.value})} className="adm-filter-select">
             <option value="">All Types</option><option value="online">Online</option><option value="cash">Cash</option><option value="walk_in">Walk-in</option>
           </select>
           <select value={filter.source} onChange={e => setFilter({...filter, source: e.target.value})} className="adm-filter-select">
             <option value="">All Sources</option><option value="website">Website</option><option value="phone">Phone</option><option value="walk_in">Walk-in</option><option value="whatsapp">WhatsApp</option>
           </select>
-          <select value={filter.product} onChange={e => setFilter({...filter, product: e.target.value})} className="adm-filter-select" style={{ minWidth: 200 }}>
-            <option value="">All Products</option>
-            {products.map(p => <option key={p._id} value={p._id}>{p.name} {p.sku ? `(${p.sku})` : ''}</option>)}
-          </select>
+          <div style={{ minWidth: 260, flex: '0 0 auto' }}>
+            <ProductSearch products={products} value={filter.product} onChange={v => setFilter({...filter, product: v})} placeholder="Search product by name or SKU..." />
+          </div>
+          {filter.product && (
+            <button className="adm-btn adm-btn-sm" onClick={() => setFilter({...filter, product: ''})} style={{ fontSize: 11, padding: '8px 12px' }}>✕ Clear</button>
+          )}
         </div>
       )}
 
