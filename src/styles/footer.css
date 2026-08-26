@@ -222,3 +222,34 @@
     height: 48px;
   }
 }
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 40px 0 0;
+  }
+
+  .footer-grid {
+    gap: 24px;
+  }
+
+  .footer-bottom {
+    padding: 16px 0;
+  }
+
+  .whatsapp-btn {
+    width: 46px;
+    height: 46px;
+  }
+
+  .call-btn {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}

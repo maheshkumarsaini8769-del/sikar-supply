@@ -103,3 +103,17 @@
     gap: 40px;
   }
 }
+
+@media (max-width: 480px) {
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    height: 42px;
+    font-size: 13px;
+  }
+
+  .quote-form .btn-primary {
+    height: 42px;
+    font-size: 13px;
+  }
+}

@@ -104,3 +104,17 @@
     padding: 24px 0;
   }
 }
+
+@media (max-width: 480px) {
+  .why-feature {
+    padding: 16px 0;
+  }
+
+  .why-feature h3 {
+    font-size: 16px;
+  }
+
+  .why-feature p {
+    font-size: 13px;
+  }
+}

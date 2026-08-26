@@ -343,3 +343,26 @@
     border-radius: 8px;
   }
 }
+
+@media (max-width: 480px) {
+  .reviews-header h2 {
+    font-size: 20px;
+  }
+
+  .review-form {
+    padding: 16px;
+  }
+
+  .review-form input,
+  .review-form textarea {
+    font-size: 13px;
+  }
+
+  .reviews-modal {
+    border-radius: 6px;
+  }
+
+  .reviews-modal-body {
+    padding: 12px;
+  }
+}

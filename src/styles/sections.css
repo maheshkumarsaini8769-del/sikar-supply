@@ -359,3 +359,51 @@
     min-height: 380px;
   }
 }
+
+@media (max-width: 480px) {
+  .stats {
+    padding: 36px 0;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .stat-item {
+    padding: 14px 6px;
+  }
+
+  .stat-number {
+    font-size: clamp(22px, 7vw, 32px);
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .stat-divider {
+    width: 14px;
+  }
+
+  .intro-grid {
+    gap: 20px;
+  }
+
+  .intro-image {
+    max-height: 180px;
+  }
+
+  .material-grid {
+    gap: 10px;
+  }
+
+  .material-card {
+    padding: 16px;
+  }
+
+  .texture-section {
+    height: 40vh;
+    min-height: 300px;
+  }
+}

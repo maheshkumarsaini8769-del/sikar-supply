@@ -207,3 +207,41 @@
     bottom: 24px;
   }
 }
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: 440px;
+  }
+
+  .hero-heading {
+    font-size: 28px;
+  }
+
+  .hero-description {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-buttons .btn-primary,
+  .hero-buttons .btn-outline {
+    width: 100%;
+    font-size: 12px;
+    padding: 0 14px;
+    height: 42px;
+  }
+
+  .hero-indicators {
+    bottom: 16px;
+    gap: 6px;
+  }
+
+  .hero-indicator {
+    width: 24px;
+    height: 3px;
+  }
+}
