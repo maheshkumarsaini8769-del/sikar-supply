@@ -17,7 +17,7 @@ export default function Stock() {
   const [categories, setCategories] = useState([]);
 
   // Add Stock form
-  const [addForm, setAddForm] = useState({ productId: '', quantity: '', note: '' });
+  const [addForm, setAddForm] = useState({ productId: '', quantity: '', costPrice: '', supplier: '', note: '' });
   const [addMode, setAddMode] = useState('add');
 
   const fetchInventory = () => {
@@ -56,9 +56,11 @@ export default function Stock() {
       await api.post(endpoint, {
         productId: addForm.productId,
         quantity: Number(addForm.quantity),
+        costPrice: Number(addForm.costPrice) || 0,
+        supplier: addForm.supplier || '',
         note: addForm.note,
       });
-      setAddForm({ productId: '', quantity: '', note: '' });
+      setAddForm({ productId: '', quantity: '', costPrice: '', supplier: '', note: '' });
       fetchInventory();
       fetchStats();
     } catch (err) {
@@ -220,6 +222,18 @@ export default function Stock() {
               <label>{addMode === 'adjust' ? 'New Quantity' : 'Quantity'} *</label>
               <input type="number" min="0" value={addForm.quantity} onChange={e => setAddForm({...addForm, quantity: e.target.value})} required />
             </div>
+            {addMode === 'add' && (
+              <>
+                <div className="adm-form-group">
+                  <label>Purchase Price (₹ per unit)</label>
+                  <input type="number" min="0" placeholder="Kitne me kharida" value={addForm.costPrice} onChange={e => setAddForm({...addForm, costPrice: e.target.value})} />
+                </div>
+                <div className="adm-form-group">
+                  <label>Supplier Name</label>
+                  <input type="text" placeholder="Supplier ka naam" value={addForm.supplier} onChange={e => setAddForm({...addForm, supplier: e.target.value})} />
+                </div>
+              </>
+            )}
             <div className="adm-form-group">
               <label>Note</label>
               <input type="text" placeholder="e.g. New delivery, Damaged goods" value={addForm.note} onChange={e => setAddForm({...addForm, note: e.target.value})} />

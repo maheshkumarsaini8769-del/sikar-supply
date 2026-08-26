@@ -1,6 +1,7 @@
 const express = require('express');
 const Product = require('../models/Product');
 const StockLog = require('../models/StockLog');
+const Purchase = require('../models/Purchase');
 const { protect } = require('../middleware/auth');
 const router = express.Router();
 
@@ -24,7 +25,7 @@ router.get('/inventory', protect, async (req, res) => {
 
 router.post('/add', protect, async (req, res) => {
   try {
-    const { productId, quantity, note } = req.body;
+    const { productId, quantity, costPrice, supplier, note } = req.body;
     if (!productId || !quantity || quantity <= 0) {
       return res.status(400).json({ success: false, message: 'Product and positive quantity required' });
     }
@@ -42,6 +43,28 @@ router.post('/add', protect, async (req, res) => {
       product: productId, type: 'add', quantity: Number(quantity),
       note: note || 'Stock added', previousStock, newStock: product.stockQuantity,
     });
+
+    // Auto-create Purchase record
+    if (costPrice > 0) {
+      await Purchase.create({
+        invoiceNumber: 'INV-' + Date.now().toString(36).toUpperCase(),
+        supplier: supplier || 'Direct Stock Add',
+        items: [{
+          product: productId,
+          productName: product.name,
+          quantity: Number(quantity),
+          costPrice: Number(costPrice),
+          unit: product.unit || 'sqft',
+        }],
+        totalAmount: Number(quantity) * Number(costPrice),
+        paidAmount: Number(quantity) * Number(costPrice),
+        paymentMethod: 'cash',
+        paymentStatus: 'paid',
+        purchaseDate: new Date(),
+        addToInventory: false,
+        note: note || `Stock added: ${product.name} × ${quantity} ${product.unit}`,
+      });
+    }
 
     res.json({ success: true, product });
   } catch (error) {
