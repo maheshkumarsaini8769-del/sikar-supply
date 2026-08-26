@@ -89,6 +89,15 @@
   display: none;
 }
 
+.adm-modal {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.adm-modal::-webkit-scrollbar {
+  display: none;
+}
+
 .sidebar-nav .nav-item {
   display: flex;
   align-items: center;

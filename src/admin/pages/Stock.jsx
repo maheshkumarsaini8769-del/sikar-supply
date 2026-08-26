@@ -113,6 +113,16 @@ export default function Stock() {
     }
   };
 
+  const deleteProduct = async (id, name) => {
+    if (!confirm(`"${name}" delete karna hai? Product website se hata diya jayega.`)) return;
+    try {
+      await api.delete(`/products/${id}`);
+      fetchInventory();
+    } catch (err) {
+      alert('Failed: ' + (err.response?.data?.message || err.message));
+    }
+  };
+
   return (
     <div>
       <div className="adm-page-header">
@@ -171,7 +181,10 @@ export default function Stock() {
                         <td>{p.unit || 'sqft'}</td>
                         <td><span className={`adm-stock-badge adm-stock-${p.stockStatus}`}>{p.stockStatus.replace(/_/g, ' ')}</span></td>
                         <td>
-                          <button className="adm-btn adm-btn-sm" onClick={() => openEdit(p)} style={{ background: '#6366f1', color: '#fff' }}>✏️ Edit</button>
+                          <div style={{ display: 'flex', gap: 4 }}>
+                            <button className="adm-btn adm-btn-sm" onClick={() => openEdit(p)} style={{ background: '#6366f1', color: '#fff' }}>✏️</button>
+                            <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => deleteProduct(p._id, p.name)} style={{ background: '#ef4444', color: '#fff' }}>🗑️</button>
+                          </div>
                         </td>
                       </tr>
                     );
