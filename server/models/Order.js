@@ -10,17 +10,18 @@ const orderItemSchema = new mongoose.Schema({
 
 const orderSchema = new mongoose.Schema({
   orderNumber: { type: String, unique: true },
-  customerName: { type: String, required: true },
-  phone: { type: String, required: true },
+  customerName: { type: String, default: 'Website Visitor' },
+  phone: { type: String, default: '' },
   email: { type: String, default: '' },
   address: { type: String, default: '' },
   items: [orderItemSchema],
-  subtotal: { type: Number, required: true },
+  subtotal: { type: Number, default: 0 },
   tax: { type: Number, default: 0 },
-  total: { type: Number, required: true },
+  total: { type: Number, default: 0 },
   paymentMethod: { type: String, enum: ['whatsapp', 'cod', 'online'], default: 'whatsapp' },
   status: { type: String, enum: ['pending', 'confirmed', 'processing', 'completed', 'cancelled'], default: 'pending' },
   notes: { type: String, default: '' },
+  source: { type: String, default: 'website' },
   whatsappMessage: { type: String, default: '' },
 }, { timestamps: true });
 
