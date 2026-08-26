@@ -98,7 +98,8 @@
   display: none;
 }
 
-.sidebar-nav .nav-item {
+.sidebar-nav .nav-item,
+.sidebar-nav .sidebar-link {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -117,15 +118,23 @@
   text-align: left;
 }
 
-.sidebar-nav .nav-item:hover {
+.sidebar-nav .nav-item:hover,
+.sidebar-nav .sidebar-link:hover {
   color: #e5e5e5;
   background: rgba(184, 149, 106, 0.05);
 }
 
-.sidebar-nav .nav-item.active {
+.sidebar-nav .nav-item.active,
+.sidebar-nav .sidebar-link.active {
   color: #b8956a;
   background: rgba(184, 149, 106, 0.08);
   border-left-color: #b8956a;
+}
+
+.sidebar-link-icon {
+  font-size: 15px;
+  width: 20px;
+  text-align: center;
 }
 
 .sidebar-footer {
