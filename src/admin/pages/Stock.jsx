@@ -94,7 +94,10 @@ export default function Stock() {
   const saveEdit = async () => {
     if (!editProduct) return;
     try {
+      const oldQty = editProduct.stockQuantity || 0;
       const newQty = Number(editForm.stockQuantity);
+      const diff = newQty - oldQty;
+
       await api.put(`/products/${editProduct._id}`, {
         name: editForm.name,
         description: editForm.description,
@@ -108,6 +111,28 @@ export default function Stock() {
         category: editForm.category,
         stockStatus: newQty === 0 ? 'out_of_stock' : newQty <= (Number(editForm.lowStockThreshold) || 10) ? 'low_stock' : 'in_stock',
       });
+
+      // If stock increased & has cost price, create purchase record (no stock double-count)
+      if (diff > 0 && Number(editForm.costPrice) > 0) {
+        await api.post('/purchases', {
+          invoiceNumber: 'INV-' + Date.now().toString(36).toUpperCase(),
+          supplier: 'Stock Edit',
+          items: [{
+            product: editProduct._id,
+            productName: editForm.name,
+            quantity: diff,
+            costPrice: Number(editForm.costPrice),
+            unit: editForm.unit || 'sqft',
+          }],
+          totalAmount: diff * Number(editForm.costPrice),
+          paidAmount: diff * Number(editForm.costPrice),
+          paymentMethod: 'cash',
+          paymentStatus: 'paid',
+          addToInventory: false,
+          note: `Stock edit: ${oldQty} → ${newQty} (+${diff} ${editForm.unit})`,
+        });
+      }
+
       setEditProduct(null);
       fetchInventory();
     } catch (err) {
