@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './admin/context/AuthContext';
 import { SiteProvider } from './context/SiteContext';
+import { trackPageview } from './utils/analytics';
 
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -96,10 +97,19 @@ function CustomerSite() {
 
 import NotFound from './pages/NotFound';
 
+function PageviewTracker() {
+  const location = useLocation();
+  useEffect(() => {
+    trackPageview(location.pathname + location.hash);
+  }, [location]);
+  return null;
+}
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <PageviewTracker />
         <Routes>
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<ProtectedAdmin><AdminLayout /></ProtectedAdmin>}>

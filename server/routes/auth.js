@@ -35,4 +35,19 @@ router.post('/logout', (req, res) => {
   res.json({ success: true });
 });
 
+router.put('/change-password', protect, async (req, res) => {
+  try {
+    const { password } = req.body;
+    if (!password || password.length < 4) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 4 characters' });
+    }
+    const user = await User.findById(req.user._id).select('+password');
+    user.password = password;
+    await user.save();
+    res.json({ success: true, message: 'Password updated' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 module.exports = router;
