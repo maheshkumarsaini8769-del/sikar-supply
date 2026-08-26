@@ -5,14 +5,19 @@ export default function Sales() {
   const [sales, setSales] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(null); // 'quick-cash', 'quick-online', 'detailed'
   const [stats, setStats] = useState(null);
+  const [filter, setFilter] = useState({ saleType: '', source: '' });
+
+  // Quick sale form
+  const [quickForm, setQuickForm] = useState({ customerName: '', customerPhone: '', amount: '', note: '' });
+
+  // Detailed form
   const [form, setForm] = useState({
     customerName: '', customerPhone: '',
     items: [{ product: '', productName: '', quantity: '', sellingPrice: '', costPrice: '', unit: 'sqft' }],
     totalAmount: '', discount: '', finalAmount: '', paymentMethod: 'cash', saleType: 'cash', source: 'walk_in', note: '', saleDate: new Date().toISOString().split('T')[0],
   });
-  const [filter, setFilter] = useState({ saleType: '', source: '' });
 
   const fetchSales = () => {
     setLoading(true);
@@ -32,6 +37,57 @@ export default function Sales() {
     fetchStats();
   }, [filter]);
 
+  // Quick Cash Sale
+  const handleQuickCash = async (e) => {
+    e.preventDefault();
+    if (!quickForm.amount || Number(quickForm.amount) <= 0) return alert('Amount daalo');
+    try {
+      await api.post('/sales', {
+        customerName: quickForm.customerName || 'Cash Customer',
+        customerPhone: quickForm.customerPhone,
+        items: [{ productName: 'Cash Sale', quantity: 1, sellingPrice: Number(quickForm.amount), costPrice: 0, unit: '', total: Number(quickForm.amount) }],
+        totalAmount: Number(quickForm.amount),
+        discount: 0,
+        finalAmount: Number(quickForm.amount),
+        paymentMethod: 'cash',
+        saleType: 'cash',
+        source: 'walk_in',
+        note: quickForm.note,
+        saleDate: new Date(),
+      });
+      setQuickForm({ customerName: '', customerPhone: '', amount: '', note: '' });
+      setShowForm(null);
+      fetchSales();
+      fetchStats();
+    } catch { alert('Failed'); }
+  };
+
+  // Quick Online Sale
+  const handleQuickOnline = async (e) => {
+    e.preventDefault();
+    if (!quickForm.amount || Number(quickForm.amount) <= 0) return alert('Amount daalo');
+    try {
+      await api.post('/sales', {
+        customerName: quickForm.customerName || 'Online Customer',
+        customerPhone: quickForm.customerPhone,
+        items: [{ productName: 'Online Sale', quantity: 1, sellingPrice: Number(quickForm.amount), costPrice: 0, unit: '', total: Number(quickForm.amount) }],
+        totalAmount: Number(quickForm.amount),
+        discount: 0,
+        finalAmount: Number(quickForm.amount),
+        paymentMethod: 'online',
+        saleType: 'online',
+        source: 'website',
+        note: quickForm.note,
+        saleDate: new Date(),
+      });
+      setQuickForm({ customerName: '', customerPhone: '', amount: '', note: '' });
+      setShowForm(null);
+      fetchSales();
+      fetchStats();
+    } catch { alert('Failed'); }
+  };
+
+  // Detailed sale
   const addItem = () => {
     setForm({ ...form, items: [...form.items, { product: '', productName: '', quantity: '', sellingPrice: '', costPrice: '', unit: 'sqft' }] });
   };
@@ -61,10 +117,10 @@ export default function Sales() {
     setForm({ ...form, discount: val, finalAmount: total - disc });
   };
 
-  const handleSave = async (e) => {
+  const handleDetailedSave = async (e) => {
     e.preventDefault();
     try {
-      const payload = {
+      await api.post('/sales', {
         ...form,
         items: form.items.map(it => ({
           product: it.product || undefined,
@@ -79,9 +135,8 @@ export default function Sales() {
         discount: Number(form.discount) || 0,
         finalAmount: Number(form.finalAmount) || Number(form.totalAmount),
         saleDate: form.saleDate || new Date(),
-      };
-      await api.post('/sales', payload);
-      setShowForm(false);
+      });
+      setShowForm(null);
       fetchSales();
       fetchStats();
     } catch { alert('Failed'); }
@@ -92,16 +147,58 @@ export default function Sales() {
     try { await api.delete(`/sales/${id}`); fetchSales(); fetchStats(); } catch { alert('Failed'); }
   };
 
+  const todaySales = sales.filter(s => {
+    const d = new Date(s.saleDate);
+    const today = new Date();
+    return d.toDateString() === today.toDateString();
+  });
+  const todayCash = todaySales.filter(s => s.saleType === 'cash').reduce((sum, s) => sum + s.finalAmount, 0);
+  const todayOnline = todaySales.filter(s => s.saleType === 'online').reduce((sum, s) => sum + s.finalAmount, 0);
+  const todayTotal = todayCash + todayOnline;
+
   return (
     <div>
       <div className="adm-page-header">
-        <h1 className="adm-page-title">Sale History</h1>
-        <button className="adm-btn adm-btn-primary" onClick={() => {
-          setForm({ customerName: '', customerPhone: '', items: [{ product: '', productName: '', quantity: '', sellingPrice: '', costPrice: '', unit: 'sqft' }], totalAmount: '', discount: '', finalAmount: '', paymentMethod: 'cash', saleType: 'cash', source: 'walk_in', note: '', saleDate: new Date().toISOString().split('T')[0] });
-          setShowForm(true);
-        }}>+ New Sale</button>
+        <h1 className="adm-page-title">Sales</h1>
       </div>
 
+      {/* Quick Action Buttons */}
+      <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
+        <button className="adm-btn" onClick={() => { setQuickForm({ customerName: '', customerPhone: '', amount: '', note: '' }); setShowForm('quick-cash'); }} style={{ flex: '1 1 200px', padding: '16px 20px', background: 'linear-gradient(135deg, #25d366, #128c7e)', color: '#fff', fontWeight: 700, fontSize: 15, borderRadius: 12, border: 'none', cursor: 'pointer', textAlign: 'center' }}>
+          💵 Cash Sale
+        </button>
+        <button className="adm-btn" onClick={() => { setQuickForm({ customerName: '', customerPhone: '', amount: '', note: '' }); setShowForm('quick-online'); }} style={{ flex: '1 1 200px', padding: '16px 20px', background: 'linear-gradient(135deg, #6366f1, #4f46e5)', color: '#fff', fontWeight: 700, fontSize: 15, borderRadius: 12, border: 'none', cursor: 'pointer', textAlign: 'center' }}>
+          🌐 Online Sale
+        </button>
+        <button className="adm-btn" onClick={() => {
+          setForm({ customerName: '', customerPhone: '', items: [{ product: '', productName: '', quantity: '', sellingPrice: '', costPrice: '', unit: 'sqft' }], totalAmount: '', discount: '', finalAmount: '', paymentMethod: 'cash', saleType: 'cash', source: 'walk_in', note: '', saleDate: new Date().toISOString().split('T')[0] });
+          setShowForm('detailed');
+        }} style={{ flex: '1 1 200px', padding: '16px 20px', background: 'linear-gradient(135deg, #b8956a, #9a7b5a)', color: '#fff', fontWeight: 700, fontSize: 15, borderRadius: 12, border: 'none', cursor: 'pointer', textAlign: 'center' }}>
+          📋 Detailed Sale (With Items)
+        </button>
+      </div>
+
+      {/* Today's Summary */}
+      <div className="adm-stat-cards" style={{ marginBottom: 16 }}>
+        <div className="adm-stat-card" style={{ borderTopColor: '#b8956a' }}>
+          <span className="adm-stat-label">Today's Total</span>
+          <span className="adm-stat-value">₹{todayTotal.toLocaleString('en-IN')}</span>
+        </div>
+        <div className="adm-stat-card" style={{ borderTopColor: '#25d366' }}>
+          <span className="adm-stat-label">Today Cash</span>
+          <span className="adm-stat-value">₹{todayCash.toLocaleString('en-IN')}</span>
+        </div>
+        <div className="adm-stat-card" style={{ borderTopColor: '#6366f1' }}>
+          <span className="adm-stat-label">Today Online</span>
+          <span className="adm-stat-value">₹{todayOnline.toLocaleString('en-IN')}</span>
+        </div>
+        <div className="adm-stat-card" style={{ borderTopColor: '#f59e0b' }}>
+          <span className="adm-stat-label">Today Sales</span>
+          <span className="adm-stat-value">{todaySales.length}</span>
+        </div>
+      </div>
+
+      {/* All-time Stats */}
       {stats && (
         <div className="adm-stat-cards" style={{ marginBottom: 16 }}>
           <div className="adm-stat-card" style={{ borderTopColor: '#25d366' }}>
@@ -109,20 +206,17 @@ export default function Sales() {
             <span className="adm-stat-value">{stats.totalSales || 0}</span>
           </div>
           <div className="adm-stat-card" style={{ borderTopColor: '#b8956a' }}>
-            <span className="adm-stat-label">Revenue</span>
+            <span className="adm-stat-label">Total Revenue</span>
             <span className="adm-stat-value">₹{(stats.totalRevenue || 0).toLocaleString('en-IN')}</span>
           </div>
           <div className="adm-stat-card" style={{ borderTopColor: '#6366f1' }}>
             <span className="adm-stat-label">Avg Sale</span>
             <span className="adm-stat-value">₹{(stats.avgSale || 0).toLocaleString('en-IN')}</span>
           </div>
-          <div className="adm-stat-card" style={{ borderTopColor: '#f59e0b' }}>
-            <span className="adm-stat-label">Discounts Given</span>
-            <span className="adm-stat-value">₹{(stats.totalDiscount || 0).toLocaleString('en-IN')}</span>
-          </div>
         </div>
       )}
 
+      {/* Filters */}
       <div className="adm-filters">
         <select value={filter.saleType} onChange={e => setFilter({...filter, saleType: e.target.value})} className="adm-filter-select">
           <option value="">All Types</option>
@@ -139,25 +233,28 @@ export default function Sales() {
         </select>
       </div>
 
+      {/* Sales Table */}
       {loading ? <div className="adm-loading"><div className="adm-spinner"/></div> : (
         <div className="adm-table-wrapper">
           <table className="adm-data-table">
             <thead>
-              <tr><th>Date</th><th>Sale #</th><th>Customer</th><th>Type</th><th>Source</th><th>Items</th><th>Total</th><th>Discount</th><th>Final</th><th>Payment</th><th>Actions</th></tr>
+              <tr><th>Date</th><th>Sale #</th><th>Customer</th><th>Type</th><th>Final</th><th>Payment</th><th>Note</th><th>Actions</th></tr>
             </thead>
             <tbody>
               {sales.map(s => (
                 <tr key={s._id}>
-                  <td>{new Date(s.saleDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
+                  <td>{new Date(s.saleDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
                   <td className="adm-td-bold">{s.saleNumber}</td>
                   <td>{s.customerName || '-'}</td>
-                  <td><span className={`adm-stock-badge adm-stock-${s.saleType === 'online' ? 'in_stock' : 'low_stock'}`}>{s.saleType}</span></td>
-                  <td>{s.source}</td>
-                  <td>{s.items?.length || 0}</td>
-                  <td>₹{s.totalAmount.toLocaleString('en-IN')}</td>
-                  <td style={{ color: s.discount > 0 ? '#ff6b6b' : '#888' }}>{s.discount > 0 ? `-₹${s.discount}` : '-'}</td>
-                  <td style={{ fontWeight: 700, color: '#25d366' }}>₹{s.finalAmount.toLocaleString('en-IN')}</td>
+                  <td>
+                    <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: 999, fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
+                      background: s.saleType === 'cash' ? 'rgba(37,211,102,0.15)' : s.saleType === 'online' ? 'rgba(99,102,241,0.15)' : 'rgba(245,158,11,0.15)',
+                      color: s.saleType === 'cash' ? '#25d366' : s.saleType === 'online' ? '#6366f1' : '#f59e0b',
+                    }}>{s.saleType}</span>
+                  </td>
+                  <td style={{ fontWeight: 700, color: '#25d366', fontSize: 15 }}>₹{s.finalAmount.toLocaleString('en-IN')}</td>
                   <td>{s.paymentMethod}</td>
+                  <td style={{ color: '#888', maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.note || '-'}</td>
                   <td>
                     <div className="adm-actions-cell">
                       <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => handleDelete(s._id)}>Del</button>
@@ -165,20 +262,79 @@ export default function Sales() {
                   </td>
                 </tr>
               ))}
-              {sales.length === 0 && <tr><td colSpan="11" className="adm-empty-row">No sales recorded yet</td></tr>}
+              {sales.length === 0 && <tr><td colSpan="8" className="adm-empty-row">No sales yet. Click buttons above to add.</td></tr>}
             </tbody>
           </table>
         </div>
       )}
 
-      {showForm && (
-        <div className="adm-modal-overlay" onClick={() => setShowForm(false)}>
-          <div className="adm-modal adm-modal-lg" onClick={e => e.stopPropagation()}>
-            <div className="adm-modal-header">
-              <h2>New Sale</h2>
-              <button className="adm-modal-close" onClick={() => setShowForm(false)}>&times;</button>
+      {/* Quick Cash Modal */}
+      {showForm === 'quick-cash' && (
+        <div className="adm-modal-overlay" onClick={() => setShowForm(null)}>
+          <div className="adm-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 420 }}>
+            <div className="adm-modal-header" style={{ background: 'linear-gradient(135deg, rgba(37,211,102,0.1), transparent)' }}>
+              <h2 style={{ color: '#25d366' }}>💵 Cash Sale</h2>
+              <button className="adm-modal-close" onClick={() => setShowForm(null)}>&times;</button>
             </div>
-            <form onSubmit={handleSave}>
+            <form onSubmit={handleQuickCash}>
+              <div className="adm-modal-body">
+                <div className="adm-form-group">
+                  <label>Amount (₹) *</label>
+                  <input type="number" min="1" placeholder="Kitne ka sale?" value={quickForm.amount} onChange={e => setQuickForm({...quickForm, amount: e.target.value})} required autoFocus style={{ fontSize: 22, fontWeight: 700, padding: '12px 16px' }} />
+                </div>
+                <div className="adm-form-grid">
+                  <div className="adm-form-group"><label>Customer Name</label><input type="text" placeholder="Naam (optional)" value={quickForm.customerName} onChange={e => setQuickForm({...quickForm, customerName: e.target.value})} /></div>
+                  <div className="adm-form-group"><label>Phone</label><input type="tel" placeholder="Phone (optional)" value={quickForm.customerPhone} onChange={e => setQuickForm({...quickForm, customerPhone: e.target.value})} /></div>
+                </div>
+                <div className="adm-form-group"><label>Note</label><input type="text" placeholder="Koi note?" value={quickForm.note} onChange={e => setQuickForm({...quickForm, note: e.target.value})} /></div>
+              </div>
+              <div className="adm-modal-footer">
+                <button type="button" className="adm-btn" onClick={() => setShowForm(null)}>Cancel</button>
+                <button type="submit" className="adm-btn" style={{ background: '#25d366', color: '#fff', fontWeight: 700, padding: '12px 32px', fontSize: 15 }}>Save Cash Sale</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Quick Online Modal */}
+      {showForm === 'quick-online' && (
+        <div className="adm-modal-overlay" onClick={() => setShowForm(null)}>
+          <div className="adm-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 420 }}>
+            <div className="adm-modal-header" style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.1), transparent)' }}>
+              <h2 style={{ color: '#6366f1' }}>🌐 Online Sale</h2>
+              <button className="adm-modal-close" onClick={() => setShowForm(null)}>&times;</button>
+            </div>
+            <form onSubmit={handleQuickOnline}>
+              <div className="adm-modal-body">
+                <div className="adm-form-group">
+                  <label>Amount (₹) *</label>
+                  <input type="number" min="1" placeholder="Kitne ka sale?" value={quickForm.amount} onChange={e => setQuickForm({...quickForm, amount: e.target.value})} required autoFocus style={{ fontSize: 22, fontWeight: 700, padding: '12px 16px' }} />
+                </div>
+                <div className="adm-form-grid">
+                  <div className="adm-form-group"><label>Customer Name</label><input type="text" placeholder="Naam (optional)" value={quickForm.customerName} onChange={e => setQuickForm({...quickForm, customerName: e.target.value})} /></div>
+                  <div className="adm-form-group"><label>Phone</label><input type="tel" placeholder="Phone (optional)" value={quickForm.customerPhone} onChange={e => setQuickForm({...quickForm, customerPhone: e.target.value})} /></div>
+                </div>
+                <div className="adm-form-group"><label>Note</label><input type="text" placeholder="Koi note?" value={quickForm.note} onChange={e => setQuickForm({...quickForm, note: e.target.value})} /></div>
+              </div>
+              <div className="adm-modal-footer">
+                <button type="button" className="adm-btn" onClick={() => setShowForm(null)}>Cancel</button>
+                <button type="submit" className="adm-btn" style={{ background: '#6366f1', color: '#fff', fontWeight: 700, padding: '12px 32px', fontSize: 15 }}>Save Online Sale</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Detailed Sale Modal */}
+      {showForm === 'detailed' && (
+        <div className="adm-modal-overlay" onClick={() => setShowForm(null)}>
+          <div className="adm-modal adm-modal-lg" onClick={e => e.stopPropagation()}>
+            <div className="adm-modal-header" style={{ background: 'linear-gradient(135deg, rgba(184,149,106,0.1), transparent)' }}>
+              <h2 style={{ color: '#b8956a' }}>📋 Detailed Sale</h2>
+              <button className="adm-modal-close" onClick={() => setShowForm(null)}>&times;</button>
+            </div>
+            <form onSubmit={handleDetailedSave}>
               <div className="adm-modal-body">
                 <div className="adm-form-grid">
                   <div className="adm-form-group"><label>Customer Name</label><input type="text" value={form.customerName} onChange={e => setForm({...form, customerName: e.target.value})} /></div>
@@ -228,8 +384,8 @@ export default function Sales() {
                 <div className="adm-form-group"><label>Note</label><input type="text" value={form.note} onChange={e => setForm({...form, note: e.target.value})} /></div>
               </div>
               <div className="adm-modal-footer">
-                <button type="button" className="adm-btn" onClick={() => setShowForm(false)}>Cancel</button>
-                <button type="submit" className="adm-btn adm-btn-primary">Save Sale</button>
+                <button type="button" className="adm-btn" onClick={() => setShowForm(null)}>Cancel</button>
+                <button type="submit" className="adm-btn" style={{ background: '#b8956a', color: '#fff', fontWeight: 700, padding: '12px 32px', fontSize: 15 }}>Save Sale</button>
               </div>
             </form>
           </div>
