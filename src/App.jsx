@@ -130,6 +130,7 @@ function App() {
             <Route path="reviews" element={<AdminReviews />} />
             <Route path="stock" element={<AdminStock />} />
             <Route path="sales" element={<AdminSales />} />
+            <Route path="all-sales" element={<AdminSales />} />
             <Route path="cash-sales" element={<AdminSales saleTypeFilter="cash" />} />
             <Route path="online-sales" element={<AdminSales saleTypeFilter="online" />} />
             <Route path="purchases" element={<AdminPurchases />} />
