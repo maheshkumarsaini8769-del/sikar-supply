@@ -249,24 +249,20 @@ export default function Sales({ saleTypeFilter }) {
 
       {/* Filters */}
       {!saleTypeFilter && (
-        <>
-          <div className="adm-filters" style={{ gap: 12 }}>
-            <select value={filter.saleType} onChange={e => setFilter({...filter, saleType: e.target.value})} className="adm-filter-select">
-              <option value="">All Types</option><option value="online">Online</option><option value="cash">Cash</option><option value="walk_in">Walk-in</option>
-            </select>
-            <select value={filter.source} onChange={e => setFilter({...filter, source: e.target.value})} className="adm-filter-select">
-              <option value="">All Sources</option><option value="website">Website</option><option value="phone">Phone</option><option value="walk_in">Walk-in</option><option value="whatsapp">WhatsApp</option>
-            </select>
+        <div className="adm-filters" style={{ gap: 10, flexWrap: 'wrap' }}>
+          <select value={filter.saleType} onChange={e => setFilter({...filter, saleType: e.target.value})} className="adm-filter-select" style={{ fontSize: 12, padding: '6px 10px' }}>
+            <option value="">All Types</option><option value="online">Online</option><option value="cash">Cash</option><option value="walk_in">Walk-in</option>
+          </select>
+          <select value={filter.source} onChange={e => setFilter({...filter, source: e.target.value})} className="adm-filter-select" style={{ fontSize: 12, padding: '6px 10px' }}>
+            <option value="">All Sources</option><option value="website">Website</option><option value="phone">Phone</option><option value="walk_in">Walk-in</option><option value="whatsapp">WhatsApp</option>
+          </select>
+          <div style={{ width: 200 }}>
+            <ProductSearch products={products} value={filter.product} onChange={v => setFilter({...filter, product: v})} placeholder="Search product..." />
           </div>
-          <div className="adm-filters" style={{ gap: 12, marginTop: 0 }}>
-            <div style={{ flex: 1, minWidth: 280 }}>
-              <ProductSearch products={products} value={filter.product} onChange={v => setFilter({...filter, product: v})} placeholder="🔍 Search product by name or SKU..." />
-            </div>
-            {filter.product && (
-              <button className="adm-btn adm-btn-sm" onClick={() => setFilter({...filter, product: ''})} style={{ fontSize: 11, padding: '8px 12px' }}>✕ Clear Product</button>
-            )}
-          </div>
-        </>
+          {filter.product && (
+            <button className="adm-btn adm-btn-sm" onClick={() => setFilter({...filter, product: ''})} style={{ fontSize: 10, padding: '5px 8px' }}>✕</button>
+          )}
+        </div>
       )}
 
       {/* Table */}
