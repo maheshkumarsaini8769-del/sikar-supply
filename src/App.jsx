@@ -81,7 +81,7 @@ function CustomerSite() {
   return (
     <SiteProvider>
       <Loader />
-      <Navbar />
+      <Navbar onSearchProduct={handleMaterialClick} />
       <main>
         <Hero />
         <Stats />
