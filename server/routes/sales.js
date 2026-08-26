@@ -98,6 +98,16 @@ router.post('/', protect, async (req, res) => {
       }
     }
 
+    // Auto-fill costPrice from product if not provided
+    if (items?.length > 0) {
+      for (const item of items) {
+        if (item.product && !item.costPrice) {
+          const prod = await Product.findById(item.product);
+          if (prod) item.costPrice = prod.costPrice || 0;
+        }
+      }
+    }
+
     const sale = await Sale.create({
       saleNumber: 'SAL-' + Date.now().toString(36).toUpperCase(),
       customer: customer?._id,

@@ -41,6 +41,7 @@ app.use('/api/stock', require('../server/routes/stock'));
 app.use('/api/customers', require('../server/routes/customers'));
 app.use('/api/purchases', require('../server/routes/purchases'));
 app.use('/api/sales', require('../server/routes/sales'));
+app.use('/api/profitloss', require('../server/routes/profitloss'));
 
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'Server running on Vercel' });

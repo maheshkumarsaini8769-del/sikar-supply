@@ -10,6 +10,7 @@ export default function Dashboard() {
   const [stockStats, setStockStats] = useState(null);
   const [saleStats, setSaleStats] = useState(null);
   const [purchaseStats, setPurchaseStats] = useState(null);
+  const [plReport, setPlReport] = useState(null);
   const [period, setPeriod] = useState('all');
   const [loading, setLoading] = useState(true);
 
@@ -21,12 +22,14 @@ export default function Dashboard() {
       api.get('/stock/stats'),
       api.get('/sales/stats', { params: { period } }),
       api.get('/purchases/stats', { params: { period } }),
-    ]).then(([orders, analyticsRes, stockRes, salesRes, purchaseRes]) => {
+      api.get('/profitloss', { params: { period } }),
+    ]).then(([orders, analyticsRes, stockRes, salesRes, purchaseRes, plRes]) => {
       setOrderStats(orders.data.stats);
       setAnalytics(analyticsRes.data.stats);
       setStockStats(stockRes.data.stats);
       setSaleStats(salesRes.data.stats);
       setPurchaseStats(purchaseRes.data.stats);
+      setPlReport(plRes.data.report);
     }).catch(console.error).finally(() => setLoading(false));
   };
 
@@ -132,6 +135,23 @@ export default function Dashboard() {
             { label: 'Purchases', value: purchaseStats.totalPurchases || 0, color: '#f59e0b' },
             { label: 'Total Spent', value: `₹${(purchaseStats.totalAmount || 0).toLocaleString()}`, color: '#ef4444' },
             { label: 'Pending Payment', value: `₹${(purchaseStats.pendingAmount || 0).toLocaleString()}`, color: '#ff6b6b' },
+          ].map((card, i) => (
+            <div key={i} className="adm-stat-card" style={{ borderTopColor: card.color }}>
+              <span className="adm-stat-label">{card.label}</span>
+              <span className="adm-stat-value">{card.value}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Profit Summary */}
+      {plReport && (
+        <div className="adm-stat-cards">
+          {[
+            { label: 'Revenue', value: `₹${(plReport.summary.totalRevenue || 0).toLocaleString()}`, color: '#25d366' },
+            { label: 'Cost', value: `₹${(plReport.summary.totalCost || 0).toLocaleString()}`, color: '#ef4444' },
+            { label: 'Gross Profit', value: `₹${(plReport.summary.grossProfit || 0).toLocaleString()}`, color: plReport.summary.grossProfit >= 0 ? '#25d366' : '#ef4444' },
+            { label: 'Margin', value: `${plReport.summary.profitMargin || 0}%`, color: plReport.summary.profitMargin >= 20 ? '#25d366' : '#f59e0b' },
           ].map((card, i) => (
             <div key={i} className="adm-stat-card" style={{ borderTopColor: card.color }}>
               <span className="adm-stat-label">{card.label}</span>
