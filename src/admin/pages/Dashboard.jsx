@@ -16,13 +16,14 @@ export default function Dashboard() {
 
   const fetchAll = () => {
     setLoading(true);
+    const p = { params: { period } };
     Promise.all([
-      api.get('/orders/stats'),
-      api.get('/analytics/stats', { params: { period } }),
+      api.get('/orders/stats', p),
+      api.get('/analytics/stats', p),
       api.get('/stock/stats'),
-      api.get('/sales/stats', { params: { period } }),
-      api.get('/purchases/stats', { params: { period } }),
-      api.get('/profitloss', { params: { period } }),
+      api.get('/sales/stats', p),
+      api.get('/purchases/stats', p),
+      api.get('/profitloss', p),
     ]).then(([orders, analyticsRes, stockRes, salesRes, purchaseRes, plRes]) => {
       setOrderStats(orders.data.stats);
       setAnalytics(analyticsRes.data.stats);
