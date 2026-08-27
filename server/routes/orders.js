@@ -55,15 +55,28 @@ router.get('/', protect, async (req, res) => {
 
 router.get('/stats', protect, async (req, res) => {
   try {
-    const totalOrders = await Order.countDocuments();
-    const pending = await Order.countDocuments({ status: 'pending' });
-    const confirmed = await Order.countDocuments({ status: 'confirmed' });
-    const processing = await Order.countDocuments({ status: 'processing' });
-    const completed = await Order.countDocuments({ status: 'completed' });
-    const cancelled = await Order.countDocuments({ status: 'cancelled' });
+    const { period } = req.query;
+    let dateFilter = {};
+    if (period === 'today') {
+      const start = new Date(); start.setHours(0, 0, 0, 0);
+      dateFilter = { createdAt: { $gte: start } };
+    } else if (period === 'week') {
+      const start = new Date(); start.setDate(start.getDate() - 7);
+      dateFilter = { createdAt: { $gte: start } };
+    } else if (period === 'month') {
+      const start = new Date(); start.setMonth(start.getMonth() - 1);
+      dateFilter = { createdAt: { $gte: start } };
+    }
+
+    const totalOrders = await Order.countDocuments(dateFilter);
+    const pending = await Order.countDocuments({ ...dateFilter, status: 'pending' });
+    const confirmed = await Order.countDocuments({ ...dateFilter, status: 'confirmed' });
+    const processing = await Order.countDocuments({ ...dateFilter, status: 'processing' });
+    const completed = await Order.countDocuments({ ...dateFilter, status: 'completed' });
+    const cancelled = await Order.countDocuments({ ...dateFilter, status: 'cancelled' });
 
     const salesData = await Order.aggregate([
-      { $match: { status: { $ne: 'cancelled' } } },
+      { $match: { ...dateFilter, status: { $ne: 'cancelled' } } },
       { $group: { _id: null, totalSales: { $sum: '$total' } } },
     ]);
     const totalSales = salesData.length > 0 ? salesData[0].totalSales : 0;
@@ -71,6 +84,7 @@ router.get('/stats', protect, async (req, res) => {
     const recentOrders = await Order.find().sort({ createdAt: -1 }).limit(5);
 
     const monthlyOrders = await Order.aggregate([
+      { $match: dateFilter },
       { $group: { _id: { $dateToString: { format: '%Y-%m', date: '$createdAt' } }, count: { $sum: 1 }, sales: { $sum: '$total' } } },
       { $sort: { _id: 1 } },
       { $limit: 12 },
