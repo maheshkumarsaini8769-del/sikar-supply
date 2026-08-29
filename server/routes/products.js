@@ -120,11 +120,9 @@ router.put('/:id', protect, upload.array('images', 10), async (req, res) => {
 
 router.delete('/:id', protect, async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findByIdAndDelete(req.params.id);
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
-    product.active = false;
-    await product.save();
-    res.json({ success: true, message: 'Product deactivated' });
+    res.json({ success: true, message: 'Product deleted permanently' });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -168,16 +166,6 @@ router.post('/:id/duplicate', protect, async (req, res) => {
     dup.featured = false;
     const product = await Product.create(dup);
     res.status(201).json({ success: true, product });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
-
-router.delete('/:id', protect, async (req, res) => {
-  try {
-    const product = await Product.findByIdAndDelete(req.params.id);
-    if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
-    res.json({ success: true, message: 'Product deleted' });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
