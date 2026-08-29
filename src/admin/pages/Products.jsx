@@ -178,8 +178,6 @@ export default function Products() {
                   )}
                   <div className="adm-form-group"><label>SKU</label><input type="text" value={form.sku} onChange={e => setForm({...form, sku: e.target.value})} /></div>
                   <div className="adm-form-group"><label>Unit</label><select value={form.unit} onChange={e => setForm({...form, unit: e.target.value})}><option value="sqft">Sq Ft</option><option value="box">Box</option><option value="piece">Piece</option><option value="meter">Meter</option><option value="kg">Kg</option></select></div>
-                  <div className="adm-form-group"><label>Stock</label><select value={form.stockStatus} onChange={e => setForm({...form, stockStatus: e.target.value})}>{STATUSES.map(s => <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>)}</select></div>
-                  <div className="adm-form-group"><label>Qty</label><input type="number" value={form.stockQuantity} onChange={e => setForm({...form, stockQuantity: e.target.value})} /></div>
                   <div className="adm-form-group"><label>Low Stock Alert</label><input type="number" value={form.lowStockThreshold} onChange={e => setForm({...form, lowStockThreshold: e.target.value})} /></div>
                   <div className="adm-form-group"><label>Order</label><input type="number" value={form.displayOrder} onChange={e => setForm({...form, displayOrder: e.target.value})} /></div>
                 </div>

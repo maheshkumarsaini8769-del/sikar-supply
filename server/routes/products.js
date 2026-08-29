@@ -89,10 +89,10 @@ router.put('/:id', protect, upload.array('images', 10), async (req, res) => {
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
 
     const updateData = { ...req.body };
+    delete updateData.stockQuantity;
     if (req.body.price !== undefined) updateData.price = Number(req.body.price);
     if (req.body.salePrice !== undefined) updateData.salePrice = Number(req.body.salePrice);
     if (req.body.costPrice !== undefined) updateData.costPrice = Number(req.body.costPrice);
-    if (req.body.stockQuantity !== undefined) updateData.stockQuantity = Number(req.body.stockQuantity);
     if (req.body.lowStockThreshold !== undefined) updateData.lowStockThreshold = Number(req.body.lowStockThreshold);
     if (req.body.unit !== undefined) updateData.unit = req.body.unit;
     if (req.body.displayOrder !== undefined) updateData.displayOrder = Number(req.body.displayOrder);
