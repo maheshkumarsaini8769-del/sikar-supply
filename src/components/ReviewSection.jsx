@@ -73,7 +73,7 @@ export default function ReviewSection() {
 
   const renderCard = (review, i, isModal = false) => (
     <div className="review-card" key={isModal ? review._id || i : i}>
-      <div className="review-header">
+      <div className="review-card-header">
         {review.image ? (
           <img src={review.image} alt={review.name} style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover' }} />
         ) : (
