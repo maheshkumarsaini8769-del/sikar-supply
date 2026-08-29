@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
 import { UPLOAD_URL } from '../config';
+import { resizeImages } from '../utils/resize';
 
 export default function HeroSlides() {
   const [settings, setSettings] = useState(null);
@@ -12,7 +13,13 @@ export default function HeroSlides() {
 
   const handleUpload = async (e) => {
     const files = Array.from(e.target.files); setUploading(true);
-    try { const fd = new FormData(); files.forEach(f => fd.append('slides', f)); await api.put('/settings/hero-slides', fd, { headers: { 'Content-Type': 'multipart/form-data' } }); fetchData(); } catch { alert('Failed'); } finally { setUploading(false); }
+    try {
+      const resized = await resizeImages(files, 1920, 1080, 0.85);
+      const fd = new FormData();
+      resized.forEach(f => fd.append('slides', f));
+      await api.put('/settings/hero-slides', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+      fetchData();
+    } catch { alert('Failed'); } finally { setUploading(false); }
   };
 
   const handleDelete = async (i) => { if (!confirm('Delete?')) return; try { await api.delete(`/settings/hero-slides/${i}`); fetchData(); } catch { alert('Failed'); } };

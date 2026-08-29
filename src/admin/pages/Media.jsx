@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
 import { UPLOAD_URL } from '../config';
+import { resizeImages } from '../utils/resize';
 
 export default function Media() {
   const [media, setMedia] = useState([]);
@@ -17,11 +18,12 @@ export default function Media() {
   useEffect(() => { fetchData(); }, [section]);
 
   const handleUpload = async (e) => {
-    const files = Array.from(e.target.files);
+    const files = e.target.files;
     if (!files.length) return;
     setUploading(true);
     try {
-      for (const f of files) {
+      const resized = await resizeImages(files);
+      for (const f of resized) {
         const fd = new FormData();
         fd.append('file', f);
         fd.append('section', section === 'all' ? 'general' : section);

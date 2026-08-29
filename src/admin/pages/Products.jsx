@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
 import { UPLOAD_URL } from '../config';
+import { resizeImages } from '../utils/resize';
 
 const STATUSES = ['in_stock', 'low_stock', 'out_of_stock'];
 const SORT_OPTIONS = [
@@ -188,7 +189,7 @@ export default function Products() {
                 </div>
                 <div className="adm-form-group">
                   <label>Images</label>
-                  <input type="file" multiple accept="image/*" onChange={e => setImages([...e.target.files])} />
+                  <input type="file" multiple accept="image/*" onChange={async e => { const resized = await resizeImages(e.target.files); setImages(resized); }} />
                   {editing?.images?.length > 0 && (
                     <div className="adm-image-preview-grid">
                       {editing.images.map((img, i) => (

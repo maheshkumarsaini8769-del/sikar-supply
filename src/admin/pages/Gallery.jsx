@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
 import { UPLOAD_URL } from '../config';
+import { resizeImages } from '../utils/resize';
 
 export default function Gallery() {
   const [gallery, setGallery] = useState([]);
@@ -13,7 +14,11 @@ export default function Gallery() {
 
   const handleUpload = async (e) => {
     const files = Array.from(e.target.files); setUploading(true);
-    try { for (const f of files) { const fd = new FormData(); fd.append('image', f); fd.append('title', form.title); fd.append('category', form.category); await api.post('/gallery', fd, { headers: { 'Content-Type': 'multipart/form-data' } }); } setForm({ title: '', category: '' }); fetchData(); } catch { alert('Failed'); } finally { setUploading(false); }
+    try {
+      const resized = await resizeImages(files);
+      for (const f of resized) { const fd = new FormData(); fd.append('image', f); fd.append('title', form.title); fd.append('category', form.category); await api.post('/gallery', fd, { headers: { 'Content-Type': 'multipart/form-data' } }); }
+      setForm({ title: '', category: '' }); fetchData();
+    } catch { alert('Failed'); } finally { setUploading(false); }
   };
 
   const handleDelete = async (id) => { if (!confirm('Delete?')) return; try { await api.delete(`/gallery/${id}`); fetchData(); } catch { alert('Failed'); } };
