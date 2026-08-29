@@ -70,8 +70,12 @@ export default function Products() {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Deactivate this product?')) return;
+    if (!confirm('Delete this product permanently?')) return;
     try { await api.delete(`/products/${id}`); fetchData(); } catch { alert('Failed'); }
+  };
+
+  const toggleActive = async (p) => {
+    try { await api.put(`/products/${p._id}`, { active: !p.active }); fetchData(); } catch { alert('Failed'); }
   };
 
   const shareProduct = (p) => {
@@ -137,7 +141,8 @@ export default function Products() {
                       <button className="adm-btn adm-btn-sm" onClick={() => openEdit(p)}>Edit</button>
                       <button className="adm-btn adm-btn-sm" onClick={() => shareProduct(p)} style={{ background: '#25d366', color: '#fff' }}>📲</button>
                       <button className="adm-btn adm-btn-sm" onClick={() => handleDuplicate(p._id)}>Dup</button>
-                      <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => handleDelete(p._id)}>Off</button>
+                      <button className="adm-btn adm-btn-sm" onClick={() => toggleActive(p)} style={{ background: p.active ? '#5c2d2d' : '#2d5016', color: p.active ? '#ef5350' : '#4caf50', border: 'none', fontSize: 11 }}>{p.active ? 'Off' : 'On'}</button>
+                      <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => handleDelete(p._id)} style={{ fontSize: 11 }}>🗑️ Del</button>
                     </div>
                   </td>
                 </tr>
