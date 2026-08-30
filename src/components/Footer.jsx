@@ -21,6 +21,9 @@ export default function Footer() {
               {settings?.socialLinks?.facebook && (
                 <a href={settings.socialLinks.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
               )}
+              {settings?.socialLinks?.youtube && (
+                <a href={settings.socialLinks.youtube} target="_blank" rel="noopener noreferrer">YouTube</a>
+              )}
             </div>
           </div>
 

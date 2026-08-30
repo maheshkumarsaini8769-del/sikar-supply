@@ -70,6 +70,7 @@ export default function Settings() {
               <div className="adm-form-grid">
                 <div className="adm-form-group"><label>Instagram</label><input type="url" value={settings.socialLinks?.instagram || ''} onChange={e => us('instagram', e.target.value)} /></div>
                 <div className="adm-form-group"><label>Facebook</label><input type="url" value={settings.socialLinks?.facebook || ''} onChange={e => us('facebook', e.target.value)} /></div>
+                <div className="adm-form-group"><label>YouTube</label><input type="url" value={settings.socialLinks?.youtube || ''} onChange={e => us('youtube', e.target.value)} /></div>
               </div>
             </div>
           )}
@@ -110,6 +111,7 @@ export default function Settings() {
                 <div className="adm-form-group"><label>Why Us Heading</label><input type="text" value={settings.whyUsHeading || ''} onChange={e => uf('whyUsHeading', e.target.value)} /></div>
                 <div className="adm-form-group"><label>Showroom Heading</label><input type="text" value={settings.showroomHeading || ''} onChange={e => uf('showroomHeading', e.target.value)} /></div>
                 <div className="adm-form-group"><label>Showroom Image</label><input type="file" accept="image/*" onChange={async e => { if (e.target.files[0]) { const resized = await resizeImage(e.target.files[0], 1200, 800); uf('showroomImage', resized); } }} />{settings.showroomImage && typeof settings.showroomImage === 'string' && <img src={settings.showroomImage.startsWith('data:') ? settings.showroomImage : (settings.showroomImage.startsWith('http') ? settings.showroomImage : UPLOAD_URL + settings.showroomImage)} alt="" className="adm-settings-img" />}</div>
+                <div className="adm-form-group"><label>Texture Image</label><input type="file" accept="image/*" onChange={async e => { if (e.target.files[0]) { const resized = await resizeImage(e.target.files[0], 1920, 1080); uf('textureImage', resized); } }} />{settings.textureImage && typeof settings.textureImage === 'string' && <img src={settings.textureImage.startsWith('data:') ? settings.textureImage : (settings.textureImage.startsWith('http') ? settings.textureImage : UPLOAD_URL + settings.textureImage)} alt="" className="adm-settings-img" />}</div>
                 <div className="adm-form-group adm-full-width"><label>Google Maps URL</label><input type="url" value={settings.googleMapsUrl || ''} onChange={e => uf('googleMapsUrl', e.target.value)} placeholder="https://maps.google.com/..." /></div>
               </div>
             </div>

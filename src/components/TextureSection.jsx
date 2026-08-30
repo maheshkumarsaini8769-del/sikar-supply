@@ -1,9 +1,17 @@
 import { useEffect, useRef } from 'react';
+import { useSite } from '../context/SiteContext';
+import { UPLOAD_URL } from '../api';
 import ScrollReveal from './ScrollReveal';
 
 export default function TextureSection() {
+  const { settings } = useSite();
   const sectionRef = useRef(null);
   const imgRef = useRef(null);
+
+  const textureImg = settings?.textureImage;
+  const imgSrc = textureImg
+    ? ((textureImg.startsWith('http') || textureImg.startsWith('data:')) ? textureImg : UPLOAD_URL + textureImg)
+    : 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&q=85&auto=format&fit=crop';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +36,7 @@ export default function TextureSection() {
     <section className="texture-section" ref={sectionRef}>
       <div className="texture-image-wrapper" ref={imgRef}>
         <img
-          src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&q=85&auto=format&fit=crop"
+          src={imgSrc}
           alt="Premium wall material texture with dramatic lighting"
           loading="lazy"
           width="1920"

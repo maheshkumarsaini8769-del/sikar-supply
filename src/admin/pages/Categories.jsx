@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
+import { UPLOAD_URL } from '../config';
+import { resizeImage } from '../utils/resize';
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ name: '', description: '', displayOrder: '', active: true });
+  const [form, setForm] = useState({ name: '', description: '', displayOrder: '', active: true, image: '' });
   const [saving, setSaving] = useState(false);
 
   const fetchData = () => { setLoading(true); api.get('/categories').then(r => setCategories(r.data.categories)).catch(console.error).finally(() => setLoading(false)); };
   useEffect(() => { fetchData(); }, []);
 
-  const openAdd = () => { setEditing(null); setForm({ name: '', description: '', displayOrder: '', active: true }); setShowForm(true); };
-  const openEdit = (c) => { setEditing(c); setForm({ name: c.name, description: c.description || '', displayOrder: c.displayOrder || '', active: c.active }); setShowForm(true); };
+  const openAdd = () => { setEditing(null); setForm({ name: '', description: '', displayOrder: '', active: true, image: '' }); setShowForm(true); };
+  const openEdit = (c) => { setEditing(c); setForm({ name: c.name, description: c.description || '', displayOrder: c.displayOrder || '', active: c.active, image: c.image || '' }); setShowForm(true); };
 
   const handleSave = async (e) => {
     e.preventDefault(); setSaving(true);
@@ -49,6 +51,7 @@ export default function Categories() {
               <div className="adm-modal-body">
                 <div className="adm-form-group"><label>Name *</label><input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} required /></div>
                 <div className="adm-form-group"><label>Description</label><textarea rows="2" value={form.description} onChange={e => setForm({...form, description: e.target.value})} /></div>
+                <div className="adm-form-group"><label>Image</label><input type="file" accept="image/*" onChange={async e => { if (e.target.files[0]) { const resized = await resizeImage(e.target.files[0], 400, 300); setForm({...form, image: resized}); } }} />{form.image && typeof form.image === 'string' && <img src={form.image.startsWith('data:') ? form.image : (form.image.startsWith('http') ? form.image : UPLOAD_URL + form.image)} alt="" className="adm-settings-img" />}</div>
                 <div className="adm-form-group"><label>Order</label><input type="number" value={form.displayOrder} onChange={e => setForm({...form, displayOrder: e.target.value})} /></div>
                 <label className="adm-checkbox-label"><input type="checkbox" checked={form.active} onChange={e => setForm({...form, active: e.target.checked})} /> Active</label>
               </div>

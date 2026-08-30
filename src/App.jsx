@@ -102,22 +102,35 @@ function CustomerSite() {
       <SEO />
       <Loader />
       <Navbar onSearchProduct={handleMaterialClick} />
-      <main>
-        <Hero />
-        <Stats />
-        <Intro />
-        <MaterialStory onProductClick={handleMaterialClick} />
-        <ProductCollection activeCategory={activeCategory} />
-        <WhyStarHomeDesign />
-        <TextureSection />
-        <Showroom />
-        <GallerySection />
-        <ReviewSection />
-        <QuoteForm />
-      </main>
+      <MainContent activeCategory={activeCategory} onMaterialClick={handleMaterialClick} />
       <Footer />
       <WhatsAppButton />
     </SiteProvider>
+  );
+}
+
+function MainContent({ activeCategory, onMaterialClick }) {
+  const { settings } = useSite();
+
+  const isSectionActive = (id) => {
+    const section = settings?.homeSections?.find(s => s.id === id);
+    return section ? section.active : true;
+  };
+
+  return (
+    <main>
+      {isSectionActive('hero') && <Hero />}
+      {isSectionActive('stats') && <Stats />}
+      {isSectionActive('about') && <Intro />}
+      {isSectionActive('materials') && <MaterialStory onProductClick={onMaterialClick} />}
+      {isSectionActive('products') && <ProductCollection activeCategory={activeCategory} />}
+      {isSectionActive('whyus') && <WhyStarHomeDesign />}
+      {isSectionActive('texture') && <TextureSection />}
+      {isSectionActive('showroom') && <Showroom />}
+      {isSectionActive('gallery') && <GallerySection />}
+      {isSectionActive('reviews') && <ReviewSection />}
+      {isSectionActive('contact') && <QuoteForm />}
+    </main>
   );
 }
 
