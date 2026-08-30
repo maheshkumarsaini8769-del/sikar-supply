@@ -75,19 +75,6 @@ export default function Products() {
     try { await api.delete(`/products/${id}`); fetchData(); } catch { alert('Failed'); }
   };
 
-  const toggleActive = async (p) => {
-    try { await api.put(`/products/${p._id}`, { active: !p.active }); fetchData(); } catch { alert('Failed'); }
-  };
-
-  const shareProduct = (p) => {
-    const msg = `*🛒 STAR HOME DESIGN*\n\n📦 *${p.name}*\n💰 Price: ₹${p.salePrice || p.price || 'N/A'}/${p.unit || 'sqft'}\n📊 Stock: ${p.stockQuantity} ${p.unit || 'sqft'}\n${p.sku ? `🏷️ SKU: ${p.sku}\n` : ''}${p.description ? `\n${p.description}` : ''}\n\n_Order now!_`;
-    window.open(`https://wa.me/918239409535?text=${encodeURIComponent(msg)}`, '_blank');
-  };
-
-  const handleDuplicate = async (id) => {
-    try { await api.post(`/products/${id}/duplicate`); fetchData(); } catch { alert('Failed'); }
-  };
-
   const removeImage = async (productId, imageIndex) => {
     if (!confirm('Remove image?')) return;
     try { await api.delete(`/products/${productId}/images/${imageIndex}`); fetchData(); } catch { alert('Failed'); }
@@ -117,7 +104,7 @@ export default function Products() {
         <div className="adm-table-wrapper">
           <table className="adm-data-table">
             <thead>
-              <tr><th>Image</th><th>Name</th><th>Category</th><th>Purchase ₹</th><th>Sell ₹</th><th>Profit ₹</th><th>Margin</th><th>Stock</th><th>Status</th><th>Featured</th><th>Active</th><th>Actions</th></tr>
+              <tr><th>Image</th><th>Name</th><th>Category</th><th>Purchase ₹</th><th>Sell ₹</th><th>Profit ₹</th><th>Margin</th><th>Stock</th><th>Status</th><th>Featured</th><th>Actions</th></tr>
             </thead>
             <tbody>
               {products.map(p => (
@@ -136,14 +123,10 @@ export default function Products() {
                   <td style={{fontWeight:600, color: p.stockQuantity <= (p.lowStockThreshold || 10) ? '#ff6b6b' : '#51cf66'}}>{p.stockQuantity} {p.unit || 'sqft'}</td>
                   <td><span className={`adm-stock-badge adm-stock-${p.stockStatus}`}>{p.stockStatus.replace(/_/g, ' ')}</span></td>
                   <td>{p.featured ? '⭐' : '-'}</td>
-                  <td>{p.active ? '✅' : '❌'}</td>
                   <td>
                     <div className="adm-actions-cell">
                       <button className="adm-btn adm-btn-sm" onClick={() => openEdit(p)}>Edit</button>
-                      <button className="adm-btn adm-btn-sm" onClick={() => shareProduct(p)} style={{ background: '#25d366', color: '#fff' }}>📲</button>
-                      <button className="adm-btn adm-btn-sm" onClick={() => handleDuplicate(p._id)}>Dup</button>
-                      <button className="adm-btn adm-btn-sm" onClick={() => toggleActive(p)} style={{ background: p.active ? '#5c2d2d' : '#2d5016', color: p.active ? '#ef5350' : '#4caf50', border: 'none', fontSize: 11 }}>{p.active ? 'Off' : 'On'}</button>
-                      <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => handleDelete(p._id)} style={{ fontSize: 11 }}>🗑️ Del</button>
+                      <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => handleDelete(p._id)} style={{ fontSize: 11 }}>Del</button>
                     </div>
                   </td>
                 </tr>
