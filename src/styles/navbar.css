@@ -170,24 +170,8 @@
   display: none;
 }
 
-.navbar-quote-icon {
+.mobile-whatsapp-btn {
   display: none;
-}
-
-.navbar-quote-icon a {
-  width: 38px;
-  height: 38px;
-  background: #25d366;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  transition: transform 0.3s ease;
-}
-
-.navbar-quote-icon a:hover {
-  transform: scale(1.05);
 }
 
 /* Hamburger */
@@ -428,26 +412,32 @@
 
 @media (max-width: 1024px) {
   .navbar-links,
-  .navbar-cta {
-    display: none;
-  }
-
+  .navbar-cta,
   .navbar-actions {
     display: none;
-  }
-
-  .navbar-whatsapp-btn {
-    display: none;
-  }
-
-  .navbar-quote-icon {
-    display: flex;
   }
 
   .mobile-nav-right {
     display: flex;
     align-items: center;
     gap: 8px;
+  }
+
+  .mobile-whatsapp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: #25d366;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+  }
+
+  .mobile-whatsapp-btn:hover {
+    transform: scale(1.05);
   }
 
   .hamburger {
