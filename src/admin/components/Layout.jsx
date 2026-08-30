@@ -98,15 +98,14 @@ export default function Layout() {
             <span/><span/><span/>
           </button>
           <div className="topbar-right">
-            <button onClick={() => setSearchOpen(true)} className="adm-btn adm-btn-sm" style={{ background: '#1a1a1a', border: '1px solid #333', color: '#e5e5e5', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <span className="btn-text">Search...</span>
+            <button onClick={() => setSearchOpen(true)} className="topbar-icon-btn" title="Search">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             </button>
-            <a href="/" target="_blank" className="adm-btn adm-btn-sm" style={{ textDecoration: 'none', borderColor: '#25d366', color: '#25d366', display: 'flex', alignItems: 'center', gap: 6 }}>
-              🌐 <span className="btn-text">Visit Website</span>
+            <a href="/" target="_blank" className="topbar-icon-btn topbar-visit-btn" title="Visit Website">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             </a>
             <span className="admin-name">{user?.name}</span>
-            <button onClick={handleLogout} className="topbar-logout">Logout</button>
+            <button onClick={handleLogout} className="topbar-logout" title="Logout">Logout</button>
           </div>
         </header>
         <div className="admin-content">

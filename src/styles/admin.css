@@ -200,10 +200,36 @@
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .admin-name { font-size: 13px; color: #888; }
+
+.topbar-icon-btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #999;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.topbar-icon-btn:hover {
+  color: #e5e5e5;
+  border-color: #555;
+}
+.topbar-visit-btn {
+  color: #25d366;
+  border-color: #25d366;
+}
+.topbar-visit-btn:hover {
+  background: rgba(37, 211, 102, 0.1);
+}
 
 .topbar-logout {
   background: none;
@@ -888,11 +914,8 @@
   .topbar { padding: 10px 12px; }
   .topbar-right { gap: 6px; }
   .admin-name { display: none; }
-  .topbar-visit { font-size: 11px; padding: 5px 8px; }
-
-  .topbar-right .adm-btn { min-width: 0; padding: 6px 8px; }
-  .topbar-right .adm-btn span.btn-text { display: none; }
-  .topbar-right a.adm-btn { min-width: 0; padding: 6px 8px; font-size: 14px; }
+  .topbar-logout { font-size: 11px; padding: 5px 8px; }
+  .topbar-icon-btn { width: 30px; height: 30px; }
 
   .adm-page-header { flex-direction: column; align-items: flex-start; gap: 8px; }
   .adm-page-title { font-size: 18px; }
