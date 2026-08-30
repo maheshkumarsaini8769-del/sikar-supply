@@ -98,12 +98,19 @@ router.post('/', protect, async (req, res) => {
       }
     }
 
-    // Auto-fill costPrice from product if not provided
+    // Auto-fill costPrice & productName from product if not provided
     if (items?.length > 0) {
       for (const item of items) {
-        if (item.product && !item.costPrice) {
+        if (item.product) {
           const prod = await Product.findById(item.product);
-          if (prod) item.costPrice = prod.costPrice || 0;
+          if (prod) {
+            if (!item.costPrice) item.costPrice = prod.costPrice || 0;
+            if (!item.productName) item.productName = prod.name || '';
+          }
+        }
+        // Auto-calculate total if not provided
+        if (!item.total) {
+          item.total = (Number(item.sellingPrice) || 0) * (Number(item.quantity) || 0);
         }
       }
     }

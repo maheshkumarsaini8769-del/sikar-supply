@@ -67,6 +67,17 @@ router.post('/', protect, async (req, res) => {
   try {
     const { invoiceNumber, supplier, supplierPhone, items, totalAmount, paidAmount, paymentMethod, paymentStatus, note, purchaseDate, addToInventory } = req.body;
 
+    // Auto-fill costPrice & calculate total for each item
+    if (items?.length > 0) {
+      for (const item of items) {
+        if (item.product && !item.costPrice) {
+          const prod = await Product.findById(item.product);
+          if (prod) item.costPrice = prod.costPrice || 0;
+        }
+        item.total = (Number(item.costPrice) || 0) * (Number(item.quantity) || 0);
+      }
+    }
+
     const purchase = await Purchase.create({
       invoiceNumber, supplier, supplierPhone,
       items: items || [],

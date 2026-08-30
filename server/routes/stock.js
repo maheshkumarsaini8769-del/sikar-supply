@@ -46,6 +46,7 @@ router.post('/add', protect, async (req, res) => {
 
     // Auto-create Purchase record
     if (costPrice > 0) {
+      const itemTotal = Number(quantity) * Number(costPrice);
       await Purchase.create({
         invoiceNumber: 'INV-' + Date.now().toString(36).toUpperCase(),
         supplier: supplier || 'Direct Stock Add',
@@ -54,10 +55,11 @@ router.post('/add', protect, async (req, res) => {
           productName: product.name,
           quantity: Number(quantity),
           costPrice: Number(costPrice),
+          total: itemTotal,
           unit: product.unit || 'sqft',
         }],
-        totalAmount: Number(quantity) * Number(costPrice),
-        paidAmount: Number(quantity) * Number(costPrice),
+        totalAmount: itemTotal,
+        paidAmount: itemTotal,
         paymentMethod: 'cash',
         paymentStatus: 'paid',
         purchaseDate: new Date(),
