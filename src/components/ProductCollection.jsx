@@ -103,9 +103,9 @@ export default function ProductCollection({ activeCategory }) {
                       {product.salePrice > 0 ? (
                         <>
                           <span style={{textDecoration:'line-through',opacity:0.5,marginRight:'6px',fontSize:'12px'}}>₹{product.price}</span>
-                          <span style={{color:'var(--color-accent)'}}>₹{product.salePrice}/sq.ft</span>
+                          <span style={{color:'var(--color-accent)'}}>₹{product.salePrice}/{product.unit || 'sq.ft'}</span>
                         </>
-                      ) : product.price > 0 ? `₹ ${product.price}/sq.ft` : 'GET PRICE'}
+                      ) : product.price > 0 ? `₹ ${product.price}/${product.unit || 'sq.ft'}` : 'GET PRICE'}
                     </span>
                   </div>
                   <h3 className="product-card-title">{product.name}</h3>

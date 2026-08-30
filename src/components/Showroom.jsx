@@ -61,7 +61,7 @@ export default function Showroom() {
 
               <div className="showroom-buttons">
                 <a href={`tel:${settings?.phone || '+918239409535'}`} className="btn-primary">Call Now</a>
-                <a href={`https://wa.me/${settings?.whatsapp || '918239409535'}?text=Hi%2C%20I%27m%20interested%20in%20your%20products`} target="_blank" rel="noopener noreferrer" className="btn-outline">WhatsApp</a>
+                <a href={`https://wa.me/${settings?.whatsapp || '918239409535'}?text=${encodeURIComponent(settings?.whatsappGreeting || "Hi, I'm interested in your products")}`} target="_blank" rel="noopener noreferrer" className="btn-outline">WhatsApp</a>
                 <a href={settings?.googleMapsUrl || 'https://maps.google.com/?q=Sikar+Rajasthan'} target="_blank" rel="noopener noreferrer" className="btn-outline">Get Directions</a>
               </div>
             </div>

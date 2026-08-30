@@ -109,6 +109,8 @@ export default function Settings() {
               <div className="adm-form-grid">
                 <div className="adm-form-group"><label>Why Us Heading</label><input type="text" value={settings.whyUsHeading || ''} onChange={e => uf('whyUsHeading', e.target.value)} /></div>
                 <div className="adm-form-group"><label>Showroom Heading</label><input type="text" value={settings.showroomHeading || ''} onChange={e => uf('showroomHeading', e.target.value)} /></div>
+                <div className="adm-form-group"><label>Showroom Image</label><input type="file" accept="image/*" onChange={async e => { if (e.target.files[0]) { const resized = await resizeImage(e.target.files[0], 1200, 800); uf('showroomImage', resized); } }} />{settings.showroomImage && typeof settings.showroomImage === 'string' && <img src={settings.showroomImage.startsWith('data:') ? settings.showroomImage : (settings.showroomImage.startsWith('http') ? settings.showroomImage : UPLOAD_URL + settings.showroomImage)} alt="" className="adm-settings-img" />}</div>
+                <div className="adm-form-group adm-full-width"><label>Google Maps URL</label><input type="url" value={settings.googleMapsUrl || ''} onChange={e => uf('googleMapsUrl', e.target.value)} placeholder="https://maps.google.com/..." /></div>
               </div>
             </div>
           )}

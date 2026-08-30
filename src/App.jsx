@@ -59,6 +59,24 @@ function ProtectedAdmin({ children }) {
   return user ? children : <Navigate to="/admin/login" />;
 }
 
+function SEO() {
+  const { settings } = useSite();
+  useEffect(() => {
+    if (settings?.seoTitle) document.title = settings.seoTitle;
+    if (settings?.seoDescription) {
+      let meta = document.querySelector('meta[name="description"]');
+      if (meta) meta.setAttribute('content', settings.seoDescription);
+      else { meta = document.createElement('meta'); meta.name = 'description'; meta.content = settings.seoDescription; document.head.appendChild(meta); }
+    }
+    if (settings?.seoKeywords) {
+      let meta = document.querySelector('meta[name="keywords"]');
+      if (meta) meta.setAttribute('content', settings.seoKeywords);
+      else { meta = document.createElement('meta'); meta.name = 'keywords'; meta.content = settings.seoKeywords; document.head.appendChild(meta); }
+    }
+  }, [settings]);
+  return null;
+}
+
 function CustomerSite() {
   const [activeCategory, setActiveCategory] = useState(null);
 
@@ -81,6 +99,7 @@ function CustomerSite() {
 
   return (
     <SiteProvider>
+      <SEO />
       <Loader />
       <Navbar onSearchProduct={handleMaterialClick} />
       <main>

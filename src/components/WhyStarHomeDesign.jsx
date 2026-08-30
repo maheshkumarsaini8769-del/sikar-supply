@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSite } from '../context/SiteContext';
 import ScrollReveal from './ScrollReveal';
 
 const features = [
@@ -11,6 +12,7 @@ const features = [
 ];
 
 export default function WhyStarHomeDesign() {
+  const { settings } = useSite();
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef(null);
   const featureRefs = useRef([]);
@@ -42,9 +44,7 @@ export default function WhyStarHomeDesign() {
           <div className="why-left">
             <ScrollReveal>
               <h2 className="section-heading">
-                <span>Why</span>
-                <span>Star Home</span>
-                <span>Design</span>
+                <span>{settings?.whyUsHeading || 'Why Star Home Design'}</span>
               </h2>
               <p>
                 We don't just supply materials — we craft experiences.

@@ -83,7 +83,6 @@ export default function ReviewSection() {
           <h4 className="review-name">{review.name}</h4>
           <div className="review-stars">{renderStars(review.rating)}</div>
         </div>
-        {!isModal &&                    <button className="review-delete" onClick={() => deleteReview(review._id)} title="Delete review" aria-label={`Delete review by ${review.name}`}>×</button>}
       </div>
       <p className="review-text">{review.text}</p>
       <span className="review-date">

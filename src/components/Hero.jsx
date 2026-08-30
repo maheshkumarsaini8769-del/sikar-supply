@@ -52,7 +52,7 @@ export default function Hero() {
           <button className="btn-primary" onClick={scrollToProducts}>
             {settings?.heroBtnText || 'Explore Collection'}
           </button>
-          <a href={`https://wa.me/${settings?.whatsapp || '918239409535'}`} target="_blank" rel="noopener noreferrer" className="btn-outline">
+          <a href={`https://wa.me/${settings?.whatsapp || '918239409535'}?text=${encodeURIComponent(settings?.whatsappGreeting || "Hi, I'm interested in your products")}`} target="_blank" rel="noopener noreferrer" className="btn-outline">
             WhatsApp Us
           </a>
         </div>

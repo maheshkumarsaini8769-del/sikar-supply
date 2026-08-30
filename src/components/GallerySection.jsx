@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useSite } from '../context/SiteContext';
 import { UPLOAD_URL } from '../api';
 import ScrollReveal from './ScrollReveal';
 
-const CATEGORIES = ['all', 'interiors', 'kitchen', 'installation', 'showroom'];
 const MOBILE_PREVIEW = 4;
 
 export default function GallerySection() {
@@ -11,6 +10,11 @@ export default function GallerySection() {
   const [filter, setFilter] = useState('all');
   const [lightbox, setLightbox] = useState(null);
   const [showAll, setShowAll] = useState(false);
+
+  const galleryCategories = useMemo(() => {
+    const cats = new Set(gallery.map(g => g.category).filter(Boolean));
+    return ['all', ...Array.from(cats)];
+  }, [gallery]);
 
   const filtered = filter === 'all' ? gallery : gallery.filter(g => g.category === filter);
   const mobilePreview = filtered.slice(0, MOBILE_PREVIEW);
@@ -45,7 +49,7 @@ export default function GallerySection() {
 
         <ScrollReveal delay={100}>
           <div className="gallery-filters">
-            {CATEGORIES.map(c => (
+            {galleryCategories.map(c => (
               <button
                 key={c}
                 className={`filter-btn ${filter === c ? 'active' : ''}`}

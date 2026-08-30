@@ -100,27 +100,43 @@ export default function ProductModal({ product, onClose }) {
     const estimate = sqftValue > 0 ? `Total Estimate: ₹ ${totalEstimate.toLocaleString()}` : '';
     const couponLine = appliedCoupon && couponDiscount > 0 ? `Coupon (${appliedCoupon.code}): -₹${couponDiscount}` : '';
     const finalLine = appliedCoupon && couponDiscount > 0 ? `Final Total: ₹ ${finalTotal.toLocaleString()}` : '';
-    const lines = [
-      `Hello Star Home Design,`,
-      ``,
-      `I am interested in:`,
-      ``,
-      `Product: ${product.name}`,
-      `Category: ${product.category?.name || ''}`,
-      `Price: ₹ ${price}/${product.unit || 'sqft'}`,
-      area,
-      estimate,
-      couponLine,
-      finalLine,
-      ``,
-      `--- My Details ---`,
-      `Name: ${form.name.trim()}`,
-      `Phone: ${form.phone.trim()}`,
-      form.address.trim() ? `Address: ${form.address.trim()}` : '',
-      ``,
-      `Please share more details and availability.`,
-    ].filter(Boolean);
-    const msg = lines.join('\n');
+
+    let msg;
+    if (settings?.whatsappProductMessage) {
+      msg = settings.whatsappProductMessage
+        .replace(/{product}/g, product.name || '')
+        .replace(/{category}/g, product.category?.name || '')
+        .replace(/{price}/g, `₹ ${price}/${product.unit || 'sqft'}`)
+        .replace(/{area}/g, area)
+        .replace(/{estimate}/g, estimate)
+        .replace(/{coupon}/g, couponLine)
+        .replace(/{final}/g, finalLine)
+        .replace(/{name}/g, form.name.trim())
+        .replace(/{phone}/g, form.phone.trim())
+        .replace(/{address}/g, form.address.trim());
+    } else {
+      const lines = [
+        settings?.whatsappGreeting || 'Hello Star Home Design,',
+        ``,
+        `I am interested in:`,
+        ``,
+        `Product: ${product.name}`,
+        `Category: ${product.category?.name || ''}`,
+        `Price: ₹ ${price}/${product.unit || 'sqft'}`,
+        area,
+        estimate,
+        couponLine,
+        finalLine,
+        ``,
+        `--- My Details ---`,
+        `Name: ${form.name.trim()}`,
+        `Phone: ${form.phone.trim()}`,
+        form.address.trim() ? `Address: ${form.address.trim()}` : '',
+        ``,
+        `Please share more details and availability.`,
+      ].filter(Boolean);
+      msg = lines.join('\n');
+    }
 
     // Save order to panel
     try {

@@ -22,7 +22,7 @@ export default function Products() {
   const [sort, setSort] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ name: '', category: '', description: '', price: '', salePrice: '', costPrice: '', sku: '', unit: 'sqft', stockStatus: 'in_stock', stockQuantity: '', lowStockThreshold: '10', featured: false, active: true, displayOrder: '' });
+  const [form, setForm] = useState({ name: '', category: '', description: '', shortDescription: '', price: '', salePrice: '', costPrice: '', sku: '', unit: 'sqft', stockStatus: 'in_stock', stockQuantity: '', lowStockThreshold: '10', featured: false, active: true, displayOrder: '', specs: [] });
   const [images, setImages] = useState([]);
   const [saving, setSaving] = useState(false);
 
@@ -41,14 +41,14 @@ export default function Products() {
 
   const openAdd = () => {
     setEditing(null);
-    setForm({ name: '', category: categories[0]?._id || '', description: '', price: '', salePrice: '', costPrice: '', sku: '', unit: 'sqft', stockStatus: 'in_stock', stockQuantity: '', lowStockThreshold: '10', featured: false, active: true, displayOrder: '' });
+    setForm({ name: '', category: categories[0]?._id || '', description: '', shortDescription: '', price: '', salePrice: '', costPrice: '', sku: '', unit: 'sqft', stockStatus: 'in_stock', stockQuantity: '', lowStockThreshold: '10', featured: false, active: true, displayOrder: '', specs: [] });
     setImages([]);
     setShowForm(true);
   };
 
   const openEdit = (p) => {
     setEditing(p);
-    setForm({ name: p.name, category: p.category?._id || '', description: p.description || '', price: p.price || '', salePrice: p.salePrice || '', costPrice: p.costPrice || '', sku: p.sku || '', unit: p.unit || 'sqft', stockStatus: p.stockStatus, stockQuantity: p.stockQuantity || '', lowStockThreshold: p.lowStockThreshold || '10', featured: p.featured, active: p.active, displayOrder: p.displayOrder || '' });
+    setForm({ name: p.name, category: p.category?._id || '', description: p.description || '', shortDescription: p.shortDescription || '', price: p.price || '', salePrice: p.salePrice || '', costPrice: p.costPrice || '', sku: p.sku || '', unit: p.unit || 'sqft', stockStatus: p.stockStatus, stockQuantity: p.stockQuantity || '', lowStockThreshold: p.lowStockThreshold || '10', featured: p.featured, active: p.active, displayOrder: p.displayOrder || '', specs: p.specs || [] });
     setImages([]);
     setShowForm(true);
   };
@@ -58,7 +58,10 @@ export default function Products() {
     setSaving(true);
     try {
       const fd = new FormData();
-      Object.keys(form).forEach(k => fd.append(k, form[k]));
+      Object.keys(form).forEach(k => {
+        if (k === 'specs') fd.append(k, JSON.stringify(form[k]));
+        else fd.append(k, form[k]);
+      });
       images.forEach(f => fd.append('images', f));
       if (editing) {
         await api.put(`/products/${editing._id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
@@ -166,6 +169,18 @@ export default function Products() {
                   <div className="adm-form-group"><label>Order</label><input type="number" value={form.displayOrder} onChange={e => setForm({...form, displayOrder: e.target.value})} /></div>
                 </div>
                 <div className="adm-form-group"><label>Description</label><textarea rows="3" value={form.description} onChange={e => setForm({...form, description: e.target.value})} /></div>
+                <div className="adm-form-group"><label>Short Description</label><input type="text" value={form.shortDescription} onChange={e => setForm({...form, shortDescription: e.target.value})} placeholder="Brief one-liner for product cards" /></div>
+                <div className="adm-form-group adm-full-width">
+                  <label>Specifications (Key-Value)</label>
+                  {form.specs.map((spec, i) => (
+                    <div key={i} style={{ display: 'flex', gap: 6, marginBottom: 6 }}>
+                      <input type="text" placeholder="Label (e.g. Material)" value={spec.label} onChange={e => { const s = [...form.specs]; s[i] = { ...s[i], label: e.target.value }; setForm({...form, specs: s}); }} style={{ flex: 1, padding: '6px 10px', background: '#1a1a1a', border: '1px solid #333', borderRadius: 6, color: '#fff', fontSize: 12 }} />
+                      <input type="text" placeholder="Value (e.g. Marble)" value={spec.value} onChange={e => { const s = [...form.specs]; s[i] = { ...s[i], value: e.target.value }; setForm({...form, specs: s}); }} style={{ flex: 1, padding: '6px 10px', background: '#1a1a1a', border: '1px solid #333', borderRadius: 6, color: '#fff', fontSize: 12 }} />
+                      <button type="button" onClick={() => setForm({...form, specs: form.specs.filter((_, j) => j !== i)})} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: 16 }}>×</button>
+                    </div>
+                  ))}
+                  <button type="button" onClick={() => setForm({...form, specs: [...form.specs, { label: '', value: '' }]})} className="adm-btn adm-btn-sm" style={{ marginTop: 4 }}>+ Add Spec</button>
+                </div>
                 <div className="adm-form-row">
                   <label className="adm-checkbox-label"><input type="checkbox" checked={form.featured} onChange={e => setForm({...form, featured: e.target.checked})} /> Featured</label>
                   <label className="adm-checkbox-label"><input type="checkbox" checked={form.active} onChange={e => setForm({...form, active: e.target.checked})} /> Active</label>

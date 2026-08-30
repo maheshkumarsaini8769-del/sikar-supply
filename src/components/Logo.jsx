@@ -1,8 +1,15 @@
 import { useSite } from '../context/SiteContext';
+import { UPLOAD_URL } from '../api';
 
 export default function Logo({ className = '' }) {
   const { settings, loading } = useSite();
   const logoImg = settings?.logo && typeof settings.logo === 'string' && settings.logo.trim();
+
+  const getLogoSrc = () => {
+    if (!logoImg) return '';
+    if (logoImg.startsWith('http') || logoImg.startsWith('data:')) return logoImg;
+    return UPLOAD_URL + logoImg;
+  };
 
   if (loading) {
     return (
@@ -15,7 +22,7 @@ export default function Logo({ className = '' }) {
   return (
     <a href="#" className={`logo-link ${className}`} onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
       {logoImg ? (
-        <img src={logoImg} alt={settings?.siteName || 'Star Home Design'} style={{ height: 40, width: 'auto', borderRadius: 4 }} />
+        <img src={getLogoSrc()} alt={settings?.siteName || 'Star Home Design'} style={{ height: 40, width: 'auto', borderRadius: 4 }} />
       ) : (
         <>
           <div className="logo-mark">
@@ -28,8 +35,8 @@ export default function Logo({ className = '' }) {
             </svg>
           </div>
           <div className="logo-text">
-            <span className="logo-name">STAR HOME DESIGN</span>
-            <span className="logo-tagline">Premium Interior Materials</span>
+            <span className="logo-name">{settings?.siteName || 'STAR HOME DESIGN'}</span>
+            {settings?.siteTagline && <span className="logo-tagline">{settings.siteTagline}</span>}
           </div>
         </>
       )}

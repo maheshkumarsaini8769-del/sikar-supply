@@ -22,7 +22,7 @@ export function SiteProvider({ children }) {
       ]);
       if (setRes.success) setSettings(setRes.settings);
       if (prodRes.success) setProducts(prodRes.products);
-      if (catRes.success) setCategories(catRes.categories);
+      if (catRes.success) setCategories(catRes.categories.filter(c => c.active));
       if (galRes.success) setGallery(galRes.gallery);
       if (revRes.success) setReviews(revRes.reviews);
     } catch (e) {
