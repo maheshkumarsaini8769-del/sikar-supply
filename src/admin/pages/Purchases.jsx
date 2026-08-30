@@ -6,6 +6,7 @@ export default function Purchases() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [editing, setEditing] = useState(null);
   const [form, setForm] = useState({
     invoiceNumber: '', supplier: '', supplierPhone: '',
     items: [{ product: '', productName: '', quantity: '', costPrice: '', unit: 'sqft' }],
@@ -64,7 +65,11 @@ export default function Purchases() {
         paidAmount: Number(form.paidAmount) || Number(form.totalAmount),
         paymentStatus: Number(form.paidAmount) >= Number(form.totalAmount) ? 'paid' : Number(form.paidAmount) > 0 ? 'partial' : 'pending',
       };
-      await api.post('/purchases', payload);
+      if (editing) {
+        await api.put(`/purchases/${editing._id}`, payload);
+      } else {
+        await api.post('/purchases', payload);
+      }
       setShowForm(false);
       fetchPurchases();
     } catch { alert('Failed'); }
@@ -75,6 +80,30 @@ export default function Purchases() {
     try { await api.delete(`/purchases/${id}`); fetchPurchases(); } catch { alert('Failed'); }
   };
 
+  const handleEdit = (p) => {
+    setEditing(p);
+    setForm({
+      invoiceNumber: p.invoiceNumber || '',
+      supplier: p.supplier || '',
+      supplierPhone: p.supplierPhone || '',
+      items: p.items?.map(it => ({
+        product: it.product?._id || it.product || '',
+        productName: it.productName || '',
+        quantity: it.quantity || '',
+        costPrice: it.costPrice || '',
+        unit: it.unit || 'sqft',
+      })) || [{ product: '', productName: '', quantity: '', costPrice: '', unit: 'sqft' }],
+      totalAmount: p.totalAmount || '',
+      paidAmount: p.paidAmount || '',
+      paymentMethod: p.paymentMethod || 'cash',
+      paymentStatus: p.paymentStatus || 'paid',
+      note: p.note || '',
+      purchaseDate: p.purchaseDate ? new Date(p.purchaseDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+      addToInventory: p.addToInventory !== false,
+    });
+    setShowForm(true);
+  };
+
   const paidTotal = purchases.filter(p => p.paymentStatus === 'paid').reduce((s, p) => s + p.totalAmount, 0);
   const pendingTotal = purchases.filter(p => p.paymentStatus !== 'paid').reduce((s, p) => s + (p.totalAmount - p.paidAmount), 0);
 
@@ -83,6 +112,7 @@ export default function Purchases() {
       <div className="adm-page-header">
         <h1 className="adm-page-title">Purchase History</h1>
         <button className="adm-btn adm-btn-primary" onClick={() => {
+          setEditing(null);
           setForm({ invoiceNumber: '', supplier: '', supplierPhone: '', items: [{ product: '', productName: '', quantity: '', costPrice: '', unit: 'sqft' }], totalAmount: '', paidAmount: '', paymentMethod: 'cash', paymentStatus: 'paid', note: '', purchaseDate: new Date().toISOString().split('T')[0], addToInventory: true });
           setShowForm(true);
         }}>+ New Purchase</button>
@@ -133,6 +163,7 @@ export default function Purchases() {
                   <td><span className={`adm-stock-badge adm-stock-${p.paymentStatus === 'paid' ? 'in_stock' : p.paymentStatus === 'pending' ? 'out_of_stock' : 'low_stock'}`}>{p.paymentStatus}</span></td>
                   <td>
                     <div className="adm-actions-cell">
+                      <button className="adm-btn adm-btn-sm" onClick={() => handleEdit(p)} style={{ marginRight: 4 }}>Edit</button>
                       <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => handleDelete(p._id)}>Del</button>
                     </div>
                   </td>
@@ -148,7 +179,7 @@ export default function Purchases() {
         <div className="adm-modal-overlay" onClick={() => setShowForm(false)}>
           <div className="adm-modal adm-modal-lg" onClick={e => e.stopPropagation()}>
             <div className="adm-modal-header">
-              <h2>New Purchase</h2>
+              <h2>{editing ? 'Edit Purchase' : 'New Purchase'}</h2>
               <button className="adm-modal-close" onClick={() => setShowForm(false)}>&times;</button>
             </div>
             <form onSubmit={handleSave}>
@@ -201,7 +232,7 @@ export default function Purchases() {
               </div>
               <div className="adm-modal-footer">
                 <button type="button" className="adm-btn" onClick={() => setShowForm(false)}>Cancel</button>
-                <button type="submit" className="adm-btn adm-btn-primary">Save Purchase</button>
+                <button type="submit" className="adm-btn adm-btn-primary">{editing ? 'Update Purchase' : 'Save Purchase'}</button>
               </div>
             </form>
           </div>
