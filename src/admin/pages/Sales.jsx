@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import api from '../api';
 import ProductSearch from '../components/ProductSearch';
 
-const WA_NUMBER = '918239409535';
-
 export default function Sales({ saleTypeFilter }) {
   const [sales, setSales] = useState([]);
   const [products, setProducts] = useState([]);
+  const [settings, setSettings] = useState({});
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(null);
   const [filter, setFilter] = useState({ saleType: saleTypeFilter || '', source: '', product: '' });
@@ -32,6 +31,7 @@ export default function Sales({ saleTypeFilter }) {
 
   useEffect(() => {
     api.get('/products', { params: { limit: 200, active: 'true' } }).then(r => setProducts(r.data.products)).catch(() => {});
+    api.get('/settings').then(r => setSettings(r.data.settings || {})).catch(() => {});
   }, []);
 
   useEffect(() => { fetchSales(); }, [filter]);
@@ -54,7 +54,7 @@ export default function Sales({ saleTypeFilter }) {
       (quickForm.customerPhone ? `📞 *Phone:* ${quickForm.customerPhone}\n` : '') +
       `\n_Please confirm this order. Thank you!_`;
 
-    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+    window.open(`https://wa.me/${settings?.whatsapp || '918239409535'}?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
   const handleQuickSale = async (e, type) => {

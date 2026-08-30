@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { UPLOAD_URL } from '../api';
+import { useSite } from '../context/SiteContext';
 
 export default function ProductModal({ product, onClose }) {
+  const { settings } = useSite();
   const [activeImg, setActiveImg] = useState(0);
   const [sqft, setSqft] = useState('');
   const [saving, setSaving] = useState(false);
@@ -108,7 +110,7 @@ export default function ProductModal({ product, onClose }) {
     }
 
     // Open WhatsApp
-    window.open(`https://wa.me/918239409535?text=${encodeURIComponent(msg)}`, '_blank');
+    window.open(`https://wa.me/${settings?.whatsapp || '918239409535'}?text=${encodeURIComponent(msg)}`, '_blank');
     setSaving(false);
   };
 
