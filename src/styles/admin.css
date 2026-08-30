@@ -886,9 +886,13 @@
   .admin-content { padding: 12px; }
 
   .topbar { padding: 10px 12px; }
-  .topbar-right { gap: 8px; }
+  .topbar-right { gap: 6px; }
   .admin-name { display: none; }
   .topbar-visit { font-size: 11px; padding: 5px 8px; }
+
+  .topbar-right .adm-btn { min-width: 0; padding: 6px 8px; }
+  .topbar-right .adm-btn span.btn-text { display: none; }
+  .topbar-right a.adm-btn { min-width: 0; padding: 6px 8px; font-size: 14px; }
 
   .adm-page-header { flex-direction: column; align-items: flex-start; gap: 8px; }
   .adm-page-title { font-size: 18px; }

@@ -100,10 +100,10 @@ export default function Layout() {
           <div className="topbar-right">
             <button onClick={() => setSearchOpen(true)} className="adm-btn adm-btn-sm" style={{ background: '#1a1a1a', border: '1px solid #333', color: '#e5e5e5', display: 'flex', alignItems: 'center', gap: 6 }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              Search...
+              <span className="btn-text">Search...</span>
             </button>
-            <a href="/" target="_blank" className="adm-btn adm-btn-sm" style={{ textDecoration: 'none', borderColor: '#25d366', color: '#25d366' }}>
-              🌐 Visit Website
+            <a href="/" target="_blank" className="adm-btn adm-btn-sm" style={{ textDecoration: 'none', borderColor: '#25d366', color: '#25d366', display: 'flex', alignItems: 'center', gap: 6 }}>
+              🌐 <span className="btn-text">Visit Website</span>
             </a>
             <span className="admin-name">{user?.name}</span>
             <button onClick={handleLogout} className="topbar-logout">Logout</button>
