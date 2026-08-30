@@ -165,6 +165,7 @@
   flex: 1;
   margin-left: 240px;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .topbar {
@@ -177,6 +178,7 @@
   position: sticky;
   top: 0;
   z-index: 50;
+  overflow: hidden;
 }
 
 .hamburger-btn {
@@ -911,11 +913,43 @@
   .hamburger-btn { display: flex; }
   .admin-content { padding: 12px; }
 
-  .topbar { padding: 10px 12px; }
-  .topbar-right { gap: 6px; }
+  .topbar {
+    padding: 8px 12px;
+    gap: 8px;
+    z-index: 200;
+    background: #111;
+    min-height: 48px;
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
   .admin-name { display: none; }
-  .topbar-logout { font-size: 11px; padding: 5px 8px; }
-  .topbar-icon-btn { width: 30px; height: 30px; }
+  .topbar-logout {
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: transparent;
+    color: #999;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .topbar-logout:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+  }
+  .topbar-icon-btn {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+  .topbar-icon-btn svg {
+    width: 14px;
+    height: 14px;
+  }
 
   .adm-page-header { flex-direction: column; align-items: flex-start; gap: 8px; }
   .adm-page-title { font-size: 18px; }
@@ -949,8 +983,8 @@
   .adm-chart-card { padding: 12px; }
   .adm-recent-section { padding: 12px; }
 
-  .adm-actions-cell { flex-direction: column; }
-  .adm-actions-cell .adm-btn { width: 100%; text-align: center; }
+  .adm-actions-cell { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+  .adm-actions-cell .adm-btn { width: auto; text-align: center; flex: 1; min-width: 0; }
 
   .adm-order-total { font-size: 14px; }
 }
