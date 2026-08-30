@@ -118,13 +118,7 @@ export default function Orders() {
                           style={{ background: '#25d366', color: '#fff', fontWeight: 700 }}>
                           ✅ Complete → Sale
                         </button>
-                      )}
-                      {(order.phone || order.customerPhone) && (
-                        <button className="adm-btn adm-btn-sm" onClick={() => openWhatsApp(order)}
-                          style={{ background: '#25d366', color: '#fff' }}>
-                          📲 WA
-                        </button>
-                      )}
+                       )}
                       <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => deleteOrder(order._id)}>Del</button>
                     </div>
                   </td>
