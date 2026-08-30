@@ -37,6 +37,7 @@ import AdminPurchases from './admin/pages/Purchases';
 import AdminCustomers from './admin/pages/Customers';
 import AdminProfitLoss from './admin/pages/ProfitLoss';
 import AdminActivity from './admin/pages/Activity';
+import AdminCoupons from './admin/pages/Coupons';
 
 import './styles/global.css';
 import './styles/animations.css';
@@ -137,6 +138,7 @@ function App() {
             <Route path="customers" element={<AdminCustomers />} />
             <Route path="profit-loss" element={<AdminProfitLoss />} />
             <Route path="activity" element={<AdminActivity />} />
+            <Route path="coupons" element={<AdminCoupons />} />
           </Route>
           <Route path="/" element={<CustomerSite />} />
           <Route path="/:slug" element={<CustomerSite />} />

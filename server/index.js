@@ -29,6 +29,7 @@ app.use('/api/customers', require('./routes/customers'));
 app.use('/api/purchases', require('./routes/purchases'));
 app.use('/api/sales', require('./routes/sales'));
 app.use('/api/profitloss', require('./routes/profitloss'));
+app.use('/api/coupons', require('./routes/coupons'));
 
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'Server running' });

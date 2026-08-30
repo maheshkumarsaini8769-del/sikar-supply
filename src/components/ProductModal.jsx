@@ -10,6 +10,11 @@ export default function ProductModal({ product, onClose }) {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ name: '', phone: '', address: '' });
   const [errors, setErrors] = useState({});
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [couponError, setCouponError] = useState('');
+  const [couponLoading, setCouponLoading] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -27,6 +32,40 @@ export default function ProductModal({ product, onClose }) {
   const sqftValue = sqft ? parseInt(sqft) : 0;
   const price = product.salePrice || product.price || 0;
   const totalEstimate = sqftValue * price;
+  const finalTotal = Math.max(0, totalEstimate - couponDiscount);
+
+  const applyCoupon = async () => {
+    if (!couponCode.trim()) return;
+    setCouponLoading(true);
+    setCouponError('');
+    try {
+      const res = await fetch('/api/coupons/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: couponCode.trim(), orderAmount: totalEstimate }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setAppliedCoupon(data.coupon);
+        setCouponDiscount(data.discount);
+        setCouponError('');
+      } else {
+        setCouponError(data.message || 'Invalid coupon');
+        setAppliedCoupon(null);
+        setCouponDiscount(0);
+      }
+    } catch {
+      setCouponError('Failed to validate coupon');
+    }
+    setCouponLoading(false);
+  };
+
+  const removeCoupon = () => {
+    setCouponCode('');
+    setAppliedCoupon(null);
+    setCouponDiscount(0);
+    setCouponError('');
+  };
 
   const getProductImage = () => {
     if (product.images?.[activeImg]) {
@@ -59,6 +98,8 @@ export default function ProductModal({ product, onClose }) {
     // Build WhatsApp message with customer details
     const area = sqftValue > 0 ? `Area: ${sqft} ${product.unit || 'sq.ft'}` : '';
     const estimate = sqftValue > 0 ? `Total Estimate: ₹ ${totalEstimate.toLocaleString()}` : '';
+    const couponLine = appliedCoupon && couponDiscount > 0 ? `Coupon (${appliedCoupon.code}): -₹${couponDiscount}` : '';
+    const finalLine = appliedCoupon && couponDiscount > 0 ? `Final Total: ₹ ${finalTotal.toLocaleString()}` : '';
     const lines = [
       `Hello Star Home Design,`,
       ``,
@@ -69,6 +110,8 @@ export default function ProductModal({ product, onClose }) {
       `Price: ₹ ${price}/${product.unit || 'sqft'}`,
       area,
       estimate,
+      couponLine,
+      finalLine,
       ``,
       `--- My Details ---`,
       `Name: ${form.name.trim()}`,
@@ -97,7 +140,9 @@ export default function ProductModal({ product, onClose }) {
           phone: form.phone.trim(),
           address: form.address.trim(),
           items: orderItems,
-          total: totalEstimate || price,
+          total: finalTotal || totalEstimate || price,
+          discount: couponDiscount || 0,
+          couponCode: appliedCoupon?.code || '',
           notes: sqftValue > 0 ? `${sqftValue} ${product.unit || 'sqft'} requested` : 'Product enquiry via website',
           source: 'website',
           whatsappMessage: msg,
@@ -181,7 +226,40 @@ export default function ProductModal({ product, onClose }) {
             </div>
             {sqftValue > 0 && (
               <div className="modal-estimate">
-                Estimated: ₹ {totalEstimate.toLocaleString()}
+                {appliedCoupon && couponDiscount > 0 ? (
+                  <>
+                    <span style={{ textDecoration: 'line-through', opacity: 0.5, marginRight: 8 }}>₹{totalEstimate.toLocaleString()}</span>
+                    <span style={{ color: '#25d366' }}>₹ {finalTotal.toLocaleString()}</span>
+                  </>
+                ) : (
+                  <>Estimated: ₹ {totalEstimate.toLocaleString()}</>
+                )}
+              </div>
+            )}
+
+            {/* Coupon Input */}
+            {sqftValue > 0 && (
+              <div style={{ marginTop: 10 }}>
+                {!appliedCoupon ? (
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    <input
+                      type="text"
+                      placeholder="Coupon code"
+                      value={couponCode}
+                      onChange={(e) => { setCouponCode(e.target.value.toUpperCase()); setCouponError(''); }}
+                      style={{ flex: 1, padding: '8px 10px', background: '#1a1a1a', border: '1px solid #333', borderRadius: 6, color: '#fff', fontSize: 12, fontFamily: 'monospace', fontWeight: 700, textTransform: 'uppercase' }}
+                    />
+                    <button type="button" onClick={applyCoupon} disabled={couponLoading} style={{ padding: '8px 14px', background: '#b8956a', color: '#000', border: 'none', borderRadius: 6, fontSize: 11, fontWeight: 700, cursor: couponLoading ? 'wait' : 'pointer', whiteSpace: 'nowrap' }}>
+                      {couponLoading ? '...' : 'Apply'}
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 10px', background: 'rgba(37,211,102,0.1)', border: '1px solid rgba(37,211,102,0.3)', borderRadius: 6 }}>
+                    <span style={{ fontSize: 12, color: '#25d366', fontWeight: 600 }}>🎟️ {appliedCoupon.code} — ₹{couponDiscount} off</span>
+                    <button type="button" onClick={removeCoupon} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: 14, padding: 0 }}>×</button>
+                  </div>
+                )}
+                {couponError && <div style={{ color: '#ef4444', fontSize: 11, marginTop: 4 }}>{couponError}</div>}
               </div>
             )}
           </div>
@@ -232,7 +310,7 @@ export default function ProductModal({ product, onClose }) {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
               </svg>
-              {sqftValue > 0 ? `WhatsApp - ₹ ${totalEstimate.toLocaleString()}` : 'WhatsApp / Get Price'}
+              {sqftValue > 0 ? `WhatsApp - ₹ ${(finalTotal || totalEstimate).toLocaleString()}` : 'WhatsApp / Get Price'}
             </button>
           ) : (
             <button onClick={handleSubmit} disabled={saving} className="btn-primary modal-cta" style={{ cursor: saving ? 'wait' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 16, background: saving ? '#666' : '#25d366', color: '#fff' }}>
