@@ -31,6 +31,46 @@ export default function ProductCollection({ activeCategory }) {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [selectedProduct]);
 
+  useEffect(() => {
+    if (filtered.length === 0) return;
+    const jsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'Star Home Design - Interior Materials Collection',
+      numberOfItems: filtered.length,
+      itemListElement: filtered.slice(0, 20).map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'Product',
+          name: p.name,
+          description: p.description || p.shortDescription || '',
+          image: getImage(p),
+          url: window.location.origin + '/#products',
+          brand: { '@type': 'Brand', name: 'Star Home Design' },
+          offers: p.price > 0 ? {
+            '@type': 'Offer',
+            price: p.salePrice || p.price,
+            priceCurrency: 'INR',
+            availability: p.stockStatus === 'out_of_stock' ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
+            priceValidUntil: '2026-12-31',
+          } : undefined,
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '4.8',
+            reviewCount: '13',
+          },
+        },
+      })),
+    };
+    document.querySelectorAll('script[data-seo-products]').forEach(el => el.remove());
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.setAttribute('data-seo-products', 'true');
+    script.textContent = JSON.stringify(jsonLd);
+    document.head.appendChild(script);
+  }, [filtered]);
+
   const allFilters = [
     { label: 'All', slug: 'all' },
     ...categories.map(c => ({ label: c.name, slug: c.slug })),

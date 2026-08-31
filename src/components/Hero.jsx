@@ -39,6 +39,8 @@ export default function Hero() {
             key={i}
             className={`hero-slide ${i === current ? 'active' : ''}`}
             style={{ backgroundImage: `url(${slide})` }}
+            role="img"
+            aria-label={`Star Home Design showroom slide ${i + 1} - Premium interior materials in Sikar Rajasthan`}
           />
         ))}
         <div className="hero-overlay" />

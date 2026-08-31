@@ -44,6 +44,9 @@ app.use('/api/sales', require('../server/routes/sales'));
 app.use('/api/profitloss', require('../server/routes/profitloss'));
 app.use('/api/coupons', require('../server/routes/coupons'));
 
+// SEO routes (no /api prefix)
+app.use('/sitemap.xml', require('../server/routes/sitemap'));
+
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'Server running on Vercel' });
 });

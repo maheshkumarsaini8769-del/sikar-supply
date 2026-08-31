@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://starhomedesign.in/sitemap.xml
+Sitemap: https://star-home-design-five.vercel.app/sitemap.xml
