@@ -33,13 +33,13 @@ router.put('/', protect, upload.fields([
     const updateData = { ...req.body };
 
     if (req.body.socialLinks) {
-      updateData.socialLinks = JSON.parse(req.body.socialLinks);
+      updateData.socialLinks = typeof req.body.socialLinks === 'string' ? JSON.parse(req.body.socialLinks) : req.body.socialLinks;
     }
     if (req.body.homeSections) {
-      updateData.homeSections = JSON.parse(req.body.homeSections);
+      updateData.homeSections = typeof req.body.homeSections === 'string' ? JSON.parse(req.body.homeSections) : req.body.homeSections;
     }
     if (req.body.heroSlides) {
-      updateData.heroSlides = JSON.parse(req.body.heroSlides);
+      updateData.heroSlides = typeof req.body.heroSlides === 'string' ? JSON.parse(req.body.heroSlides) : req.body.heroSlides;
     }
 
     const fileFields = ['logo', 'favicon', 'aboutImage', 'showroomImage', 'textureImage'];
