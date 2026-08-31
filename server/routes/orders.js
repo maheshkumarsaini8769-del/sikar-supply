@@ -27,6 +27,11 @@ router.post('/public', async (req, res) => {
   }
 });
 
+// PUBLIC - Activity page ke liye (no auth needed)
+router.get('/public', async (req, res) => {
+  res.json({ success: true, orders: [] });
+});
+
 router.get('/', protect, async (req, res) => {
   try {
     const { status, search, sort, page = 1, limit = 20 } = req.query;

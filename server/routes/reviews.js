@@ -13,6 +13,20 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/stats', async (req, res) => {
+  try {
+    const total = await Review.countDocuments({ active: true });
+    const avgResult = await Review.aggregate([
+      { $match: { active: true } },
+      { $group: { _id: null, avgRating: { $avg: '$rating' } } },
+    ]);
+    const avgRating = avgResult.length > 0 ? Math.round(avgResult[0].avgRating * 10) / 10 : 0;
+    res.json({ success: true, total, avgRating });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 router.get('/all', protect, async (req, res) => {
   try {
     const reviews = await Review.find().sort({ createdAt: -1 });
