@@ -53,7 +53,14 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', protect, upload.array('images', 10), async (req, res) => {
+router.post('/', protect, (req, res, next) => {
+  upload.array('images', 10)(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({ success: false, message: err.message || 'File upload error' });
+    }
+    next();
+  });
+}, async (req, res) => {
   try {
     const { name, category, description, shortDescription, price, salePrice, costPrice, sku, unit, stockStatus, stockQuantity, lowStockThreshold, featured, active, displayOrder, specs } = req.body;
     const images = req.files ? req.files.map((f, i) => ({
@@ -83,7 +90,14 @@ router.post('/', protect, upload.array('images', 10), async (req, res) => {
   }
 });
 
-router.put('/:id', protect, upload.array('images', 10), async (req, res) => {
+router.put('/:id', protect, (req, res, next) => {
+  upload.array('images', 10)(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({ success: false, message: err.message || 'File upload error' });
+    }
+    next();
+  });
+}, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
