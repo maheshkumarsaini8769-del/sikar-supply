@@ -31,6 +31,33 @@ export default function ProductCollection({ activeCategory }) {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [selectedProduct]);
 
+  const getImage = (p) => {
+    if (p.images && p.images.length > 0) {
+      const url = p.images.find(i => i.isPrimary)?.url || p.images[0].url;
+      return (url.startsWith('http') || url.startsWith('data:')) ? url : UPLOAD_URL + url;
+    }
+    return 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85&auto=format&fit=crop';
+  };
+
+  const modalImages = (p) => {
+    if (p.images && p.images.length > 0) {
+      return p.images.map(i => (i.url.startsWith('http') || i.url.startsWith('data:')) ? i.url : UPLOAD_URL + i.url);
+    }
+    return [
+      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1615529328331-f8917597711f?w=800&q=85&auto=format&fit=crop',
+    ];
+  };
+
+  const filtered = activeFilter === 'all'
+    ? products
+    : products.filter((p) => p.category?.slug === activeFilter);
+
+  const allFilters = [
+    { label: 'All', slug: 'all' },
+    ...categories.map(c => ({ label: c.name, slug: c.slug })),
+  ];
+
   useEffect(() => {
     if (filtered.length === 0) return;
     const jsonLd = {
@@ -52,7 +79,7 @@ export default function ProductCollection({ activeCategory }) {
             '@type': 'Offer',
             price: p.salePrice || p.price,
             priceCurrency: 'INR',
-            availability: p.stockStatus === 'out_of_stock' ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
+            availability: p.stockStatus === 'out_of_stock' ? 'https://schema.org/OutOfStock' : 'https://schema.org.InStock',
             priceValidUntil: '2026-12-31',
           } : undefined,
           aggregateRating: {
@@ -71,15 +98,6 @@ export default function ProductCollection({ activeCategory }) {
     document.head.appendChild(script);
   }, [filtered]);
 
-  const allFilters = [
-    { label: 'All', slug: 'all' },
-    ...categories.map(c => ({ label: c.name, slug: c.slug })),
-  ];
-
-  const filtered = activeFilter === 'all'
-    ? products
-    : products.filter((p) => p.category?.slug === activeFilter);
-
   const handleFilter = (val) => {
     setActiveFilter(val);
     const el = document.getElementById('products');
@@ -87,24 +105,6 @@ export default function ProductCollection({ activeCategory }) {
       window.history.pushState(null, '', '#products');
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  };
-
-  const getImage = (p) => {
-    if (p.images && p.images.length > 0) {
-      const url = p.images.find(i => i.isPrimary)?.url || p.images[0].url;
-      return (url.startsWith('http') || url.startsWith('data:')) ? url : UPLOAD_URL + url;
-    }
-    return 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85&auto=format&fit=crop';
-  };
-
-  const modalImages = (p) => {
-    if (p.images && p.images.length > 0) {
-      return p.images.map(i => (i.url.startsWith('http') || i.url.startsWith('data:')) ? i.url : UPLOAD_URL + i.url);
-    }
-    return [
-      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1615529328331-f8917597711f?w=800&q=85&auto=format&fit=crop',
-    ];
   };
 
   return (
