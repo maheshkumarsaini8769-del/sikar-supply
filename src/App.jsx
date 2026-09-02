@@ -38,6 +38,7 @@ import AdminCustomers from './admin/pages/Customers';
 import AdminProfitLoss from './admin/pages/ProfitLoss';
 import AdminActivity from './admin/pages/Activity';
 import AdminCoupons from './admin/pages/Coupons';
+import NotFound from './pages/NotFound';
 
 import './styles/global.css';
 import './styles/animations.css';
@@ -262,8 +263,6 @@ function MainContent({ activeCategory, onMaterialClick }) {
     </main>
   );
 }
-
-import NotFound from './pages/NotFound';
 
 function PageviewTracker() {
   const location = useLocation();
