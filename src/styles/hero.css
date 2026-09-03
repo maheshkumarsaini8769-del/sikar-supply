@@ -51,8 +51,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding-bottom: 100px;
+  justify-content: center;
+  padding-bottom: 40px;
 }
 
 .hero-content .eyebrow,
@@ -172,7 +172,7 @@
   }
 
   .hero-content {
-    padding-bottom: 72px;
+    padding-bottom: 48px;
   }
 
   .hero-heading {
