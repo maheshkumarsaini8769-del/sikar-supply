@@ -261,7 +261,8 @@
     font-size: 12px;
     font-weight: 600;
     padding: 0 24px;
-    height: 42px;
+    height: 48px;
+    line-height: 48px;
   }
 
   .hero-indicators {
