@@ -248,17 +248,17 @@
   }
 
   .hero-buttons {
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
   }
 
   .hero-buttons .btn-primary,
   .hero-buttons .btn-outline {
-    width: 100%;
-    font-size: 14px;
+    width: auto;
+    font-size: 12px;
     font-weight: 600;
-    padding: 0 16px;
-    height: 48px;
+    padding: 0 20px;
+    height: 42px;
   }
 
   .hero-indicators {
