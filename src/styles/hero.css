@@ -178,28 +178,32 @@
   }
 
   .hero-heading {
-    font-size: clamp(36px, 10vw, 56px);
-    margin-bottom: 20px;
+    font-size: clamp(32px, 8vw, 48px);
+    margin-bottom: 16px;
   }
 
   .hero-description {
     font-size: 14px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
 
   .hero-buttons {
+    display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 12px;
   }
 
   .hero-buttons .btn-primary,
   .hero-buttons .btn-outline {
-    flex: 1;
-    min-width: 0;
-    font-size: 13px;
+    height: 42px;
+    padding: 0 20px;
+    font-size: 11px;
     font-weight: 600;
-    padding: 0 16px;
-    height: 46px;
+    letter-spacing: 0.06em;
+    border-radius: 6px;
+    white-space: nowrap;
+    flex: 0 1 auto;
   }
 
   .hero-scroll {
@@ -207,13 +211,13 @@
   }
 
   .hero-indicators {
-    bottom: 24px;
+    bottom: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .hero {
-    min-height: 440px;
+    min-height: 420px;
   }
 
   .hero-overlay {
@@ -227,55 +231,60 @@
   }
 
   .hero-content {
-    padding-bottom: 50px;
+    padding-bottom: 44px;
   }
 
   .hero-eyebrow {
     font-size: 9px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     letter-spacing: 0.15em;
   }
 
   .hero-heading {
-    font-size: 28px;
-    line-height: 1.05;
-    margin-bottom: 12px;
+    font-size: 26px;
+    line-height: 1.1;
+    margin-bottom: 10px;
   }
 
   .hero-description {
     font-size: 13px;
-    margin-bottom: 22px;
-    line-height: 1.5;
+    margin-bottom: 18px;
+    line-height: 1.45;
   }
 
   .hero-buttons {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     gap: 10px;
+    width: 100%;
+    max-width: 320px;
   }
 
   .hero-buttons .btn-primary,
   .hero-buttons .btn-outline {
-    width: 100%;
+    flex: 1;
     min-width: 0;
-    font-size: 13px;
+    height: 38px;
+    padding: 0 10px;
+    font-size: 11px;
     font-weight: 600;
-    padding: 0 16px;
-    height: 46px;
-    display: flex;
+    letter-spacing: 0.04em;
+    border-radius: 6px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    white-space: nowrap;
   }
 
   .hero-indicators {
-    bottom: 16px;
+    bottom: 14px;
     gap: 6px;
   }
 
   .hero-indicator {
-    width: 24px;
+    width: 20px;
     height: 3px;
   }
 }

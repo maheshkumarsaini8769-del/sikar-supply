@@ -468,29 +468,35 @@
 
 @media (max-width: 480px) {
   .navbar {
-    height: 62px;
+    height: 64px;
   }
 
   .logo-name {
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .logo-tagline {
-    font-size: 7.5px;
+    font-size: 8px;
   }
 
   .mobile-whatsapp-btn {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
   }
 
   .mobile-nav-right .navbar-search-btn {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+  }
+
+  .hamburger {
+    padding: 6px 4px;
   }
 
   .hamburger span {
-    width: 20px;
+    width: 22px;
   }
 }
 
