@@ -3,11 +3,11 @@ title Star Home Design
 echo Starting servers...
 echo.
 
-cd /d C:\Users\hi\OneDrive\Desktop\star2\star-home-design\server
+cd /d "%~dp0server"
 start /min "Backend" cmd /c "node index.js"
 timeout /t 5 /nobreak >NUL
 
-cd /d C:\Users\hi\OneDrive\Desktop\star2\star-home-design
+cd /d "%~dp0"
 start /min "Frontend" cmd /c "npx vite --host"
 timeout /t 8 /nobreak >NUL
 

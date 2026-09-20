@@ -4,25 +4,45 @@ import { useAuth } from '../context/AuthContext';
 import api from '../api';
 import Logo from '../../components/Logo';
 
-const nav = [
-  { path: '/admin', label: 'Dashboard', icon: '📊' },
-  { path: '/admin/orders', label: 'Orders', icon: '📦' },
-  { path: '/admin/products', label: 'Products', icon: '🏷️' },
-  { path: '/admin/stock', label: 'Inventory', icon: '📦' },
-  { path: '/admin/cash-sales', label: 'Cash Sales', icon: '💵' },
-  { path: '/admin/online-sales', label: 'Online Sales', icon: '🌐' },
-  { path: '/admin/all-sales', label: 'All Sales', icon: '📋' },
-  { path: '/admin/purchases', label: 'Purchases', icon: '📥' },
-  { path: '/admin/customers', label: 'Customers', icon: '👤' },
-  { path: '/admin/profit-loss', label: 'Profit & Loss', icon: '📈' },
-  { path: '/admin/activity', label: 'Recent Activity', icon: '🕐' },
-  { path: '/admin/coupons', label: 'Coupons', icon: '🎟️' },
-  { path: '/admin/categories', label: 'Categories', icon: '📁' },
-  { path: '/admin/hero-slides', label: 'Hero Slides', icon: '🖼️' },
-  { path: '/admin/gallery', label: 'Gallery', icon: '🎨' },
-  { path: '/admin/media', label: 'Media', icon: '📁' },
-  { path: '/admin/reviews', label: 'Reviews', icon: '⭐' },
-  { path: '/admin/settings', label: 'Settings', icon: '⚙️' },
+const navGroups = [
+  {
+    title: 'Overview',
+    items: [
+      { path: '/admin', label: 'Dashboard', icon: '📊' },
+      { path: '/admin/orders', label: 'Orders', icon: '📦' },
+      { path: '/admin/activity', label: 'Activity Log', icon: '🕐' },
+    ]
+  },
+  {
+    title: 'Products & Inventory',
+    items: [
+      { path: '/admin/products', label: 'Products', icon: '🏷️' },
+      { path: '/admin/categories', label: 'Categories', icon: '📁' },
+      { path: '/admin/stock', label: 'Stock & Inventory', icon: '📦' },
+    ]
+  },
+  {
+    title: 'Sales & Billing',
+    items: [
+      { path: '/admin/all-sales', label: 'All Sales', icon: '📋' },
+      { path: '/admin/cash-sales', label: 'Cash Sales', icon: '💵' },
+      { path: '/admin/online-sales', label: 'Online Sales', icon: '🌐' },
+      { path: '/admin/purchases', label: 'Purchases', icon: '📥' },
+      { path: '/admin/customers', label: 'Customers', icon: '👤' },
+      { path: '/admin/profit-loss', label: 'Profit & Loss', icon: '📈' },
+      { path: '/admin/coupons', label: 'Coupons', icon: '🎟️' },
+    ]
+  },
+  {
+    title: 'Storefront & Media',
+    items: [
+      { path: '/admin/hero-slides', label: 'Hero Slides', icon: '🖼️' },
+      { path: '/admin/gallery', label: 'Gallery', icon: '🎨' },
+      { path: '/admin/media', label: 'Media Library', icon: '📁' },
+      { path: '/admin/reviews', label: 'Reviews', icon: '⭐' },
+      { path: '/admin/settings', label: 'Settings', icon: '⚙️' },
+    ]
+  }
 ];
 
 export default function Layout() {
@@ -80,10 +100,21 @@ export default function Layout() {
           <h2>Admin Panel</h2>
         </div>
         <nav className="sidebar-nav">
-          {nav.map(item => (
-            <NavLink key={item.path} to={item.path} end={item.path === '/admin'} className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`} onClick={() => setSidebarOpen(false)}>
-              <span className="sidebar-link-icon">{item.icon}</span> {item.label}
-            </NavLink>
+          {navGroups.map((group, gIdx) => (
+            <div key={gIdx} className="sidebar-group">
+              <div className="sidebar-section-title">{group.title}</div>
+              {group.items.map(item => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  end={item.path === '/admin'}
+                  className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <span className="sidebar-link-icon">{item.icon}</span> {item.label}
+                </NavLink>
+              ))}
+            </div>
           ))}
         </nav>
         <div className="sidebar-footer">

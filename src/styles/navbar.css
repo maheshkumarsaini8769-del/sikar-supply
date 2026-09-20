@@ -465,3 +465,32 @@
     height: 48px;
   }
 }
+
+@media (max-width: 480px) {
+  .navbar {
+    height: 62px;
+  }
+
+  .logo-name {
+    font-size: 15px;
+  }
+
+  .logo-tagline {
+    font-size: 7.5px;
+  }
+
+  .mobile-whatsapp-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .mobile-nav-right .navbar-search-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .hamburger span {
+    width: 20px;
+  }
+}
+

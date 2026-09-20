@@ -615,6 +615,16 @@
     font-size: 12px;
   }
 
+  .product-card-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .product-card-link {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
   .modal {
     max-height: 98vh;
     border-radius: 8px;

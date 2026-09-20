@@ -19,6 +19,10 @@ import ReviewSection from './components/ReviewSection';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 import Loader from './components/Loader';
+import TrustBadges from './components/TrustBadges';
+import CostCalculator from './components/CostCalculator';
+import BeforeAfter from './components/BeforeAfter';
+import FAQSection from './components/FAQSection';
 
 import AdminLayout from './admin/components/Layout';
 import AdminLogin from './admin/pages/Login';
@@ -53,6 +57,7 @@ import './styles/footer.css';
 import './styles/reviews.css';
 import './styles/gallery.css';
 import './styles/admin.css';
+import './styles/features.css';
 
 function ProtectedAdmin({ children }) {
   const { user, loading } = useAuth();
@@ -251,14 +256,18 @@ function MainContent({ activeCategory, onMaterialClick }) {
     <main>
       {isSectionActive('hero') && <Hero />}
       {isSectionActive('stats') && <Stats />}
+      <TrustBadges />
       {isSectionActive('about') && <Intro />}
       {isSectionActive('materials') && <MaterialStory onProductClick={onMaterialClick} />}
       {isSectionActive('products') && <ProductCollection activeCategory={activeCategory} />}
+      <CostCalculator />
       {isSectionActive('whyus') && <WhyStarHomeDesign />}
+      <BeforeAfter />
       {isSectionActive('texture') && <TextureSection />}
       {isSectionActive('showroom') && <Showroom />}
       {isSectionActive('gallery') && <GallerySection />}
       {isSectionActive('reviews') && <ReviewSection />}
+      <FAQSection />
       {isSectionActive('contact') && <QuoteForm />}
     </main>
   );
