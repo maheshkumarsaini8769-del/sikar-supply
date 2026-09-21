@@ -350,6 +350,11 @@
     gap: 16px;
   }
 
+  .material-card {
+    aspect-ratio: 16/7;
+    max-height: 220px;
+  }
+
   .material-card-overlay {
     opacity: 1;
   }
@@ -399,7 +404,9 @@
   }
 
   .material-card {
-    padding: 16px;
+    aspect-ratio: 16/6;
+    max-height: 180px;
+    padding: 0;
   }
 
   .texture-section {
