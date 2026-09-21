@@ -79,7 +79,8 @@
 .product-card-image {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 3/2;
+  aspect-ratio: 16/10;
+  max-height: 220px;
 }
 
 .product-card-image img {
@@ -544,7 +545,8 @@
   }
 
   .product-card-image {
-    aspect-ratio: 4/3;
+    aspect-ratio: 16/9;
+    max-height: 200px;
   }
 
   .product-editorial-grid {
@@ -600,7 +602,8 @@
   }
 
   .product-card-image {
-    aspect-ratio: 1/1;
+    aspect-ratio: 16/9;
+    max-height: 170px;
   }
 
   .product-card-content {
