@@ -251,9 +251,9 @@ function MainContent({ activeCategory, onMaterialClick }) {
     <main>
       {isSectionActive('hero') && <Hero />}
       {isSectionActive('stats') && <Stats />}
-      {isSectionActive('about') && <Intro />}
       {isSectionActive('materials') && <MaterialStory onProductClick={onMaterialClick} />}
       {isSectionActive('products') && <ProductCollection activeCategory={activeCategory} />}
+      {isSectionActive('about') && <Intro />}
       {isSectionActive('whyus') && <WhyStarHomeDesign />}
       {isSectionActive('texture') && <TextureSection />}
       {isSectionActive('showroom') && <Showroom />}
