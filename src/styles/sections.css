@@ -96,7 +96,8 @@
 .intro-image {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4/5;
+  aspect-ratio: 16/10;
+  max-height: 320px;
   border-radius: 8px;
 }
 
@@ -342,7 +343,7 @@
 
   .intro-image {
     aspect-ratio: 16/9;
-    max-height: 220px;
+    max-height: 180px;
   }
 
   .material-grid {
@@ -396,7 +397,8 @@
   }
 
   .intro-image {
-    max-height: 180px;
+    aspect-ratio: 2/1;
+    max-height: 140px;
   }
 
   .material-grid {

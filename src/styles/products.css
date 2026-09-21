@@ -545,8 +545,8 @@
   }
 
   .product-card-image {
-    aspect-ratio: 16/9;
-    max-height: 200px;
+    aspect-ratio: 2/1;
+    max-height: 140px;
   }
 
   .product-editorial-grid {
@@ -602,8 +602,23 @@
   }
 
   .product-card-image {
-    aspect-ratio: 16/9;
-    max-height: 170px;
+    aspect-ratio: 2.2/1;
+    max-height: 120px;
+  }
+
+  .product-card-number {
+    top: 8px;
+    left: 8px;
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+  }
+
+  .out-of-stock-badge {
+    top: 8px;
+    right: 8px;
+    padding: 3px 8px;
+    font-size: 9px;
   }
 
   .product-card-content {
