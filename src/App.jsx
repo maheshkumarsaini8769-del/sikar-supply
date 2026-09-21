@@ -254,10 +254,10 @@ function MainContent({ activeCategory, onMaterialClick }) {
       {isSectionActive('materials') && <MaterialStory onProductClick={onMaterialClick} />}
       {isSectionActive('products') && <ProductCollection activeCategory={activeCategory} />}
       {isSectionActive('about') && <Intro />}
+      {isSectionActive('gallery') && <GallerySection />}
       {isSectionActive('whyus') && <WhyStarHomeDesign />}
       {isSectionActive('texture') && <TextureSection />}
       {isSectionActive('showroom') && <Showroom />}
-      {isSectionActive('gallery') && <GallerySection />}
       {isSectionActive('reviews') && <ReviewSection />}
       {isSectionActive('contact') && <QuoteForm />}
     </main>
