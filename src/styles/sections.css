@@ -83,7 +83,7 @@
 
 /* Intro Section */
 .intro {
-  padding: var(--section-gap) 0;
+  padding: 48px 0 var(--section-gap);
 }
 
 .intro-grid {

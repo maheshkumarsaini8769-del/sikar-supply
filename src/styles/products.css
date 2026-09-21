@@ -1,6 +1,6 @@
 /* Product Collection */
 .products {
-  padding: var(--section-gap) 0;
+  padding: var(--section-gap) 0 48px;
 }
 
 .products-header {
