@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /admin/
 Disallow: /api/
 
 Sitemap: https://star-home-design-five.vercel.app/sitemap.xml

@@ -63,32 +63,32 @@ export default function ProductCollection({ activeCategory }) {
     const jsonLd = {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
-      name: 'Star Home Design - Interior Materials Collection',
+      name: 'Star Home Design - Interior Materials Collection in Sikar',
       numberOfItems: filtered.length,
-      itemListElement: filtered.slice(0, 20).map((p, i) => ({
-        '@type': 'ListItem',
-        position: i + 1,
-        item: {
+      itemListElement: filtered.slice(0, 20).map((p, i) => {
+        const prodData = {
           '@type': 'Product',
-          name: p.name,
-          description: p.description || p.shortDescription || '',
+          name: `${p.name} in Sikar`,
+          description: p.description || p.shortDescription || `${p.name} available at Star Home Design, Sikar.`,
           image: getImage(p),
-          url: window.location.origin + '/#products',
+          url: `${window.location.origin}/#products`,
           brand: { '@type': 'Brand', name: 'Star Home Design' },
-          offers: p.price > 0 ? {
+        };
+        if (p.price > 0) {
+          prodData.offers = {
             '@type': 'Offer',
             price: p.salePrice || p.price,
             priceCurrency: 'INR',
             availability: p.stockStatus === 'out_of_stock' ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
             priceValidUntil: '2026-12-31',
-          } : undefined,
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '4.8',
-            reviewCount: '13',
-          },
-        },
-      })),
+          };
+        }
+        return {
+          '@type': 'ListItem',
+          position: i + 1,
+          item: prodData,
+        };
+      }),
     };
     document.querySelectorAll('script[data-seo-products]').forEach(el => el.remove());
     const script = document.createElement('script');

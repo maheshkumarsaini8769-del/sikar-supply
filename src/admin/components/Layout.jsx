@@ -58,6 +58,11 @@ export default function Layout() {
 
   const handleLogout = () => { logout(); navigate('/admin/login'); };
 
+  useEffect(() => {
+    let el = document.querySelector('meta[name="robots"]');
+    if (el) el.setAttribute('content', 'noindex, nofollow');
+  }, []);
+
   useEffect(() => { setSidebarOpen(false); }, [location.pathname]);
 
   useEffect(() => {

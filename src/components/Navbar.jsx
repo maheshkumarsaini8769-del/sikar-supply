@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSite } from '../context/SiteContext';
 import { trackSearch } from '../utils/analytics';
 import Logo from './Logo';
 
 export default function Navbar({ onSearchProduct }) {
   const { products, settings } = useSite();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -54,15 +57,22 @@ export default function Navbar({ onSearchProduct }) {
     if (searchOpen) setTimeout(() => document.querySelector('.search-overlay input')?.focus(), 100);
   }, [searchOpen]);
 
-  const navItems = ['Home', 'Products', 'About', 'Why Us', 'Showroom', 'Gallery', 'Contact'];
+  const navItems = ['Home', 'Products', 'About', 'Why Us', 'Showroom', 'Gallery', 'Guides', 'Contact'];
 
   const scrollTo = (id) => {
     setMenuOpen(false);
     setSearchOpen(false);
-    const el = document.getElementById(id);
+    if (id === 'guides') {
+      navigate('/guides');
+      return;
+    }
+    const targetId = id === 'home' ? 'root' : id;
+    const el = document.getElementById(targetId) || document.getElementById(id);
     if (el) {
       window.history.pushState(null, '', `#${id}`);
       el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate(`/#${id}`);
     }
   };
 

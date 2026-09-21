@@ -8,7 +8,7 @@ export default function QuoteForm() {
 
   const productOptions = categories.length > 0
     ? categories.map(c => c.name)
-    : ['PVC Panels', 'Deep Fluted Panels', 'Rafter Panels', 'UV Sticker Sheets', 'Decorative Tiles', 'Other'];
+    : ['PVC Wall Panels', 'Deep Fluted Panels', 'Rafter Panels', 'UV Marble Sheets', 'Decorative Wall Tiles', 'Ceiling Panels', 'Other'];
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });

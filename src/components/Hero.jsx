@@ -47,9 +47,11 @@ export default function Hero() {
       </div>
 
       <div className="container hero-content">
-        <p className="hero-eyebrow">{settings?.heroEyebrow || 'STAR HOME DESIGN'}</p>
-        <h1 className="hero-heading">{settings?.heroHeading || 'Transform Your Space'}</h1>
-        <p className="hero-description">{settings?.heroDescription || 'Premium interior materials for modern living'}</p>
+        <p className="hero-eyebrow">{settings?.heroEyebrow || 'STAR HOME DESIGN • SIKAR, RAJASTHAN'}</p>
+        <h1 className="hero-heading">{settings?.heroHeading || 'Premium Wall & Interior Decoration Products in Sikar'}</h1>
+        <p className="hero-description">
+          {settings?.heroDescription || 'Star Home Design brings you waterproof PVC wall panels, architectural fluted louvers, and high-gloss UV marble sheets for modern home interiors in Sikar. Visit our showroom on Bypass Road or order instantly via WhatsApp.'}
+        </p>
         <div className="hero-buttons">
           <button className="btn-primary" onClick={scrollToProducts}>
             {settings?.heroBtnText || 'Explore Collection'}

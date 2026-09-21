@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -8,6 +8,11 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let el = document.querySelector('meta[name="robots"]');
+    if (el) el.setAttribute('content', 'noindex, nofollow');
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
