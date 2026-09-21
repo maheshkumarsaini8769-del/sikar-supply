@@ -23,8 +23,8 @@
 
   --container-max: 1280px;
   --container-padding: 64px;
-  --section-gap: 120px;
-  --section-gap-mobile: 64px;
+  --section-gap: 80px;
+  --section-gap-mobile: 48px;
   --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-smooth: 500ms cubic-bezier(0.25, 0.1, 0.25, 1);
   --transition-slow: 800ms cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -202,7 +202,7 @@ input, textarea, select {
 @media (max-width: 768px) {
   :root {
     --container-padding: 20px;
-    --section-gap: 64px;
+    --section-gap: 52px;
   }
 }
 
@@ -295,7 +295,7 @@ input, textarea, select {
 
 @media (max-width: 768px) {
   :root {
-    --section-gap: 60px;
+    --section-gap: 48px;
   }
 
   .container {
@@ -324,7 +324,7 @@ input, textarea, select {
 
 @media (max-width: 480px) {
   :root {
-    --section-gap: 48px;
+    --section-gap: 36px;
   }
 
   .container {
