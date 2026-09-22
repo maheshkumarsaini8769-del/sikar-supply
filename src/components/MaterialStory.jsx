@@ -107,20 +107,20 @@ export default function MaterialStory({ onProductClick }) {
                     />
                   </div>
 
-                  <h3 className="material-title">{cat.name}</h3>
-                  <p className="material-desc">
-                    {cat.description || 'Premium quality interior material for modern Rajasthan homes.'}
-                  </p>
-
-                  <div style={{ position: 'absolute', bottom: '16px', left: '20px', zIndex: 2, display: 'flex', gap: '12px' }}>
-                    <Link
-                      to={`/products/${canonicalSlug}`}
-                      className="material-link"
-                      onClick={(e) => e.stopPropagation()}
-                      style={{ textDecoration: 'none' }}
-                    >
-                      View Details &rarr;
-                    </Link>
+                  <div className="material-card-content">
+                    <h3 className="material-title">{cat.name}</h3>
+                    <p className="material-desc">
+                      {cat.description || 'Premium quality interior material for modern Rajasthan homes.'}
+                    </p>
+                    <div className="material-link-wrap">
+                      <Link
+                        to={`/products/${canonicalSlug}`}
+                        className="material-link"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        View Details &rarr;
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </ScrollReveal>

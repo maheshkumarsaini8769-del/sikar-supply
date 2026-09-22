@@ -218,46 +218,74 @@
   background: linear-gradient(135deg, rgba(184,149,106,0.1) 0%, rgba(184,149,106,0.05) 100%);
 }
 
-.material-title {
+.material-card-content {
   position: absolute;
-  bottom: 60px;
-  left: 20px;
-  right: 20px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 20px 20px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.material-card-content * {
+  pointer-events: auto;
+}
+
+.material-title {
+  position: static;
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: 400;
   color: var(--color-warm-white);
-  z-index: 2;
+  line-height: 1.2;
+  margin-bottom: 6px;
 }
 
 .material-desc {
-  position: absolute;
-  bottom: 36px;
-  left: 20px;
-  right: 20px;
-  font-size: 12px;
+  position: static;
+  font-size: 13px;
   color: var(--color-text-secondary);
-  z-index: 2;
-  line-height: 1.5;
+  line-height: 1.45;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.material-link-wrap {
+  display: flex;
+  align-items: center;
 }
 
 .material-link {
-  position: absolute;
-  bottom: 16px;
-  left: 20px;
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-accent);
-  z-index: 2;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.material-link:hover {
+  color: var(--color-warm-white);
+  transform: translateX(4px);
 }
 
 .material-card::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(10,10,10,0.75) 0%, transparent 60%);
+  background: linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.4) 45%, transparent 75%);
   pointer-events: none;
 }
 
@@ -352,8 +380,22 @@
   }
 
   .material-card {
-    aspect-ratio: 16/7;
-    max-height: 220px;
+    aspect-ratio: 16/9;
+    max-height: 240px;
+  }
+
+  .material-card-content {
+    padding: 16px;
+  }
+
+  .material-title {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .material-desc {
+    font-size: 12px;
+    margin-bottom: 8px;
   }
 
   .material-card-overlay {
@@ -402,13 +444,32 @@
   }
 
   .material-grid {
-    gap: 10px;
+    gap: 12px;
   }
 
   .material-card {
-    aspect-ratio: 16/6;
-    max-height: 180px;
+    aspect-ratio: 16/9;
+    max-height: 210px;
     padding: 0;
+  }
+
+  .material-card-content {
+    padding: 14px;
+  }
+
+  .material-title {
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+
+  .material-desc {
+    font-size: 11px;
+    line-height: 1.35;
+    margin-bottom: 6px;
+  }
+
+  .material-link {
+    font-size: 10px;
   }
 
   .texture-section {

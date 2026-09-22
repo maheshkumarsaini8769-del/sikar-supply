@@ -206,213 +206,199 @@
   </head>
   <body>
     <div id="root">
-      <!-- Semantic Static Pre-Render for SEO Crawlers & Search Engines -->
-      <header class="navbar">
-        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
-          <a href="/" class="logo" style="color:#f5f0eb; font-weight:700; text-decoration:none;">STAR HOME DESIGN</a>
+      <!-- Semantic Static Pre-Render for SEO Crawlers & Search Engines (Accessible container preventing FOUC and CSS collisions in visual browsers) -->
+      <div class="sr-only" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;">
+        <header>
+          <a href="/">STAR HOME DESIGN - Sikar</a>
           <nav aria-label="Main Navigation">
-            <ul class="navbar-links" style="display:flex; gap:16px; list-style:none; margin:0; padding:0;">
-              <li><a href="/" style="color:#f5f0eb;">Home</a></li>
-              <li><a href="/#products" style="color:#f5f0eb;">Products</a></li>
-              <li><a href="/#about" style="color:#f5f0eb;">About</a></li>
-              <li><a href="/#why-us" style="color:#f5f0eb;">Why Us</a></li>
-              <li><a href="/#showroom" style="color:#f5f0eb;">Showroom</a></li>
-              <li><a href="/#gallery" style="color:#f5f0eb;">Gallery</a></li>
-              <li><a href="/guides" style="color:#f5f0eb;">Guides</a></li>
-              <li><a href="/#contact" style="color:#f5f0eb;">Contact</a></li>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/#products">Products</a></li>
+              <li><a href="/#about">About</a></li>
+              <li><a href="/#why-us">Why Us</a></li>
+              <li><a href="/#showroom">Showroom</a></li>
+              <li><a href="/#gallery">Gallery</a></li>
+              <li><a href="/guides">Guides</a></li>
+              <li><a href="/#contact">Contact</a></li>
             </ul>
           </nav>
-        </div>
-      </header>
+        </header>
 
-      <main>
-        <section class="hero" id="home">
-          <div class="container hero-content">
-            <p class="hero-eyebrow">STAR HOME DESIGN</p>
-            <h1 class="hero-heading">Transform Your Space</h1>
-            <p class="hero-description">
-              Premium interior materials for modern living
+        <main>
+          <section id="home">
+            <p>STAR HOME DESIGN</p>
+            <h1>Transform Your Space - PVC Wall Panels, Fluted Panels &amp; UV Sheets in Sikar</h1>
+            <p>
+              Premium interior materials for modern living in Sikar, Rajasthan. Discover waterproof PVC wall panels, luxury architectural fluted louvers, and high-gloss UV marble sheets.
             </p>
-            <div class="hero-buttons">
-              <a href="/#products" class="btn-primary">Explore Collection</a>
-              <a href="https://wa.me/918239409535" target="_blank" rel="noopener noreferrer" class="btn-outline">WhatsApp Us</a>
+            <div>
+              <a href="/#products">Explore Collection</a>
+              <a href="https://wa.me/918239409535" target="_blank" rel="noopener noreferrer">WhatsApp Us</a>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section class="intro" id="about">
-          <div class="container">
-            <div class="intro-grid">
-              <div class="intro-content">
-                <p class="section-eyebrow">About Star Home Design</p>
-                <h2 class="section-heading">Crafting Modern Interiors That Inspire in Sikar</h2>
-                <p class="intro-text">
-                  Based in Sikar, Rajasthan, Star Home Design provides homeowners, architects, and interior contractors with a curated collection of premium wall claddings and ceiling finishes. From moisture-proof <strong>PVC wall panels</strong> that protect against Rajasthan groundwater dampness to architectural <strong>fluted louvers</strong> and Italian <strong>UV marble sheets</strong>, we transform living rooms, bedrooms, and commercial spaces.
-                </p>
-                <p class="intro-text">
-                  With over 12+ years of local craftsmanship and 1000+ completed interior projects across Sikar, Jaipur, and Shekhawati, our showroom on Jaipur-Jhunjhunu Bypass Road offers ready stock, fast delivery, and expert installation guidance.
-                </p>
-                <ul class="intro-highlights" style="list-style:none; padding:0; margin:16px 0 0; display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:14px; color:#e0d6cc;">
-                  <li>✓ <strong>100% Waterproof &amp; Termite-Proof</strong></li>
-                  <li>✓ <strong>Ready Showroom Stock in Sikar</strong></li>
-                  <li>✓ <strong>1000+ Completed Projects</strong></li>
-                  <li>✓ <strong>Expert Installation Support</strong></li>
-                </ul>
-              </div>
+          <section id="about">
+            <div>
+              <p>About Star Home Design</p>
+              <h2>Crafting Modern Interiors That Inspire in Sikar</h2>
+              <p>
+                Based in Sikar, Rajasthan, Star Home Design provides homeowners, architects, and interior contractors with a curated collection of premium wall claddings and ceiling finishes. From moisture-proof <strong>PVC wall panels</strong> that protect against Rajasthan groundwater dampness to architectural <strong>fluted louvers</strong> and Italian <strong>UV marble sheets</strong>, we transform living rooms, bedrooms, and commercial spaces.
+              </p>
+              <p>
+                With over 12+ years of local craftsmanship and 1000+ completed interior projects across Sikar, Jaipur, and Shekhawati, our showroom on Jaipur-Jhunjhunu Bypass Road offers ready stock, fast delivery, and expert installation guidance.
+              </p>
+              <ul>
+                <li>✓ <strong>100% Waterproof &amp; Termite-Proof</strong></li>
+                <li>✓ <strong>Ready Showroom Stock in Sikar</strong></li>
+                <li>✓ <strong>1000+ Completed Projects</strong></li>
+                <li>✓ <strong>Expert Installation Support</strong></li>
+              </ul>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section class="material-story" id="materials">
-          <div class="container">
-            <p class="section-eyebrow">Our Materials in Sikar</p>
-            <h2 class="section-heading">Signature Wall &amp; Ceiling Materials for Modern Living</h2>
-            <div class="material-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:20px; margin-top:24px;">
-              <article class="material-card" style="background:#141414; padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
-                <h3><a href="/products/pvc-panels" style="color:#f5f0eb; text-decoration:none;">PVC Wall Panels in Sikar</a></h3>
-                <p style="color:#a09890; font-size:14px; margin:8px 0 12px;">100% waterproof, termite-proof wall &amp; ceiling panels eliminating dampness and paint peeling in Rajasthan homes.</p>
-                <a href="/products/pvc-panels" class="material-link" style="color:#b8956a; font-weight:600; text-decoration:none;">Explore PVC Wall Panels in Sikar &rarr;</a>
+          <section id="materials">
+            <p>Our Materials in Sikar</p>
+            <h2>Signature Wall &amp; Ceiling Materials for Modern Living</h2>
+            <div>
+              <article>
+                <h3><a href="/products/pvc-panels">PVC Wall Panels in Sikar</a></h3>
+                <p>100% waterproof, termite-proof wall &amp; ceiling panels eliminating dampness and paint peeling in Rajasthan homes.</p>
+                <a href="/products/pvc-panels">Explore PVC Wall Panels in Sikar &rarr;</a>
               </article>
-              <article class="material-card" style="background:#141414; padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
-                <h3><a href="/products/fluted-panels" style="color:#f5f0eb; text-decoration:none;">Architectural Fluted Panels in Sikar</a></h3>
-                <p style="color:#a09890; font-size:14px; margin:8px 0 12px;">Signature 3D ribbed louvers in warm oak and charcoal for modern TV units, partitions, and bedroom walls.</p>
-                <a href="/products/fluted-panels" class="material-link" style="color:#b8956a; font-weight:600; text-decoration:none;">Explore Fluted Louver Panels &rarr;</a>
+              <article>
+                <h3><a href="/products/fluted-panels">Architectural Fluted Panels in Sikar</a></h3>
+                <p>Signature 3D ribbed louvers in warm oak and charcoal for modern TV units, partitions, and bedroom walls.</p>
+                <a href="/products/fluted-panels">Explore Fluted Louver Panels &rarr;</a>
               </article>
-              <article class="material-card" style="background:#141414; padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
-                <h3><a href="/products/uv-sheets" style="color:#f5f0eb; text-decoration:none;">UV Marble Sheets in Sikar</a></h3>
-                <p style="color:#a09890; font-size:14px; margin:8px 0 12px;">High-gloss mirror finish Italian stone replicas for luxury drawing room walls, lift lobbies, and kitchen backsplashes.</p>
-                <a href="/products/uv-sheets" class="material-link" style="color:#b8956a; font-weight:600; text-decoration:none;">Explore UV Marble Sheets &rarr;</a>
+              <article>
+                <h3><a href="/products/uv-sheets">UV Marble Sheets in Sikar</a></h3>
+                <p>High-gloss mirror finish Italian stone replicas for luxury drawing room walls, lift lobbies, and kitchen backsplashes.</p>
+                <a href="/products/uv-sheets">Explore UV Marble Sheets &rarr;</a>
               </article>
-              <article class="material-card" style="background:#141414; padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
-                <h3><a href="/products/wall-panels" style="color:#f5f0eb; text-decoration:none;">Decorative Wall Panels in Sikar</a></h3>
-                <p style="color:#a09890; font-size:14px; margin:8px 0 12px;">Geometric 3D sculpted panels and acoustic wood slat felt panels for luxury feature walls in offices and homes.</p>
-                <a href="/products/wall-panels" class="material-link" style="color:#b8956a; font-weight:600; text-decoration:none;">Explore Decorative Wall Panels &rarr;</a>
+              <article>
+                <h3><a href="/products/wall-panels">Decorative Wall Panels in Sikar</a></h3>
+                <p>Geometric 3D sculpted panels and acoustic wood slat felt panels for luxury feature walls in offices and homes.</p>
+                <a href="/products/wall-panels">Explore Decorative Wall Panels &rarr;</a>
               </article>
-              <article class="material-card" style="background:#141414; padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
-                <h3><a href="/products/ceiling-panels" style="color:#f5f0eb; text-decoration:none;">PVC Ceiling Panels in Sikar</a></h3>
-                <p style="color:#a09890; font-size:14px; margin:8px 0 12px;">Lightweight rafter beams and moisture-resistant false ceiling solutions for living halls and bedroom ceilings.</p>
-                <a href="/products/ceiling-panels" class="material-link" style="color:#b8956a; font-weight:600; text-decoration:none;">Explore PVC Ceiling Panels &rarr;</a>
+              <article>
+                <h3><a href="/products/ceiling-panels">PVC Ceiling Panels in Sikar</a></h3>
+                <p>Lightweight rafter beams and moisture-resistant false ceiling solutions for living halls and bedroom ceilings.</p>
+                <a href="/products/ceiling-panels">Explore PVC Ceiling Panels &rarr;</a>
               </article>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section class="comparison-section" id="specifications" style="padding:40px 0; background:#0d0d0d; border-top:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05);">
-          <div class="container">
-            <p class="section-eyebrow">SIKAR INTERIOR SPECIFICATIONS</p>
-            <h2 class="section-heading">Interior Wall &amp; Ceiling Materials Comparison</h2>
-            <p style="color:#a09890; max-width:720px; margin-bottom:20px;">
+          <section id="specifications">
+            <p>SIKAR INTERIOR SPECIFICATIONS</p>
+            <h2>Interior Wall &amp; Ceiling Materials Comparison</h2>
+            <p>
               Compare our signature wall cladding and decorative ceiling materials to select the ideal option for your interior project in Sikar, Rajasthan.
             </p>
-            <div style="overflow-x:auto;">
-              <table style="width:100%; border-collapse:collapse; color:#e0d6cc; font-size:14px; text-align:left;">
+            <div>
+              <table>
                 <thead>
-                  <tr style="border-bottom:2px solid #b8956a; color:#f5f0eb;">
-                    <th style="padding:12px 10px;">Product Category</th>
-                    <th style="padding:12px 10px;">Primary Feature</th>
-                    <th style="padding:12px 10px;">Ideal Applications in Sikar</th>
-                    <th style="padding:12px 10px;">Moisture / Termite Defense</th>
+                  <tr>
+                    <th>Product Category</th>
+                    <th>Primary Feature</th>
+                    <th>Ideal Applications in Sikar</th>
+                    <th>Moisture / Termite Defense</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-                    <td style="padding:12px 10px;"><strong><a href="/products/pvc-panels" style="color:#b8956a; text-decoration:none;">PVC Wall Panels</a></strong></td>
-                    <td style="padding:12px 10px;">100% Waterproof, Zero Peeling</td>
-                    <td style="padding:12px 10px;">Groundwater damp walls, bathrooms, basements</td>
-                    <td style="padding:12px 10px;">100% Waterproof &amp; Termite-Proof</td>
+                  <tr>
+                    <td><strong><a href="/products/pvc-panels">PVC Wall Panels</a></strong></td>
+                    <td>100% Waterproof, Zero Peeling</td>
+                    <td>Groundwater damp walls, bathrooms, basements</td>
+                    <td>100% Waterproof &amp; Termite-Proof</td>
                   </tr>
-                  <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-                    <td style="padding:12px 10px;"><strong><a href="/products/fluted-panels" style="color:#b8956a; text-decoration:none;">Fluted Panels</a></strong></td>
-                    <td style="padding:12px 10px;">3D Ribbed Wood Louver Texture</td>
-                    <td style="padding:12px 10px;">Living room TV units, bedroom headboards</td>
-                    <td style="padding:12px 10px;">High Durability &amp; Scratch Resistant</td>
+                  <tr>
+                    <td><strong><a href="/products/fluted-panels">Fluted Panels</a></strong></td>
+                    <td>3D Ribbed Wood Louver Texture</td>
+                    <td>Living room TV units, bedroom headboards</td>
+                    <td>High Durability &amp; Scratch Resistant</td>
                   </tr>
-                  <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-                    <td style="padding:12px 10px;"><strong><a href="/products/uv-sheets" style="color:#b8956a; text-decoration:none;">UV Marble Sheets</a></strong></td>
-                    <td style="padding:12px 10px;">Mirror Finish Italian Stone Look</td>
-                    <td style="padding:12px 10px;">Drawing room accents, kitchen backsplashes</td>
-                    <td style="padding:12px 10px;">Waterproof &amp; Easy-Clean Surface</td>
+                  <tr>
+                    <td><strong><a href="/products/uv-sheets">UV Marble Sheets</a></strong></td>
+                    <td>Mirror Finish Italian Stone Look</td>
+                    <td>Drawing room accents, kitchen backsplashes</td>
+                    <td>Waterproof &amp; Easy-Clean Surface</td>
                   </tr>
-                  <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-                    <td style="padding:12px 10px;"><strong><a href="/products/wall-panels" style="color:#b8956a; text-decoration:none;">Decorative Wall Panels</a></strong></td>
-                    <td style="padding:12px 10px;">Geometric Acoustic &amp; Felt Slats</td>
-                    <td style="padding:12px 10px;">Modern feature walls, conference rooms</td>
-                    <td style="padding:12px 10px;">Termite-Resistant Composite</td>
+                  <tr>
+                    <td><strong><a href="/products/wall-panels">Decorative Wall Panels</a></strong></td>
+                    <td>Geometric Acoustic &amp; Felt Slats</td>
+                    <td>Modern feature walls, conference rooms</td>
+                    <td>Termite-Resistant Composite</td>
                   </tr>
-                  <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-                    <td style="padding:12px 10px;"><strong><a href="/products/ceiling-panels" style="color:#b8956a; text-decoration:none;">PVC Ceiling Panels</a></strong></td>
-                    <td style="padding:12px 10px;">Lightweight False Ceiling Rafters</td>
-                    <td style="padding:12px 10px;">Halls, corridors, ambient recessed lighting</td>
-                    <td style="padding:12px 10px;">Zero Sagging &amp; Dampness Defense</td>
+                  <tr>
+                    <td><strong><a href="/products/ceiling-panels">PVC Ceiling Panels</a></strong></td>
+                    <td>Lightweight False Ceiling Rafters</td>
+                    <td>Halls, corridors, ambient recessed lighting</td>
+                    <td>Zero Sagging &amp; Dampness Defense</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section class="faq-section" id="faq">
-          <div class="container">
-            <p class="section-eyebrow">FREQUENTLY ASKED QUESTIONS</p>
-            <h2 class="section-heading">Questions About Wall &amp; Ceiling Panels in Sikar</h2>
-            <div class="faq-list">
-              <div class="faq-item">
-                <h3 style="font-size:16px; margin-bottom:6px; color:#f5f0eb;">What products does Star Home Design provide?</h3>
-                <p style="color:#a09890; margin:0;">Star Home Design provides premium interior materials including 100% waterproof PVC wall panels, deep architectural fluted panels, high-gloss UV marble sheets, decorative ceiling panels, rafter profiles, and 3D textured tiles.</p>
+          <section id="faq">
+            <p>FREQUENTLY ASKED QUESTIONS</p>
+            <h2>Questions About Wall &amp; Ceiling Panels in Sikar</h2>
+            <div>
+              <div>
+                <h3>What products does Star Home Design provide?</h3>
+                <p>Star Home Design provides premium interior materials including 100% waterproof PVC wall panels, deep architectural fluted panels, high-gloss UV marble sheets, decorative ceiling panels, rafter profiles, and 3D textured tiles.</p>
               </div>
-              <div class="faq-item">
-                <h3 style="font-size:16px; margin-bottom:6px; color:#f5f0eb;">Where can I buy PVC panels in Sikar?</h3>
-                <p style="color:#a09890; margin:0;">You can buy authentic PVC panels at the Star Home Design showroom located on Jaipur-Jhunjhunu Bypass Road, Opposite Maruti Authorized Service Center in Sikar, Rajasthan (Phone: +91 82394 09535).</p>
+              <div>
+                <h3>Where can I buy PVC panels in Sikar?</h3>
+                <p>You can buy authentic PVC panels at the Star Home Design showroom located on Jaipur-Jhunjhunu Bypass Road, Opposite Maruti Authorized Service Center in Sikar, Rajasthan (Phone: +91 82394 09535).</p>
               </div>
-              <div class="faq-item">
-                <h3 style="font-size:16px; margin-bottom:6px; color:#f5f0eb;">What are fluted panels used for?</h3>
-                <p style="color:#a09890; margin:0;">Fluted panels are used for creating luxurious accent walls, modern TV unit backdrops, bedroom headboard feature walls, dining room partitions, and acoustic texture in living spaces.</p>
+              <div>
+                <h3>What are fluted panels used for?</h3>
+                <p>Fluted panels are used for creating luxurious accent walls, modern TV unit backdrops, bedroom headboard feature walls, dining room partitions, and acoustic texture in living spaces.</p>
               </div>
-              <div class="faq-item">
-                <h3 style="font-size:16px; margin-bottom:6px; color:#f5f0eb;">What are UV sheets used for?</h3>
-                <p style="color:#a09890; margin:0;">UV sheets are used to achieve the ultra-luxurious look of imported Italian marble on walls, kitchen backsplashes, lift lobbies, and bathroom vanity areas at a fraction of natural stone cost.</p>
+              <div>
+                <h3>What are UV sheets used for?</h3>
+                <p>UV sheets are used to achieve the ultra-luxurious look of imported Italian marble on walls, kitchen backsplashes, lift lobbies, and bathroom vanity areas at a fraction of natural stone cost.</p>
               </div>
-              <div class="faq-item">
-                <h3 style="font-size:16px; margin-bottom:6px; color:#f5f0eb;">Which wall panel is suitable for home interiors in Sikar?</h3>
-                <p style="color:#a09890; margin:0;">For damp or moisture-affected walls, waterproof PVC panels are best. For luxury living rooms and TV units, deep fluted panels or UV marble sheets provide the highest aesthetic value.</p>
+              <div>
+                <h3>Which wall panel is suitable for home interiors in Sikar?</h3>
+                <p>For damp or moisture-affected walls, waterproof PVC panels are best. For luxury living rooms and TV units, deep fluted panels or UV marble sheets provide the highest aesthetic value.</p>
               </div>
-              <div class="faq-item">
-                <h3 style="font-size:16px; margin-bottom:6px; color:#f5f0eb;">How can I contact Star Home Design?</h3>
-                <p style="color:#a09890; margin:0;">You can contact Star Home Design by calling or messaging on WhatsApp at +91 82394 09535, emailing skysk9535@gmail.com, or visiting our showroom on Jaipur-Jhunjhunu Bypass Road, Sikar.</p>
+              <div>
+                <h3>How can I contact Star Home Design?</h3>
+                <p>You can contact Star Home Design by calling or messaging on WhatsApp at +91 82394 09535, emailing skysk9535@gmail.com, or visiting our showroom on Jaipur-Jhunjhunu Bypass Road, Sikar.</p>
               </div>
             </div>
-          </div>
-        </section>
-      </main>
+          </section>
+        </main>
 
-      <footer class="footer" id="contact" style="padding:40px 0 20px; border-top:1px solid rgba(255,255,255,0.08);">
-        <div class="container">
-          <p style="color:#f5f0eb; margin-bottom:8px;">
-            <strong>Star Home Design</strong> - Jaipur-Jhunjhunu Bypass Road, Opp. Maruti Authorized Service Center, Sikar, Rajasthan 332001. Phone: <a href="tel:+918239409535" style="color:#b8956a; text-decoration:none;">+91 82394 09535</a>.
+        <footer id="contact">
+          <p>
+            <strong>Star Home Design</strong> - Jaipur-Jhunjhunu Bypass Road, Opp. Maruti Authorized Service Center, Sikar, Rajasthan 332001. Phone: <a href="tel:+918239409535">+91 82394 09535</a>.
           </p>
-          <p style="font-size:13px; color:#a09890; margin-bottom:16px;">
-            <a href="https://maps.google.com/?q=Star+Home+Design+Jaipur+Jhunjhunu+Bypass+Road+Sikar" target="_blank" rel="noopener external" style="color:#e0a96d; text-decoration:underline;">📍 View Showroom on Google Maps</a> &bull;
-            <a href="https://www.instagram.com/starhomedesign" target="_blank" rel="noopener external" style="color:#a09890; margin-left:8px;">Instagram</a> &bull;
-            <a href="https://www.facebook.com/starhomedesign" target="_blank" rel="noopener external" style="color:#a09890; margin-left:8px;">Facebook</a> &bull;
-            <a href="https://www.youtube.com/@starhomedesign" target="_blank" rel="noopener external" style="color:#a09890; margin-left:8px;">YouTube</a> &bull;
-            <a href="https://en.wikipedia.org/wiki/Sikar" target="_blank" rel="noopener external" style="color:#80756b; margin-left:8px;">About Sikar</a>
+          <p>
+            <a href="https://maps.google.com/?q=Star+Home+Design+Jaipur+Jhunjhunu+Bypass+Road+Sikar" target="_blank" rel="noopener external">📍 View Showroom on Google Maps</a> &bull;
+            <a href="https://www.instagram.com/starhomedesign" target="_blank" rel="noopener external">Instagram</a> &bull;
+            <a href="https://www.facebook.com/starhomedesign" target="_blank" rel="noopener external">Facebook</a> &bull;
+            <a href="https://www.youtube.com/@starhomedesign" target="_blank" rel="noopener external">YouTube</a> &bull;
+            <a href="https://en.wikipedia.org/wiki/Sikar" target="_blank" rel="noopener external">About Sikar</a>
           </p>
-          <nav aria-label="Footer Navigation" style="display:flex; gap:12px; flex-wrap:wrap; font-size:13px; margin-top:12px;">
-            <a href="/products/pvc-panels" style="color:#b8956a;">PVC Wall Panels in Sikar</a>
-            <a href="/products/fluted-panels" style="color:#b8956a;">Fluted Panels in Sikar</a>
-            <a href="/products/uv-sheets" style="color:#b8956a;">UV Marble Sheets in Sikar</a>
-            <a href="/products/wall-panels" style="color:#b8956a;">Decorative Wall Panels in Sikar</a>
-            <a href="/products/ceiling-panels" style="color:#b8956a;">Ceiling Panels in Sikar</a>
-            <a href="/guides" style="color:#b8956a;">Interior Guides</a>
-            <a href="/guides/pvc-wall-panels-guide" style="color:#a09890;">PVC Wall Panels Guide</a>
-            <a href="/guides/fluted-panel-design-ideas" style="color:#a09890;">Fluted Panel Ideas</a>
-            <a href="/guides/uv-marble-sheet-guide" style="color:#a09890;">UV Marble Guide</a>
-            <a href="/guides/pvc-vs-traditional-wall-finishes" style="color:#a09890;">PVC vs Paint Comparison</a>
-            <a href="/guides/best-wall-panel-designs" style="color:#a09890;">Best Wall Panel Designs</a>
-            <a href="/guides/interior-decoration-ideas-sikar" style="color:#a09890;">Sikar Interior Decoration Ideas</a>
+          <nav aria-label="Footer Navigation">
+            <a href="/products/pvc-panels">PVC Wall Panels in Sikar</a>
+            <a href="/products/fluted-panels">Fluted Panels in Sikar</a>
+            <a href="/products/uv-sheets">UV Marble Sheets in Sikar</a>
+            <a href="/products/wall-panels">Decorative Wall Panels in Sikar</a>
+            <a href="/products/ceiling-panels">Ceiling Panels in Sikar</a>
+            <a href="/guides">Interior Guides</a>
+            <a href="/guides/pvc-wall-panels-guide">PVC Wall Panels Guide</a>
+            <a href="/guides/fluted-panel-design-ideas">Fluted Panel Ideas</a>
+            <a href="/guides/uv-marble-sheet-guide">UV Marble Guide</a>
+            <a href="/guides/pvc-vs-traditional-wall-finishes">PVC vs Paint Comparison</a>
+            <a href="/guides/best-wall-panel-designs">Best Wall Panel Designs</a>
+            <a href="/guides/interior-decoration-ideas-sikar">Sikar Interior Decoration Ideas</a>
           </nav>
-        </div>
-      </footer>
+        </footer>
+      </div>
     </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

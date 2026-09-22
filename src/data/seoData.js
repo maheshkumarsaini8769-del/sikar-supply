@@ -27,9 +27,9 @@ export const BUSINESS_NAP = {
 };
 
 export const HOMEPAGE_SEO = {
-  title: 'Star Home Design | PVC Panels, Fluted Panels & UV Sheets in Sikar',
-  metaDescription: 'Buy premium PVC wall panels, fluted panels & UV sheets in Sikar at Star Home Design. Quality interior materials for homes & offices. Visit showroom or call us.',
-  h1: 'Premium Wall & Interior Decoration Products in Sikar',
+  title: 'Star Home Design | PVC, Fluted Panels & UV Sheets in Sikar',
+  metaDescription: 'Buy premium PVC wall panels, fluted panels & UV sheets in Sikar at Star Home Design. Quality interior materials for modern homes. Visit showroom or call.',
+  h1: 'Transform Your Space',
   keywords: [
     'PVC Panels in Sikar',
     'PVC Wall Panels in Sikar',

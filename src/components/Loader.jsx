@@ -10,11 +10,11 @@ export default function Loader() {
       return;
     }
     setVisible(true);
-    const t1 = setTimeout(() => setFading(true), 1800);
+    const t1 = setTimeout(() => setFading(true), 400);
     const t2 = setTimeout(() => {
       setVisible(false);
       sessionStorage.setItem('star-loaded', '1');
-    }, 2400);
+    }, 700);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 

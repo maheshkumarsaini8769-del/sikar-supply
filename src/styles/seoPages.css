@@ -112,18 +112,26 @@
   text-align: center;
   font-size: 14px;
   color: var(--color-text-secondary);
+  background: rgba(184, 149, 106, 0.05);
+  border: 1px solid rgba(184, 149, 106, 0.2);
+  border-radius: 8px;
+  padding: 16px 20px;
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .faq-link {
   color: var(--color-accent);
   font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  text-decoration: none;
+  margin-left: 6px;
   transition: color var(--transition-base);
 }
 
 .faq-link:hover {
-  color: var(--color-accent-light);
+  color: var(--color-warm-white);
+  text-decoration: underline;
 }
 
 /* ===================================================
