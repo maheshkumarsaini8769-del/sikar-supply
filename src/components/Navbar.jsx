@@ -188,13 +188,18 @@ export default function Navbar({ onSearchProduct }) {
               WhatsApp
             </a>
             <button
-              className={`hamburger ${menuOpen ? 'active' : ''}`}
+              className={`navbar-menu-btn ${menuOpen ? 'active' : ''}`}
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle navigation menu"
               aria-expanded={menuOpen}
-              title="Menu directory"
+              title="Open full menu directory"
             >
-              <span></span><span></span><span></span>
+              <span className="navbar-menu-hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+              <span className="navbar-menu-label">Menu</span>
             </button>
           </div>
 
