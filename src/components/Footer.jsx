@@ -10,13 +10,26 @@ export default function Footer() {
   return (
     <footer className="footer" id="contact">
       <div className="container">
+        {/* Top Quote Callout Bar */}
+        <div className="footer-cta-strip">
+          <div className="footer-cta-text">
+            <h3>Planning a Wall or Interior Renovation in Sikar?</h3>
+            <p>Schedule a free on-site laser measurement visit and receive an itemized quotation.</p>
+          </div>
+          <div className="footer-cta-action">
+            <Link to="/get-quote" className="btn-primary">
+              Get Free Site Visit
+            </Link>
+          </div>
+        </div>
+
         <div className="footer-grid">
           {/* Brand & Social */}
           <div className="footer-brand">
             <Logo />
             <p className="footer-description">
               {settings?.footerDescription ||
-                'Star Home Design is Sikar’s premier showroom for waterproof PVC panels, luxury fluted louvers, and high-gloss UV marble sheets for modern home and commercial interiors.'}
+                'Star Home Design is Sikar’s premier showroom for waterproof PVC panels, architectural fluted louvers, and high-gloss UV marble sheets for modern homes and commercial interiors.'}
             </p>
             <div className="footer-social">
               {settings?.socialLinks?.instagram ? (
@@ -49,28 +62,46 @@ export default function Footer() {
             </div>
           </div>
 
+          {/* Explore Links */}
+          <div className="footer-col">
+            <h4>Explore</h4>
+            <ul>
+              <li><Link to="/about">About Us</Link></li>
+              <li><Link to="/services">All Services</Link></li>
+              <li><Link to="/products">Product Catalog</Link></li>
+              <li><Link to="/projects">Project Portfolio</Link></li>
+              <li><Link to="/gallery">Photo Gallery</Link></li>
+              <li><Link to="/process">Our 9-Step Process</Link></li>
+              <li><Link to="/pricing">Pricing &amp; Calculator</Link></li>
+              <li><Link to="/blog">Design Blog</Link></li>
+            </ul>
+          </div>
+
           {/* Product Category SEO Links */}
           <div className="footer-col">
             <h4>Products in Sikar</h4>
             <ul>
               <li><Link to="/products/pvc-panels">PVC Wall Panels</Link></li>
-              <li><Link to="/products/fluted-panels">Fluted Panels</Link></li>
+              <li><Link to="/products/fluted-panels">Fluted Louvers</Link></li>
               <li><Link to="/products/uv-sheets">UV Marble Sheets</Link></li>
-              <li><Link to="/products/wall-panels">Decorative Wall Panels</Link></li>
+              <li><Link to="/products/wall-panels">Decorative Panels</Link></li>
               <li><Link to="/products/ceiling-panels">Ceiling Panels</Link></li>
+              <li><Link to="/services/tv-unit">TV Media Units</Link></li>
+              <li><Link to="/services/false-ceiling">False Ceilings</Link></li>
             </ul>
           </div>
 
-          {/* Guides & Resources Links */}
+          {/* Support & Legal Links */}
           <div className="footer-col">
-            <h4>Guides &amp; Advice</h4>
+            <h4>Customer &amp; Legal</h4>
             <ul>
-              <li><Link to="/guides/pvc-wall-panels-guide">PVC Panels Guide</Link></li>
-              <li><Link to="/guides/fluted-panel-design-ideas">Fluted Design Ideas</Link></li>
-              <li><Link to="/guides/uv-marble-sheet-guide">UV Marble Guide</Link></li>
-              <li><Link to="/guides/pvc-vs-traditional-wall-finishes">PVC vs Paint Comparison</Link></li>
-              <li><Link to="/guides">All Interior Guides</Link></li>
-              <li><a href="/#faq">Common FAQs</a></li>
+              <li><Link to="/get-quote">Get Free Quote</Link></li>
+              <li><Link to="/contact">Contact Showroom</Link></li>
+              <li><Link to="/faq">FAQs &amp; Help</Link></li>
+              <li><Link to="/guides">Interior Guides</Link></li>
+              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="/terms-and-conditions">Terms &amp; Conditions</Link></li>
+              <li><Link to="/cancellation-refund-policy">Cancellation &amp; Refund</Link></li>
             </ul>
           </div>
 
@@ -92,7 +123,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>{settings?.copyrightText || `© ${year} Star Home Design. All rights reserved. Premium Interior Products in Sikar, Rajasthan.`}</p>
+          <p>{settings?.copyrightText || `© ${year} Star Home Design. All rights reserved. Premium Interior Products & Installation in Sikar, Rajasthan.`}</p>
         </div>
       </div>
     </footer>

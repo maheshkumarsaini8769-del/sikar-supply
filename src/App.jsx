@@ -24,6 +24,25 @@ import Loader from './components/Loader';
 import ProductCategoryPage from './pages/ProductCategoryPage';
 import GuidesPage from './pages/GuidesPage';
 import GuideDetailPage from './pages/GuideDetailPage';
+import AboutPage from './pages/AboutPage';
+import ServicesPage from './pages/ServicesPage';
+import ServiceDetailPage from './pages/ServiceDetailPage';
+import ProductsPage from './pages/ProductsPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import ProjectsPage from './pages/ProjectsPage';
+import ProjectDetailPage from './pages/ProjectDetailPage';
+import GalleryPage from './pages/GalleryPage';
+import ProcessPage from './pages/ProcessPage';
+import PricingPage from './pages/PricingPage';
+import GetQuotePage from './pages/GetQuotePage';
+import ContactPage from './pages/ContactPage';
+import FAQPage from './pages/FAQPage';
+import BlogPage from './pages/BlogPage';
+import BlogDetailPage from './pages/BlogDetailPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsConditionsPage from './pages/TermsConditionsPage';
+import CancellationRefundPolicyPage from './pages/CancellationRefundPolicyPage';
+import NotFound from './pages/NotFound';
 import { HOMEPAGE_SEO, SCO_DIRECT_ANSWERS, BUSINESS_NAP, CANONICAL_DOMAIN } from './data/seoData';
 
 import AdminLayout from './admin/components/Layout';
@@ -44,7 +63,6 @@ import AdminCustomers from './admin/pages/Customers';
 import AdminProfitLoss from './admin/pages/ProfitLoss';
 import AdminActivity from './admin/pages/Activity';
 import AdminCoupons from './admin/pages/Coupons';
-import NotFound from './pages/NotFound';
 
 import './styles/global.css';
 import './styles/animations.css';
@@ -60,6 +78,7 @@ import './styles/reviews.css';
 import './styles/gallery.css';
 import './styles/admin.css';
 import './styles/seoPages.css';
+import './styles/sitePages.css';
 
 function ProtectedAdmin({ children }) {
   const { user, loading } = useAuth();
@@ -313,10 +332,21 @@ function PageviewTracker() {
   return null;
 }
 
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
+  return null;
+}
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <PageviewTracker />
         <Routes>
           <Route path="/admin/login" element={<AdminLogin />} />
@@ -341,12 +371,36 @@ function App() {
             <Route path="activity" element={<AdminActivity />} />
             <Route path="coupons" element={<AdminCoupons />} />
           </Route>
+
+          {/* Homepage */}
           <Route path="/" element={<CustomerSite />} />
-          <Route path="/products/:categorySlug" element={<SiteProvider><ProductCategoryPage /></SiteProvider>} />
+
+          {/* Core Multi-Page Routes */}
+          <Route path="/about" element={<SiteProvider><AboutPage /></SiteProvider>} />
+          <Route path="/services" element={<SiteProvider><ServicesPage /></SiteProvider>} />
+          <Route path="/services/:serviceSlug" element={<SiteProvider><ServiceDetailPage /></SiteProvider>} />
+          <Route path="/products" element={<SiteProvider><ProductsPage /></SiteProvider>} />
+          <Route path="/products/:slug" element={<SiteProvider><ProductDetailPage /></SiteProvider>} />
+          <Route path="/projects" element={<SiteProvider><ProjectsPage /></SiteProvider>} />
+          <Route path="/projects/:slug" element={<SiteProvider><ProjectDetailPage /></SiteProvider>} />
+          <Route path="/gallery" element={<SiteProvider><GalleryPage /></SiteProvider>} />
+          <Route path="/process" element={<SiteProvider><ProcessPage /></SiteProvider>} />
+          <Route path="/pricing" element={<SiteProvider><PricingPage /></SiteProvider>} />
+          <Route path="/get-quote" element={<SiteProvider><GetQuotePage /></SiteProvider>} />
+          <Route path="/contact" element={<SiteProvider><ContactPage /></SiteProvider>} />
+          <Route path="/faq" element={<SiteProvider><FAQPage /></SiteProvider>} />
+          <Route path="/blog" element={<SiteProvider><BlogPage /></SiteProvider>} />
+          <Route path="/blog/:slug" element={<SiteProvider><BlogDetailPage /></SiteProvider>} />
+          <Route path="/privacy-policy" element={<SiteProvider><PrivacyPolicyPage /></SiteProvider>} />
+          <Route path="/terms-and-conditions" element={<SiteProvider><TermsConditionsPage /></SiteProvider>} />
+          <Route path="/cancellation-refund-policy" element={<SiteProvider><CancellationRefundPolicyPage /></SiteProvider>} />
+
+          {/* SEO Guides */}
           <Route path="/guides" element={<SiteProvider><GuidesPage /></SiteProvider>} />
           <Route path="/guides/:guideSlug" element={<SiteProvider><GuideDetailPage /></SiteProvider>} />
-          <Route path="/:slug" element={<CustomerSite />} />
-          <Route path="*" element={<NotFound />} />
+
+          {/* Catch-all Not Found */}
+          <Route path="*" element={<SiteProvider><NotFound /></SiteProvider>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
