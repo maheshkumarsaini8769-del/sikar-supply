@@ -12,11 +12,12 @@ export default function Intro() {
           <ScrollReveal>
             <div className="intro-image">
               <img
-                src={settings?.aboutImage && typeof settings.aboutImage === 'string' ? ((settings.aboutImage.startsWith('http') || settings.aboutImage.startsWith('data:')) ? settings.aboutImage : UPLOAD_URL + settings.aboutImage) : 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85&auto=format&fit=crop'}
+                src={settings?.aboutImage && typeof settings.aboutImage === 'string' ? ((settings.aboutImage.startsWith('http') || settings.aboutImage.startsWith('data:')) ? settings.aboutImage : UPLOAD_URL + settings.aboutImage) : 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=700&q=70&auto=format&fit=crop'}
                 alt="Star Home Design premium interior showroom in Sikar Rajasthan"
                 loading="lazy"
-                width="800"
-                height="600"
+                decoding="async"
+                width="700"
+                height="525"
               />
             </div>
           </ScrollReveal>

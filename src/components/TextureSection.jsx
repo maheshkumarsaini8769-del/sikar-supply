@@ -11,7 +11,7 @@ export default function TextureSection() {
   const textureImg = settings?.textureImage;
   const imgSrc = textureImg
     ? ((textureImg.startsWith('http') || textureImg.startsWith('data:')) ? textureImg : UPLOAD_URL + textureImg)
-    : 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&q=85&auto=format&fit=crop';
+    : 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=900&q=70&auto=format&fit=crop';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,8 +39,9 @@ export default function TextureSection() {
           src={imgSrc}
           alt="Premium wall material texture with dramatic lighting"
           loading="lazy"
-          width="1920"
-          height="1080"
+          decoding="async"
+          width="900"
+          height="506"
         />
       </div>
       <div className="texture-section-overlay"></div>

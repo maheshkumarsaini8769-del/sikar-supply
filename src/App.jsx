@@ -64,6 +64,7 @@ const AdminCustomers = lazy(() => import('./admin/pages/Customers'));
 const AdminProfitLoss = lazy(() => import('./admin/pages/ProfitLoss'));
 const AdminActivity = lazy(() => import('./admin/pages/Activity'));
 const AdminCoupons = lazy(() => import('./admin/pages/Coupons'));
+const SitePageWrapper = lazy(() => import('./components/SitePageWrapper'));
 
 import './styles/global.css';
 import './styles/animations.css';
@@ -77,8 +78,6 @@ import './styles/form.css';
 import './styles/footer.css';
 import './styles/reviews.css';
 import './styles/gallery.css';
-import './styles/seoPages.css';
-import './styles/sitePages.css';
 
 function ProtectedAdmin({ children }) {
   const { user, loading } = useAuth();
@@ -376,31 +375,31 @@ function App() {
             <Route path="/" element={<CustomerSite />} />
 
             {/* Core Multi-Page Routes */}
-            <Route path="/about" element={<SiteProvider><AboutPage /></SiteProvider>} />
-            <Route path="/services" element={<SiteProvider><ServicesPage /></SiteProvider>} />
-            <Route path="/services/:serviceSlug" element={<SiteProvider><ServiceDetailPage /></SiteProvider>} />
-            <Route path="/products" element={<SiteProvider><ProductsPage /></SiteProvider>} />
-            <Route path="/products/:slug" element={<SiteProvider><ProductDetailPage /></SiteProvider>} />
-            <Route path="/projects" element={<SiteProvider><ProjectsPage /></SiteProvider>} />
-            <Route path="/projects/:slug" element={<SiteProvider><ProjectDetailPage /></SiteProvider>} />
-            <Route path="/gallery" element={<SiteProvider><GalleryPage /></SiteProvider>} />
-            <Route path="/process" element={<SiteProvider><ProcessPage /></SiteProvider>} />
-            <Route path="/pricing" element={<SiteProvider><PricingPage /></SiteProvider>} />
-            <Route path="/get-quote" element={<SiteProvider><GetQuotePage /></SiteProvider>} />
-            <Route path="/contact" element={<SiteProvider><ContactPage /></SiteProvider>} />
-            <Route path="/faq" element={<SiteProvider><FAQPage /></SiteProvider>} />
-            <Route path="/blog" element={<SiteProvider><BlogPage /></SiteProvider>} />
-            <Route path="/blog/:slug" element={<SiteProvider><BlogDetailPage /></SiteProvider>} />
-            <Route path="/privacy-policy" element={<SiteProvider><PrivacyPolicyPage /></SiteProvider>} />
-            <Route path="/terms-and-conditions" element={<SiteProvider><TermsConditionsPage /></SiteProvider>} />
-            <Route path="/cancellation-refund-policy" element={<SiteProvider><CancellationRefundPolicyPage /></SiteProvider>} />
+            <Route path="/about" element={<SiteProvider><SitePageWrapper><AboutPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/services" element={<SiteProvider><SitePageWrapper><ServicesPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/services/:serviceSlug" element={<SiteProvider><SitePageWrapper><ServiceDetailPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/products" element={<SiteProvider><SitePageWrapper><ProductsPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/products/:slug" element={<SiteProvider><SitePageWrapper><ProductDetailPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/projects" element={<SiteProvider><SitePageWrapper><ProjectsPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/projects/:slug" element={<SiteProvider><SitePageWrapper><ProjectDetailPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/gallery" element={<SiteProvider><SitePageWrapper><GalleryPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/process" element={<SiteProvider><SitePageWrapper><ProcessPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/pricing" element={<SiteProvider><SitePageWrapper><PricingPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/get-quote" element={<SiteProvider><SitePageWrapper><GetQuotePage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/contact" element={<SiteProvider><SitePageWrapper><ContactPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/faq" element={<SiteProvider><SitePageWrapper><FAQPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/blog" element={<SiteProvider><SitePageWrapper><BlogPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/blog/:slug" element={<SiteProvider><SitePageWrapper><BlogDetailPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/privacy-policy" element={<SiteProvider><SitePageWrapper><PrivacyPolicyPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/terms-and-conditions" element={<SiteProvider><SitePageWrapper><TermsConditionsPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/cancellation-refund-policy" element={<SiteProvider><SitePageWrapper><CancellationRefundPolicyPage /></SitePageWrapper></SiteProvider>} />
 
             {/* SEO Guides */}
-            <Route path="/guides" element={<SiteProvider><GuidesPage /></SiteProvider>} />
-            <Route path="/guides/:guideSlug" element={<SiteProvider><GuideDetailPage /></SiteProvider>} />
+            <Route path="/guides" element={<SiteProvider><SitePageWrapper><GuidesPage /></SitePageWrapper></SiteProvider>} />
+            <Route path="/guides/:guideSlug" element={<SiteProvider><SitePageWrapper><GuideDetailPage /></SitePageWrapper></SiteProvider>} />
 
             {/* Catch-all Not Found */}
-            <Route path="*" element={<SiteProvider><NotFound /></SiteProvider>} />
+            <Route path="*" element={<SiteProvider><SitePageWrapper><NotFound /></SitePageWrapper></SiteProvider>} />
           </Routes>
         </Suspense>
       </BrowserRouter>

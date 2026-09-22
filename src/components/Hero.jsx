@@ -3,10 +3,10 @@ import { useSite } from '../context/SiteContext';
 import { UPLOAD_URL } from '../api';
 
 const fallbackSlides = [
-  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1080&q=75&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1080&q=75&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1080&q=75&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=1080&q=75&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=70&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=70&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=70&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=800&q=70&auto=format&fit=crop',
 ];
 
 export default function Hero() {
@@ -20,7 +20,7 @@ export default function Hero() {
 
   const slides = rawSlides.map(url => {
     if (typeof url === 'string' && url.includes('images.unsplash.com')) {
-      return url.replace(/w=\d+/, 'w=1080').replace(/q=\d+/, 'q=75');
+      return url.replace(/w=\d+/, 'w=800').replace(/q=\d+/, 'q=70');
     }
     return url;
   });
@@ -31,7 +31,7 @@ export default function Hero() {
   useEffect(() => {
     const deferTimer = setTimeout(() => {
       setLoadedIndices(slides.map((_, idx) => idx));
-    }, 1200);
+    }, 1500);
     return () => clearTimeout(deferTimer);
   }, [slides.length]);
 
@@ -58,12 +58,19 @@ export default function Hero() {
           <div
             key={i}
             className={`hero-slide ${i === current ? 'active' : ''}`}
-            style={{
-              backgroundImage: loadedIndices.includes(i) || i === 0 ? `url(${slide})` : 'none'
-            }}
-            role="img"
-            aria-label={`Star Home Design showroom slide ${i + 1} - Premium interior materials in Sikar Rajasthan`}
-          />
+          >
+            {(loadedIndices.includes(i) || i === 0) && (
+              <img
+                src={slide}
+                alt={`Star Home Design showroom slide ${i + 1} - Premium interior materials in Sikar Rajasthan`}
+                fetchPriority={i === 0 ? "high" : "low"}
+                loading={i === 0 ? "eager" : "lazy"}
+                decoding={i === 0 ? "sync" : "async"}
+                width="800"
+                height="600"
+              />
+            )}
+          </div>
         ))}
         <div className="hero-overlay" />
       </div>
