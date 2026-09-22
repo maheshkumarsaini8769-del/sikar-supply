@@ -3,6 +3,7 @@ import { Outlet, useNavigate, useLocation, NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api';
 import Logo from '../../components/Logo';
+import '../../styles/admin.css';
 
 const navGroups = [
   {

@@ -11,13 +11,6 @@ export default function Logo({ className = '' }) {
     return UPLOAD_URL + logoImg;
   };
 
-  if (loading) {
-    return (
-      <a href="#" className={`logo-link ${className}`} onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-        <div style={{ height: 40, width: 120, background: 'rgba(184,149,106,0.1)', borderRadius: 4 }} />
-      </a>
-    );
-  }
 
   return (
     <a href="#" className={`logo-link ${className}`} onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>

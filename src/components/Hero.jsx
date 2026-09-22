@@ -3,25 +3,45 @@ import { useSite } from '../context/SiteContext';
 import { UPLOAD_URL } from '../api';
 
 const fallbackSlides = [
-  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=85&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&q=85&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=85&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=1920&q=85&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1080&q=75&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1080&q=75&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1080&q=75&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=1080&q=75&auto=format&fit=crop',
 ];
 
 export default function Hero() {
   const { settings } = useSite();
   const [current, setCurrent] = useState(0);
+  const [loadedIndices, setLoadedIndices] = useState([0]);
 
-  const slides = settings?.heroSlides?.filter(s => s.active).length > 0
+  const rawSlides = settings?.heroSlides?.filter(s => s.active).length > 0
     ? settings.heroSlides.filter(s => s.active).sort((a, b) => a.displayOrder - b.displayOrder).map(s => (s.image?.startsWith('http') || s.image?.startsWith('data:')) ? s.image : UPLOAD_URL + s.image)
     : fallbackSlides;
 
-  const duration = settings?.slideDuration || 3000;
+  const slides = rawSlides.map(url => {
+    if (typeof url === 'string' && url.includes('images.unsplash.com')) {
+      return url.replace(/w=\d+/, 'w=1080').replace(/q=\d+/, 'q=75');
+    }
+    return url;
+  });
+
+  const duration = settings?.slideDuration || 3500;
+
+  // Defer downloading secondary slides until after initial paint
+  useEffect(() => {
+    const deferTimer = setTimeout(() => {
+      setLoadedIndices(slides.map((_, idx) => idx));
+    }, 1200);
+    return () => clearTimeout(deferTimer);
+  }, [slides.length]);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
+      setCurrent((prev) => {
+        const next = (prev + 1) % slides.length;
+        setLoadedIndices((currentLoaded) => currentLoaded.includes(next) ? currentLoaded : [...currentLoaded, next]);
+        return next;
+      });
     }, duration);
     return () => clearInterval(timer);
   }, [slides.length, duration]);
@@ -38,7 +58,9 @@ export default function Hero() {
           <div
             key={i}
             className={`hero-slide ${i === current ? 'active' : ''}`}
-            style={{ backgroundImage: `url(${slide})` }}
+            style={{
+              backgroundImage: loadedIndices.includes(i) || i === 0 ? `url(${slide})` : 'none'
+            }}
             role="img"
             aria-label={`Star Home Design showroom slide ${i + 1} - Premium interior materials in Sikar Rajasthan`}
           />

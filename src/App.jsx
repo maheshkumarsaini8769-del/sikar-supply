@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './admin/context/AuthContext';
 import { SiteProvider, useSite } from './context/SiteContext';
@@ -19,50 +19,51 @@ import ReviewSection from './components/ReviewSection';
 import HomeFAQ from './components/HomeFAQ';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
-import Loader from './components/Loader';
 
-import ProductCategoryPage from './pages/ProductCategoryPage';
-import GuidesPage from './pages/GuidesPage';
-import GuideDetailPage from './pages/GuideDetailPage';
-import AboutPage from './pages/AboutPage';
-import ServicesPage from './pages/ServicesPage';
-import ServiceDetailPage from './pages/ServiceDetailPage';
-import ProductsPage from './pages/ProductsPage';
-import ProductDetailPage from './pages/ProductDetailPage';
-import ProjectsPage from './pages/ProjectsPage';
-import ProjectDetailPage from './pages/ProjectDetailPage';
-import GalleryPage from './pages/GalleryPage';
-import ProcessPage from './pages/ProcessPage';
-import PricingPage from './pages/PricingPage';
-import GetQuotePage from './pages/GetQuotePage';
-import ContactPage from './pages/ContactPage';
-import FAQPage from './pages/FAQPage';
-import BlogPage from './pages/BlogPage';
-import BlogDetailPage from './pages/BlogDetailPage';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
-import TermsConditionsPage from './pages/TermsConditionsPage';
-import CancellationRefundPolicyPage from './pages/CancellationRefundPolicyPage';
-import NotFound from './pages/NotFound';
 import { HOMEPAGE_SEO, SCO_DIRECT_ANSWERS, BUSINESS_NAP, CANONICAL_DOMAIN } from './data/seoData';
 
-import AdminLayout from './admin/components/Layout';
-import AdminLogin from './admin/pages/Login';
-import AdminDashboard from './admin/pages/Dashboard';
-import AdminOrders from './admin/pages/Orders';
-import AdminProducts from './admin/pages/Products';
-import AdminCategories from './admin/pages/Categories';
-import AdminSettings from './admin/pages/Settings';
-import AdminMedia from './admin/pages/Media';
-import AdminHeroSlides from './admin/pages/HeroSlides';
-import AdminGallery from './admin/pages/Gallery';
-import AdminReviews from './admin/pages/Reviews';
-import AdminStock from './admin/pages/Stock';
-import AdminSales from './admin/pages/Sales';
-import AdminPurchases from './admin/pages/Purchases';
-import AdminCustomers from './admin/pages/Customers';
-import AdminProfitLoss from './admin/pages/ProfitLoss';
-import AdminActivity from './admin/pages/Activity';
-import AdminCoupons from './admin/pages/Coupons';
+// Lazy-loaded Customer Pages
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ServicesPage = lazy(() => import('./pages/ServicesPage'));
+const ServiceDetailPage = lazy(() => import('./pages/ServiceDetailPage'));
+const ProductsPage = lazy(() => import('./pages/ProductsPage'));
+const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
+const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
+const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
+const GalleryPage = lazy(() => import('./pages/GalleryPage'));
+const ProcessPage = lazy(() => import('./pages/ProcessPage'));
+const PricingPage = lazy(() => import('./pages/PricingPage'));
+const GetQuotePage = lazy(() => import('./pages/GetQuotePage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const FAQPage = lazy(() => import('./pages/FAQPage'));
+const BlogPage = lazy(() => import('./pages/BlogPage'));
+const BlogDetailPage = lazy(() => import('./pages/BlogDetailPage'));
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
+const TermsConditionsPage = lazy(() => import('./pages/TermsConditionsPage'));
+const CancellationRefundPolicyPage = lazy(() => import('./pages/CancellationRefundPolicyPage'));
+const GuidesPage = lazy(() => import('./pages/GuidesPage'));
+const GuideDetailPage = lazy(() => import('./pages/GuideDetailPage'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+
+// Lazy-loaded Admin Pages & Layout
+const AdminLayout = lazy(() => import('./admin/components/Layout'));
+const AdminLogin = lazy(() => import('./admin/pages/Login'));
+const AdminDashboard = lazy(() => import('./admin/pages/Dashboard'));
+const AdminOrders = lazy(() => import('./admin/pages/Orders'));
+const AdminProducts = lazy(() => import('./admin/pages/Products'));
+const AdminCategories = lazy(() => import('./admin/pages/Categories'));
+const AdminSettings = lazy(() => import('./admin/pages/Settings'));
+const AdminMedia = lazy(() => import('./admin/pages/Media'));
+const AdminHeroSlides = lazy(() => import('./admin/pages/HeroSlides'));
+const AdminGallery = lazy(() => import('./admin/pages/Gallery'));
+const AdminReviews = lazy(() => import('./admin/pages/Reviews'));
+const AdminStock = lazy(() => import('./admin/pages/Stock'));
+const AdminSales = lazy(() => import('./admin/pages/Sales'));
+const AdminPurchases = lazy(() => import('./admin/pages/Purchases'));
+const AdminCustomers = lazy(() => import('./admin/pages/Customers'));
+const AdminProfitLoss = lazy(() => import('./admin/pages/ProfitLoss'));
+const AdminActivity = lazy(() => import('./admin/pages/Activity'));
+const AdminCoupons = lazy(() => import('./admin/pages/Coupons'));
 
 import './styles/global.css';
 import './styles/animations.css';
@@ -76,7 +77,6 @@ import './styles/form.css';
 import './styles/footer.css';
 import './styles/reviews.css';
 import './styles/gallery.css';
-import './styles/admin.css';
 import './styles/seoPages.css';
 import './styles/sitePages.css';
 
@@ -289,7 +289,6 @@ function CustomerSite() {
   return (
     <SiteProvider>
       <SEO />
-      <Loader />
       <Navbar onSearchProduct={handleMaterialClick} />
       <MainContent activeCategory={activeCategory} onMaterialClick={handleMaterialClick} />
       <Footer />
@@ -348,60 +347,62 @@ function App() {
       <BrowserRouter>
         <ScrollToTop />
         <PageviewTracker />
-        <Routes>
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<SiteProvider><ProtectedAdmin><AdminLayout /></ProtectedAdmin></SiteProvider>}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="orders" element={<AdminOrders />} />
-            <Route path="products" element={<AdminProducts />} />
-            <Route path="categories" element={<AdminCategories />} />
-            <Route path="settings" element={<AdminSettings />} />
-            <Route path="media" element={<AdminMedia />} />
-            <Route path="hero-slides" element={<AdminHeroSlides />} />
-            <Route path="gallery" element={<AdminGallery />} />
-            <Route path="reviews" element={<AdminReviews />} />
-            <Route path="stock" element={<AdminStock />} />
-            <Route path="sales" element={<AdminSales />} />
-            <Route path="all-sales" element={<AdminSales />} />
-            <Route path="cash-sales" element={<AdminSales saleTypeFilter="cash" />} />
-            <Route path="online-sales" element={<AdminSales saleTypeFilter="online" />} />
-            <Route path="purchases" element={<AdminPurchases />} />
-            <Route path="customers" element={<AdminCustomers />} />
-            <Route path="profit-loss" element={<AdminProfitLoss />} />
-            <Route path="activity" element={<AdminActivity />} />
-            <Route path="coupons" element={<AdminCoupons />} />
-          </Route>
+        <Suspense fallback={<div className="page-route-loader"><div className="route-spinner" /></div>}>
+          <Routes>
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<SiteProvider><ProtectedAdmin><AdminLayout /></ProtectedAdmin></SiteProvider>}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="categories" element={<AdminCategories />} />
+              <Route path="settings" element={<AdminSettings />} />
+              <Route path="media" element={<AdminMedia />} />
+              <Route path="hero-slides" element={<AdminHeroSlides />} />
+              <Route path="gallery" element={<AdminGallery />} />
+              <Route path="reviews" element={<AdminReviews />} />
+              <Route path="stock" element={<AdminStock />} />
+              <Route path="sales" element={<AdminSales />} />
+              <Route path="all-sales" element={<AdminSales />} />
+              <Route path="cash-sales" element={<AdminSales saleTypeFilter="cash" />} />
+              <Route path="online-sales" element={<AdminSales saleTypeFilter="online" />} />
+              <Route path="purchases" element={<AdminPurchases />} />
+              <Route path="customers" element={<AdminCustomers />} />
+              <Route path="profit-loss" element={<AdminProfitLoss />} />
+              <Route path="activity" element={<AdminActivity />} />
+              <Route path="coupons" element={<AdminCoupons />} />
+            </Route>
 
-          {/* Homepage */}
-          <Route path="/" element={<CustomerSite />} />
+            {/* Homepage */}
+            <Route path="/" element={<CustomerSite />} />
 
-          {/* Core Multi-Page Routes */}
-          <Route path="/about" element={<SiteProvider><AboutPage /></SiteProvider>} />
-          <Route path="/services" element={<SiteProvider><ServicesPage /></SiteProvider>} />
-          <Route path="/services/:serviceSlug" element={<SiteProvider><ServiceDetailPage /></SiteProvider>} />
-          <Route path="/products" element={<SiteProvider><ProductsPage /></SiteProvider>} />
-          <Route path="/products/:slug" element={<SiteProvider><ProductDetailPage /></SiteProvider>} />
-          <Route path="/projects" element={<SiteProvider><ProjectsPage /></SiteProvider>} />
-          <Route path="/projects/:slug" element={<SiteProvider><ProjectDetailPage /></SiteProvider>} />
-          <Route path="/gallery" element={<SiteProvider><GalleryPage /></SiteProvider>} />
-          <Route path="/process" element={<SiteProvider><ProcessPage /></SiteProvider>} />
-          <Route path="/pricing" element={<SiteProvider><PricingPage /></SiteProvider>} />
-          <Route path="/get-quote" element={<SiteProvider><GetQuotePage /></SiteProvider>} />
-          <Route path="/contact" element={<SiteProvider><ContactPage /></SiteProvider>} />
-          <Route path="/faq" element={<SiteProvider><FAQPage /></SiteProvider>} />
-          <Route path="/blog" element={<SiteProvider><BlogPage /></SiteProvider>} />
-          <Route path="/blog/:slug" element={<SiteProvider><BlogDetailPage /></SiteProvider>} />
-          <Route path="/privacy-policy" element={<SiteProvider><PrivacyPolicyPage /></SiteProvider>} />
-          <Route path="/terms-and-conditions" element={<SiteProvider><TermsConditionsPage /></SiteProvider>} />
-          <Route path="/cancellation-refund-policy" element={<SiteProvider><CancellationRefundPolicyPage /></SiteProvider>} />
+            {/* Core Multi-Page Routes */}
+            <Route path="/about" element={<SiteProvider><AboutPage /></SiteProvider>} />
+            <Route path="/services" element={<SiteProvider><ServicesPage /></SiteProvider>} />
+            <Route path="/services/:serviceSlug" element={<SiteProvider><ServiceDetailPage /></SiteProvider>} />
+            <Route path="/products" element={<SiteProvider><ProductsPage /></SiteProvider>} />
+            <Route path="/products/:slug" element={<SiteProvider><ProductDetailPage /></SiteProvider>} />
+            <Route path="/projects" element={<SiteProvider><ProjectsPage /></SiteProvider>} />
+            <Route path="/projects/:slug" element={<SiteProvider><ProjectDetailPage /></SiteProvider>} />
+            <Route path="/gallery" element={<SiteProvider><GalleryPage /></SiteProvider>} />
+            <Route path="/process" element={<SiteProvider><ProcessPage /></SiteProvider>} />
+            <Route path="/pricing" element={<SiteProvider><PricingPage /></SiteProvider>} />
+            <Route path="/get-quote" element={<SiteProvider><GetQuotePage /></SiteProvider>} />
+            <Route path="/contact" element={<SiteProvider><ContactPage /></SiteProvider>} />
+            <Route path="/faq" element={<SiteProvider><FAQPage /></SiteProvider>} />
+            <Route path="/blog" element={<SiteProvider><BlogPage /></SiteProvider>} />
+            <Route path="/blog/:slug" element={<SiteProvider><BlogDetailPage /></SiteProvider>} />
+            <Route path="/privacy-policy" element={<SiteProvider><PrivacyPolicyPage /></SiteProvider>} />
+            <Route path="/terms-and-conditions" element={<SiteProvider><TermsConditionsPage /></SiteProvider>} />
+            <Route path="/cancellation-refund-policy" element={<SiteProvider><CancellationRefundPolicyPage /></SiteProvider>} />
 
-          {/* SEO Guides */}
-          <Route path="/guides" element={<SiteProvider><GuidesPage /></SiteProvider>} />
-          <Route path="/guides/:guideSlug" element={<SiteProvider><GuideDetailPage /></SiteProvider>} />
+            {/* SEO Guides */}
+            <Route path="/guides" element={<SiteProvider><GuidesPage /></SiteProvider>} />
+            <Route path="/guides/:guideSlug" element={<SiteProvider><GuideDetailPage /></SiteProvider>} />
 
-          {/* Catch-all Not Found */}
-          <Route path="*" element={<SiteProvider><NotFound /></SiteProvider>} />
-        </Routes>
+            {/* Catch-all Not Found */}
+            <Route path="*" element={<SiteProvider><NotFound /></SiteProvider>} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </AuthProvider>
   );
