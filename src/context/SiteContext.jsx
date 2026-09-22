@@ -3,8 +3,22 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const SiteContext = createContext(null);
 const API_URL = '/api';
 
+const defaultSettings = {
+  siteName: 'Star Home Design',
+  siteTagline: 'Premium Interior Materials',
+  phone: '+918239409535',
+  whatsapp: '918239409535',
+  email: 'info@starhomedesign.com',
+  address: 'Sikar, Rajasthan',
+  heroEyebrow: 'STAR HOME DESIGN',
+  heroHeading: 'Transform Your Space',
+  heroDescription: 'Premium interior materials for modern living',
+  heroBtnText: 'Explore Collection',
+  aboutHeading: 'Crafting Interiors That Inspire',
+};
+
 export function SiteProvider({ children }) {
-  const [settings, setSettings] = useState(null);
+  const [settings, setSettings] = useState(defaultSettings);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [gallery, setGallery] = useState([]);
