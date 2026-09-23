@@ -34,36 +34,85 @@ const defaultSettings = {
   heroSlides: [],
 };
 
-export function SiteProvider({ children }) {
-  const [settings, setSettings] = useState(defaultSettings);
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [gallery, setGallery] = useState([]);
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
+const CACHE_KEY = 'shd_site_cache_v2';
 
-  const fetchAll = async () => {
-    try {
-      const [setRes, prodRes, catRes, galRes, revRes] = await Promise.all([
-        fetch(`${API_URL}/settings`).then(r => r.json()),
-        fetch(`${API_URL}/products?active=true`).then(r => r.json()),
-        fetch(`${API_URL}/categories`).then(r => r.json()),
-        fetch(`${API_URL}/gallery`).then(r => r.json()),
-        fetch(`${API_URL}/reviews`).then(r => r.json()),
-      ]);
-      if (setRes.success) setSettings(setRes.settings);
-      if (prodRes.success) setProducts(prodRes.products);
-      if (catRes.success) setCategories(catRes.categories.filter(c => c.active));
-      if (galRes.success) setGallery(galRes.gallery);
-      if (revRes.success) setReviews(revRes.reviews);
-    } catch (e) {
-      console.error('Failed to load site data:', e);
-    } finally {
-      setLoading(false);
+function getSessionCache() {
+  try {
+    const raw = sessionStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (Date.now() - parsed.ts < 300000) { // 5 minutes cache
+      return parsed.data;
     }
-  };
+  } catch {}
+  return null;
+}
 
-  useEffect(() => { fetchAll(); }, []);
+function setSessionCache(data) {
+  try {
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+  } catch {}
+}
+
+export function SiteProvider({ children }) {
+  const cached = getSessionCache();
+
+  const [settings, setSettings] = useState(cached?.settings || defaultSettings);
+  const [products, setProducts] = useState(cached?.products || []);
+  const [categories, setCategories] = useState(cached?.categories || []);
+  const [gallery, setGallery] = useState(cached?.gallery || []);
+  const [reviews, setReviews] = useState(cached?.reviews || []);
+  const [loading, setLoading] = useState(!cached);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchCritical = async () => {
+      try {
+        const [setRes, catRes] = await Promise.all([
+          fetch(`${API_URL}/settings`).then(r => r.json()),
+          fetch(`${API_URL}/categories`).then(r => r.json())
+        ]);
+        if (!isMounted) return;
+        if (setRes?.success) setSettings(setRes.settings);
+        if (catRes?.success) setCategories(catRes.categories.filter(c => c.active));
+      } catch (e) {
+        console.error('Critical site fetch error:', e);
+      }
+    };
+
+    const fetchSecondary = async () => {
+      try {
+        const [prodRes, galRes, revRes] = await Promise.all([
+          fetch(`${API_URL}/products?active=true`).then(r => r.json()),
+          fetch(`${API_URL}/gallery`).then(r => r.json()),
+          fetch(`${API_URL}/reviews`).then(r => r.json()),
+        ]);
+        if (!isMounted) return;
+        if (prodRes?.success) setProducts(prodRes.products);
+        if (galRes?.success) setGallery(galRes.gallery);
+        if (revRes?.success) setReviews(revRes.reviews);
+      } catch (e) {
+        console.error('Secondary site fetch error:', e);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    fetchCritical();
+    const timer = setTimeout(fetchSecondary, 400);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (products.length > 0 || categories.length > 0) {
+      setSessionCache({ settings, products, categories, gallery, reviews });
+    }
+  }, [settings, products, categories, gallery, reviews]);
 
   const refreshProducts = async () => {
     const res = await fetch(`${API_URL}/products?active=true`).then(r => r.json());

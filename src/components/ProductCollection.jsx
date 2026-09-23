@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useSite } from '../context/SiteContext';
 import { trackClick } from '../utils/analytics';
 import ScrollReveal from './ScrollReveal';
-import ProductModal from './ProductModal';
+const ProductModal = lazy(() => import('./ProductModal'));
 import { UPLOAD_URL } from '../api';
 
 export default function ProductCollection({ activeCategory }) {
@@ -166,10 +166,12 @@ export default function ProductCollection({ activeCategory }) {
       </div>
 
       {selectedProduct && (
-        <ProductModal
-          product={{ ...selectedProduct, images: modalImages(selectedProduct), title: selectedProduct.name, category: selectedProduct.category?.slug || '', pricePerSqFt: selectedProduct.price }}
-          onClose={closeModal}
-        />
+        <Suspense fallback={null}>
+          <ProductModal
+            product={{ ...selectedProduct, images: modalImages(selectedProduct), title: selectedProduct.name, category: selectedProduct.category?.slug || '', pricePerSqFt: selectedProduct.price }}
+            onClose={closeModal}
+          />
+        </Suspense>
       )}
     </section>
   );

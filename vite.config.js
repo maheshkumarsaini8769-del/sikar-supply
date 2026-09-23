@@ -22,6 +22,11 @@ export default defineConfig({
     target: 'es2020',
     cssCodeSplit: true,
     chunkSizeWarningLimit: 600,
+    modulePreload: {
+      resolveDependencies(filename, deps) {
+        return deps.filter(dep => !dep.includes('vendor-charts') && !dep.includes('vendor-axios') && !dep.includes('Admin'));
+      },
+    },
     rollupOptions: {
       output: {
         manualChunks(id) {

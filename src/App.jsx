@@ -1,6 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { AuthProvider, useAuth } from './admin/context/AuthContext';
 import { SiteProvider, useSite } from './context/SiteContext';
 import { trackPageview } from './utils/analytics';
 
@@ -45,25 +44,8 @@ const GuidesPage = lazy(() => import('./pages/GuidesPage'));
 const GuideDetailPage = lazy(() => import('./pages/GuideDetailPage'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
-// Lazy-loaded Admin Pages & Layout
-const AdminLayout = lazy(() => import('./admin/components/Layout'));
-const AdminLogin = lazy(() => import('./admin/pages/Login'));
-const AdminDashboard = lazy(() => import('./admin/pages/Dashboard'));
-const AdminOrders = lazy(() => import('./admin/pages/Orders'));
-const AdminProducts = lazy(() => import('./admin/pages/Products'));
-const AdminCategories = lazy(() => import('./admin/pages/Categories'));
-const AdminSettings = lazy(() => import('./admin/pages/Settings'));
-const AdminMedia = lazy(() => import('./admin/pages/Media'));
-const AdminHeroSlides = lazy(() => import('./admin/pages/HeroSlides'));
-const AdminGallery = lazy(() => import('./admin/pages/Gallery'));
-const AdminReviews = lazy(() => import('./admin/pages/Reviews'));
-const AdminStock = lazy(() => import('./admin/pages/Stock'));
-const AdminSales = lazy(() => import('./admin/pages/Sales'));
-const AdminPurchases = lazy(() => import('./admin/pages/Purchases'));
-const AdminCustomers = lazy(() => import('./admin/pages/Customers'));
-const AdminProfitLoss = lazy(() => import('./admin/pages/ProfitLoss'));
-const AdminActivity = lazy(() => import('./admin/pages/Activity'));
-const AdminCoupons = lazy(() => import('./admin/pages/Coupons'));
+// Isolated Lazy Admin Module
+const AdminRoutes = lazy(() => import('./admin/AdminRoutes'));
 const SitePageWrapper = lazy(() => import('./components/SitePageWrapper'));
 
 import './styles/global.css';
@@ -78,12 +60,6 @@ import './styles/form.css';
 import './styles/footer.css';
 import './styles/reviews.css';
 import './styles/gallery.css';
-
-function ProtectedAdmin({ children }) {
-  const { user, loading } = useAuth();
-  if (loading) return <div className="login-page"><div className="adm-spinner"/></div>;
-  return user ? children : <Navigate to="/admin/login" />;
-}
 
 function SEO() {
   const { settings } = useSite();
@@ -342,68 +318,46 @@ function ScrollToTop() {
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <ScrollToTop />
-        <PageviewTracker />
-        <Suspense fallback={<div className="page-route-loader"><div className="route-spinner" /></div>}>
-          <Routes>
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<SiteProvider><ProtectedAdmin><AdminLayout /></ProtectedAdmin></SiteProvider>}>
-              <Route index element={<AdminDashboard />} />
-              <Route path="orders" element={<AdminOrders />} />
-              <Route path="products" element={<AdminProducts />} />
-              <Route path="categories" element={<AdminCategories />} />
-              <Route path="settings" element={<AdminSettings />} />
-              <Route path="media" element={<AdminMedia />} />
-              <Route path="hero-slides" element={<AdminHeroSlides />} />
-              <Route path="gallery" element={<AdminGallery />} />
-              <Route path="reviews" element={<AdminReviews />} />
-              <Route path="stock" element={<AdminStock />} />
-              <Route path="sales" element={<AdminSales />} />
-              <Route path="all-sales" element={<AdminSales />} />
-              <Route path="cash-sales" element={<AdminSales saleTypeFilter="cash" />} />
-              <Route path="online-sales" element={<AdminSales saleTypeFilter="online" />} />
-              <Route path="purchases" element={<AdminPurchases />} />
-              <Route path="customers" element={<AdminCustomers />} />
-              <Route path="profit-loss" element={<AdminProfitLoss />} />
-              <Route path="activity" element={<AdminActivity />} />
-              <Route path="coupons" element={<AdminCoupons />} />
-            </Route>
+    <BrowserRouter>
+      <ScrollToTop />
+      <PageviewTracker />
+      <Suspense fallback={<div className="page-route-loader"><div className="route-spinner" /></div>}>
+        <Routes>
+          {/* Lazy-loaded Isolated Admin Subsystem */}
+          <Route path="/admin/*" element={<AdminRoutes />} />
 
-            {/* Homepage */}
-            <Route path="/" element={<CustomerSite />} />
+          {/* Homepage */}
+          <Route path="/" element={<CustomerSite />} />
 
-            {/* Core Multi-Page Routes */}
-            <Route path="/about" element={<SiteProvider><SitePageWrapper><AboutPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/services" element={<SiteProvider><SitePageWrapper><ServicesPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/services/:serviceSlug" element={<SiteProvider><SitePageWrapper><ServiceDetailPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/products" element={<SiteProvider><SitePageWrapper><ProductsPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/products/:slug" element={<SiteProvider><SitePageWrapper><ProductDetailPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/projects" element={<SiteProvider><SitePageWrapper><ProjectsPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/projects/:slug" element={<SiteProvider><SitePageWrapper><ProjectDetailPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/gallery" element={<SiteProvider><SitePageWrapper><GalleryPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/process" element={<SiteProvider><SitePageWrapper><ProcessPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/pricing" element={<SiteProvider><SitePageWrapper><PricingPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/get-quote" element={<SiteProvider><SitePageWrapper><GetQuotePage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/contact" element={<SiteProvider><SitePageWrapper><ContactPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/faq" element={<SiteProvider><SitePageWrapper><FAQPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/blog" element={<SiteProvider><SitePageWrapper><BlogPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/blog/:slug" element={<SiteProvider><SitePageWrapper><BlogDetailPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/privacy-policy" element={<SiteProvider><SitePageWrapper><PrivacyPolicyPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/terms-and-conditions" element={<SiteProvider><SitePageWrapper><TermsConditionsPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/cancellation-refund-policy" element={<SiteProvider><SitePageWrapper><CancellationRefundPolicyPage /></SitePageWrapper></SiteProvider>} />
+          {/* Core Multi-Page Routes */}
+          <Route path="/about" element={<SiteProvider><SitePageWrapper><AboutPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/services" element={<SiteProvider><SitePageWrapper><ServicesPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/services/:serviceSlug" element={<SiteProvider><SitePageWrapper><ServiceDetailPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/products" element={<SiteProvider><SitePageWrapper><ProductsPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/products/:slug" element={<SiteProvider><SitePageWrapper><ProductDetailPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/projects" element={<SiteProvider><SitePageWrapper><ProjectsPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/projects/:slug" element={<SiteProvider><SitePageWrapper><ProjectDetailPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/gallery" element={<SiteProvider><SitePageWrapper><GalleryPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/process" element={<SiteProvider><SitePageWrapper><ProcessPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/pricing" element={<SiteProvider><SitePageWrapper><PricingPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/get-quote" element={<SiteProvider><SitePageWrapper><GetQuotePage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/contact" element={<SiteProvider><SitePageWrapper><ContactPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/faq" element={<SiteProvider><SitePageWrapper><FAQPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/blog" element={<SiteProvider><SitePageWrapper><BlogPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/blog/:slug" element={<SiteProvider><SitePageWrapper><BlogDetailPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/privacy-policy" element={<SiteProvider><SitePageWrapper><PrivacyPolicyPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/terms-and-conditions" element={<SiteProvider><SitePageWrapper><TermsConditionsPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/cancellation-refund-policy" element={<SiteProvider><SitePageWrapper><CancellationRefundPolicyPage /></SitePageWrapper></SiteProvider>} />
 
-            {/* SEO Guides */}
-            <Route path="/guides" element={<SiteProvider><SitePageWrapper><GuidesPage /></SitePageWrapper></SiteProvider>} />
-            <Route path="/guides/:guideSlug" element={<SiteProvider><SitePageWrapper><GuideDetailPage /></SitePageWrapper></SiteProvider>} />
+          {/* SEO Guides */}
+          <Route path="/guides" element={<SiteProvider><SitePageWrapper><GuidesPage /></SitePageWrapper></SiteProvider>} />
+          <Route path="/guides/:guideSlug" element={<SiteProvider><SitePageWrapper><GuideDetailPage /></SitePageWrapper></SiteProvider>} />
 
-            {/* Catch-all Not Found */}
-            <Route path="*" element={<SiteProvider><SitePageWrapper><NotFound /></SitePageWrapper></SiteProvider>} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </AuthProvider>
+          {/* Catch-all Not Found */}
+          <Route path="*" element={<SiteProvider><SitePageWrapper><NotFound /></SitePageWrapper></SiteProvider>} />
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 

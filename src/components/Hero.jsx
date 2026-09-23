@@ -62,6 +62,8 @@ export default function Hero() {
             {(loadedIndices.includes(i) || i === 0) && (
               <img
                 src={slide}
+                srcSet={typeof slide === 'string' && slide.includes('images.unsplash.com') ? `${slide.replace(/w=\d+/, 'w=480').replace(/q=\d+/, 'q=60')} 480w, ${slide} 800w` : undefined}
+                sizes="(max-width: 600px) 480px, 800px"
                 alt={`Star Home Design showroom slide ${i + 1} - Premium interior materials in Sikar Rajasthan`}
                 fetchPriority={i === 0 ? "high" : "low"}
                 loading={i === 0 ? "eager" : "lazy"}

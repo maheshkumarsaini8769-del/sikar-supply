@@ -27,6 +27,23 @@ app.use(async (req, res, next) => {
   next();
 });
 
+// Edge caching middleware for public read-only GET endpoints (eliminates cold starts)
+app.use((req, res, next) => {
+  if (req.method === 'GET' && req.url.startsWith('/api')) {
+    const isPrivate = req.url.startsWith('/api/auth') || 
+                      req.url.startsWith('/api/orders') || 
+                      req.url.startsWith('/api/customers') || 
+                      req.url.startsWith('/api/purchases') || 
+                      req.url.startsWith('/api/sales') || 
+                      req.url.startsWith('/api/profitloss') || 
+                      req.url.startsWith('/api/stock');
+    if (!isPrivate) {
+      res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=600, stale-while-revalidate=86400');
+    }
+  }
+  next();
+});
+
 // Routes
 app.use('/api/auth', require('../server/routes/auth'));
 app.use('/api/products', require('../server/routes/products'));
