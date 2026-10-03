@@ -9,44 +9,39 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || 'starhomeinterior_secret_key_2026', { expiresIn: '7d' });
 };
 
-// ================= LOGIN =================
+// ================= LOGIN (EMAIL + PASSWORD MANDATORY) =================
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    if (!email || !email.trim()) {
+      return res.status(400).json({ success: false, message: 'Kripya apna email address enter karein' });
+    }
     if (!password) {
-      return res.status(400).json({ success: false, message: 'Please enter password' });
+      return res.status(400).json({ success: false, message: 'Kripya apna password enter karein' });
     }
 
-    let user;
-    if (email && email.trim()) {
-      user = await User.findOne({ email: email.toLowerCase().trim() }).select('+password');
-      if (!user || !(await user.comparePassword(password))) {
-        return res.status(401).json({ success: false, message: 'Wrong email or password' });
+    const cleanEmail = email.toLowerCase().trim();
+    let user = await User.findOne({ email: cleanEmail }).select('+password');
+
+    // If no user exists in DB at all, initialize the master admin
+    if (!user) {
+      const totalUsers = await User.countDocuments();
+      if (totalUsers === 0 && cleanEmail === 'admin@starhomeinterior.in') {
+        user = await User.create({
+          name: 'Star Home Admin',
+          email: cleanEmail,
+          password: password,
+          role: 'admin',
+          isAuthorized: true,
+          status: 'active',
+        });
+      } else {
+        return res.status(401).json({ success: false, message: 'Wrong email or password (गलत ईमेल या पासवर्ड)' });
       }
     } else {
-      // Quick single-password login: check all registered admin/manager users
-      const users = await User.find().select('+password');
-      for (const u of users) {
-        if (await u.comparePassword(password)) {
-          user = u;
-          break;
-        }
-      }
-
-      if (!user) {
-        // If database has no users yet, seed initial admin with this password
-        if (users.length === 0) {
-          user = await User.create({
-            name: 'Star Home Admin',
-            email: 'admin@starhomeinterior.in',
-            password: password,
-            role: 'admin',
-            isAuthorized: true,
-            status: 'active',
-          });
-        } else {
-          return res.status(401).json({ success: false, message: 'Wrong password' });
-        }
+      const isMatch = await user.comparePassword(password);
+      if (!isMatch) {
+        return res.status(401).json({ success: false, message: 'Wrong email or password (गलत ईमेल या पासवर्ड)' });
       }
     }
 

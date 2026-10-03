@@ -8,7 +8,6 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [useEmailLogin, setUseEmailLogin] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
@@ -43,17 +42,21 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email.trim()) {
+      setError('Kripya apna registered admin email enter karein');
+      return;
+    }
+    if (!password) {
+      setError('Kripya apna password enter karein');
+      return;
+    }
     setError('');
     setLoading(true);
     try {
-      if (useEmailLogin && email.trim()) {
-        await login({ email: email.trim(), password });
-      } else {
-        await login(password);
-      }
+      await login({ email: email.trim(), password });
       navigate('/admin');
     } catch (err) {
-      const msg = err.response?.data?.message || 'Galat password ya email. Kripya dobara koshish karein.';
+      const msg = err.response?.data?.message || 'Galat email ya password. Kripya dobara koshish karein.';
       setError(msg);
     } finally {
       setLoading(false);
@@ -117,9 +120,7 @@ export default function Login() {
       if (res.data?.success) {
         setForgotSuccess('✅ Password safalta-purvak badal gaya hai! Ab naye password se login karein.');
         setPassword(newPassword);
-        if (useEmailLogin) {
-          setEmail(forgotEmail.trim());
-        }
+        setEmail(forgotEmail.trim());
         setTimeout(() => {
           setForgotModalOpen(false);
           setForgotStep(1);
@@ -167,31 +168,27 @@ export default function Login() {
             </div>
           )}
 
-          {useEmailLogin && (
-            <div className="adm-form-group">
-              <label>Admin Email / Username</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required={useEmailLogin}
-                placeholder="e.g. admin@starhomeinterior.in"
-                autoFocus
-              />
-            </div>
-          )}
+          {/* Mandatory Admin Email */}
+          <div className="adm-form-group" style={{ marginBottom: 16 }}>
+            <label style={{ fontSize: 13, color: '#d1d5db', fontWeight: 600, display: 'block', marginBottom: 6 }}>
+              Admin Email (ईमेल आईडी) *
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="e.g. admin@starhomeinterior.in"
+              autoFocus
+              style={{ width: '100%' }}
+            />
+          </div>
 
-          <div className="adm-form-group">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-              <label style={{ margin: 0 }}>Password</label>
-              <button
-                type="button"
-                onClick={() => setUseEmailLogin(!useEmailLogin)}
-                style={{ fontSize: 11, color: '#b8956a', textDecoration: 'underline', padding: 0 }}
-              >
-                {useEmailLogin ? '⚡ Quick Login (Only Password)' : '📧 Login with Email'}
-              </button>
-            </div>
+          {/* Mandatory Admin Password */}
+          <div className="adm-form-group" style={{ marginBottom: 12 }}>
+            <label style={{ fontSize: 13, color: '#d1d5db', fontWeight: 600, display: 'block', marginBottom: 6 }}>
+              Password (पासवर्ड) *
+            </label>
             <div style={{ position: 'relative' }}>
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -199,20 +196,19 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="Enter admin password"
-                autoFocus={!useEmailLogin}
                 style={{ width: '100%', paddingRight: 40 }}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', color: '#888', fontSize: 14 }}
+                style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#888', fontSize: 14, cursor: 'pointer' }}
               >
                 {showPassword ? '👁️' : '👁️‍🗨️'}
               </button>
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 14 }}>
             <button
               type="button"
               onClick={openForgotModal}
