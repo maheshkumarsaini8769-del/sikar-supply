@@ -7,6 +7,12 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true, select: false },
   role: { type: String, enum: ['admin', 'manager'], default: 'admin' },
   avatar: { type: String, default: '' },
+  isAuthorized: { type: Boolean, default: true },
+  status: { type: String, enum: ['active', 'suspended', 'pending'], default: 'active' },
+  lastLogin: { type: Date },
+  loginCount: { type: Number, default: 0 },
+  resetPasswordOTP: { type: String, select: false },
+  resetPasswordExpires: { type: Date, select: false },
 }, { timestamps: true });
 
 userSchema.pre('save', async function() {
