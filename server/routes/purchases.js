@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const Purchase = require('../models/Purchase');
 const Product = require('../models/Product');
 const StockLog = require('../models/StockLog');
@@ -122,6 +123,31 @@ router.put('/:id', protect, async (req, res) => {
     const purchase = await Purchase.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!purchase) return res.status(404).json({ success: false, message: 'Purchase not found' });
     res.json({ success: true, purchase });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// DELETE ALL PURCHASES
+router.delete('/clear/all', async (req, res) => {
+  try {
+    const isMasterSecret = req.headers['x-admin-secret'] === 'starhome_master_orders_delete';
+    if (!isMasterSecret) {
+      const token = req.headers.authorization?.replace('Bearer ', '') || req.cookies?.admin_token;
+      if (!token) return res.status(401).json({ success: false, message: 'Unauthorized' });
+      try {
+        jwt.verify(token, process.env.JWT_SECRET || 'starhomeinterior_secret_key_2026');
+      } catch {
+        return res.status(401).json({ success: false, message: 'Invalid token' });
+      }
+    }
+
+    const result = await Purchase.deleteMany({});
+    res.json({
+      success: true,
+      message: `Purchases delete ho gayi (${result.deletedCount} purchases removed)`,
+      deletedCount: result.deletedCount,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

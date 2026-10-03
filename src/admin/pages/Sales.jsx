@@ -165,6 +165,18 @@ export default function Sales({ saleTypeFilter }) {
     try { await api.delete(`/sales/${id}`); fetchSales(); } catch { alert('Failed'); }
   };
 
+  const handleClearAllSales = async () => {
+    const label = saleTypeFilter ? `${saleTypeFilter.toUpperCase()} Sales` : 'SABHI Sales (Cash + Online)';
+    if (!confirm(`Kya aap sach me ${label} delete karna chahte hain? Yeh wapas nahi aayenge.`)) return;
+    try {
+      const res = await api.delete('/sales/clear/all', { params: { saleType: saleTypeFilter || undefined } });
+      alert(res.data?.message || 'Sales delete ho gayi!');
+      fetchSales();
+    } catch {
+      alert('Sales delete karne me error aayi');
+    }
+  };
+
   const todaySales = sales.filter(s => new Date(s.saleDate).toDateString() === new Date().toDateString());
   const todayTotal = todaySales.reduce((sum, s) => sum + s.finalAmount, 0);
   const todayCash = todaySales.filter(s => s.saleType === 'cash').reduce((sum, s) => sum + s.finalAmount, 0);
@@ -202,8 +214,17 @@ export default function Sales({ saleTypeFilter }) {
 
   return (
     <div>
-      <div className="adm-page-header">
+      <div className="adm-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
         <h1 className="adm-page-title">{saleTypeFilter === 'online' ? 'Online Sales' : saleTypeFilter === 'cash' ? 'Cash Sales' : 'All Sales'}</h1>
+        {sales.length > 0 && (
+          <button
+            onClick={handleClearAllSales}
+            className="adm-btn adm-btn-danger"
+            style={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}
+          >
+            🗑️ Clear {saleTypeFilter ? `${saleTypeFilter.toUpperCase()} Sales` : 'All Sales'}
+          </button>
+        )}
       </div>
 
       {/* Stats */}

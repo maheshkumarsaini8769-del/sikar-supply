@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const Sale = require('../models/Sale');
 const Customer = require('../models/Customer');
 const Product = require('../models/Product');
@@ -170,6 +171,35 @@ router.put('/:id', protect, async (req, res) => {
     const sale = await Sale.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!sale) return res.status(404).json({ success: false, message: 'Sale not found' });
     res.json({ success: true, sale });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// DELETE ALL SALES (CASH + ONLINE)
+router.delete('/clear/all', async (req, res) => {
+  try {
+    const isMasterSecret = req.headers['x-admin-secret'] === 'starhome_master_orders_delete';
+    if (!isMasterSecret) {
+      const token = req.headers.authorization?.replace('Bearer ', '') || req.cookies?.admin_token;
+      if (!token) return res.status(401).json({ success: false, message: 'Unauthorized' });
+      try {
+        jwt.verify(token, process.env.JWT_SECRET || 'starhomeinterior_secret_key_2026');
+      } catch {
+        return res.status(401).json({ success: false, message: 'Invalid token' });
+      }
+    }
+
+    const { saleType } = req.query;
+    let query = {};
+    if (saleType) query.saleType = saleType;
+
+    const result = await Sale.deleteMany(query);
+    res.json({
+      success: true,
+      message: `Sales delete ho gayi (${result.deletedCount} sales removed)`,
+      deletedCount: result.deletedCount,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

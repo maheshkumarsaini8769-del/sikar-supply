@@ -104,18 +104,40 @@ export default function Purchases() {
     setShowForm(true);
   };
 
+  const handleClearAllPurchases = async () => {
+    if (!confirm('Kya aap sach me SABHI purchases delete karna chahte hain? Yeh wapas nahi aayenge.')) return;
+    try {
+      const res = await api.delete('/purchases/clear/all');
+      alert(res.data?.message || 'Sabhi purchases delete ho gayi!');
+      fetchPurchases();
+    } catch {
+      alert('Purchases delete karne me error aayi');
+    }
+  };
+
   const paidTotal = purchases.filter(p => p.paymentStatus === 'paid').reduce((s, p) => s + p.totalAmount, 0);
   const pendingTotal = purchases.filter(p => p.paymentStatus !== 'paid').reduce((s, p) => s + (p.totalAmount - p.paidAmount), 0);
 
   return (
     <div>
-      <div className="adm-page-header">
+      <div className="adm-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
         <h1 className="adm-page-title">Purchase History</h1>
-        <button className="adm-btn adm-btn-primary" onClick={() => {
-          setEditing(null);
-          setForm({ invoiceNumber: '', supplier: '', supplierPhone: '', items: [{ product: '', productName: '', quantity: '', costPrice: '', unit: 'sqft' }], totalAmount: '', paidAmount: '', paymentMethod: 'cash', paymentStatus: 'paid', note: '', purchaseDate: new Date().toISOString().split('T')[0], addToInventory: true });
-          setShowForm(true);
-        }}>+ New Purchase</button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          {purchases.length > 0 && (
+            <button
+              onClick={handleClearAllPurchases}
+              className="adm-btn adm-btn-danger"
+              style={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}
+            >
+              🗑️ Clear All Purchases
+            </button>
+          )}
+          <button className="adm-btn adm-btn-primary" onClick={() => {
+            setEditing(null);
+            setForm({ invoiceNumber: '', supplier: '', supplierPhone: '', items: [{ product: '', productName: '', quantity: '', costPrice: '', unit: 'sqft' }], totalAmount: '', paidAmount: '', paymentMethod: 'cash', paymentStatus: 'paid', note: '', purchaseDate: new Date().toISOString().split('T')[0], addToInventory: true });
+            setShowForm(true);
+          }}>+ New Purchase</button>
+        </div>
       </div>
 
       <div className="adm-stat-cards" style={{ marginBottom: 16 }}>
