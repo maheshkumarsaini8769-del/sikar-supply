@@ -40,8 +40,12 @@ export default function Login() {
     <div className="login-page">
       <div className="login-card">
         <div className="login-header">
+          <img
+            src="/logo.webp"
+            alt="STAR HOME INTERIOR"
+            style={{ height: 48, width: 'auto', margin: '0 auto 12px', display: 'block', borderRadius: 4 }}
+          />
           <h1>STAR HOME INTERIOR</h1>
-          <p>Admin Login Portal</p>
         </div>
         <form onSubmit={handleSubmit}>
           {error && <div className="adm-alert adm-alert-error">{error}</div>}

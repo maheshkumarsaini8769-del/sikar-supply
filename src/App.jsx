@@ -84,7 +84,7 @@ function SEO() {
     setMeta('name', 'keywords', pageKeywords);
     setMeta('name', 'robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
     setMeta('name', 'author', settings?.siteName || BUSINESS_NAP.name);
-    setMeta('name', 'viewport', 'width=device-width, initial-scale=1');
+    setMeta('name', 'viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
     setMeta('name', 'theme-color', '#b8956a');
 
     // Geo Targeting

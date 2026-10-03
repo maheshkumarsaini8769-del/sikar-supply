@@ -4,7 +4,7 @@ import { UPLOAD_URL } from '../api';
 const STATIC_LOGO = '/logo.webp';
 const STATIC_LOGO_FALLBACK = '/logo.png';
 
-export default function Logo({ className = '' }) {
+export default function Logo({ className = '', hideTagline = false }) {
   const { settings } = useSite();
   const rawLogo = settings?.logo && typeof settings.logo === 'string' && settings.logo.trim();
 
@@ -46,7 +46,7 @@ export default function Logo({ className = '' }) {
       </div>
       <div className="logo-text">
         <span className="logo-name">{displayName}</span>
-        {displayTagline && <span className="logo-tagline">{displayTagline}</span>}
+        {!hideTagline && displayTagline && <span className="logo-tagline">{displayTagline}</span>}
       </div>
     </a>
   );

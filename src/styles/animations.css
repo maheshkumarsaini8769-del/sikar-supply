@@ -25,6 +25,17 @@
   transform: translate(0) scale(1);
 }
 
+/* Prevent mobile horizontal overflow caused by translateX */
+@media (max-width: 768px) {
+  .reveal-left,
+  .reveal-right {
+    transform: translateY(20px);
+  }
+  .reveal-up {
+    transform: translateY(20px);
+  }
+}
+
 /* Hero Animations */
 @keyframes heroImageZoom {
   from { transform: scale(1.08); }

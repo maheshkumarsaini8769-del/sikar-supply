@@ -104,8 +104,7 @@ export default function Layout() {
     <div className="admin-layout">
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <Logo />
-          <h2>Admin Panel</h2>
+          <Logo hideTagline />
         </div>
         <nav className="sidebar-nav">
           {navGroups.map((group, gIdx) => (
