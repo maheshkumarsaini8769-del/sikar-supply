@@ -1,14 +1,17 @@
 import { useSite } from '../context/SiteContext';
 import { UPLOAD_URL } from '../api';
 
+const STATIC_LOGO = '/logo.webp';
+const STATIC_LOGO_FALLBACK = '/logo.png';
+
 export default function Logo({ className = '' }) {
   const { settings } = useSite();
-  const logoImg = settings?.logo && typeof settings.logo === 'string' && settings.logo.trim();
+  const rawLogo = settings?.logo && typeof settings.logo === 'string' && settings.logo.trim();
 
   const getLogoSrc = () => {
-    if (!logoImg) return '';
-    if (logoImg.startsWith('http') || logoImg.startsWith('data:')) return logoImg;
-    return UPLOAD_URL + logoImg;
+    if (!rawLogo) return STATIC_LOGO;
+    if (rawLogo.startsWith('http') || rawLogo.startsWith('data:') || rawLogo.startsWith('/')) return rawLogo;
+    return UPLOAD_URL + rawLogo;
   };
 
   const displayName = (settings?.siteName || 'STAR HOME INTERIOR').toUpperCase();
@@ -25,22 +28,21 @@ export default function Logo({ className = '' }) {
       aria-label={displayName}
     >
       <div className="logo-mark">
-        {logoImg ? (
-          <img
-            src={getLogoSrc()}
-            alt={displayName}
-            className="logo-img"
-            style={{ height: 38, width: 'auto', borderRadius: 4, objectFit: 'contain' }}
-          />
-        ) : (
-          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="2" width="32" height="32" stroke="#b8956a" strokeWidth="1.5" fill="none" rx="2" />
-            <path d="M18 6L6 18L18 30L30 18L18 6Z" stroke="#b8956a" strokeWidth="1" fill="none" opacity="0.5" />
-            <path d="M18 10L10 18L18 26L26 18L18 10Z" stroke="#f5f0eb" strokeWidth="1.2" fill="none" />
-            <line x1="18" y1="10" x2="18" y2="26" stroke="#b8956a" strokeWidth="0.8" opacity="0.4" />
-            <line x1="10" y1="18" x2="26" y2="18" stroke="#b8956a" strokeWidth="0.8" opacity="0.4" />
-          </svg>
-        )}
+        <img
+          src={getLogoSrc()}
+          alt={displayName}
+          className="logo-img"
+          width="40"
+          height="40"
+          loading="eager"
+          decoding="async"
+          onError={(e) => {
+            if (e.target.src !== STATIC_LOGO_FALLBACK) {
+              e.target.src = STATIC_LOGO_FALLBACK;
+            }
+          }}
+          style={{ height: 38, width: 'auto', borderRadius: 4, objectFit: 'contain' }}
+        />
       </div>
       <div className="logo-text">
         <span className="logo-name">{displayName}</span>

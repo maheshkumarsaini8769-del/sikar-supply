@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../api';
 import { UPLOAD_URL } from '../config';
 import { resizeImage } from '../utils/resize';
@@ -39,7 +40,12 @@ export default function Settings() {
 
   return (
     <div>
-      <div className="adm-page-header"><h1 className="adm-page-title">Website Settings</h1></div>
+      <div className="adm-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
+        <h1 className="adm-page-title">Website Settings</h1>
+        <Link to="/admin/password" className="adm-btn" style={{ background: '#262626', color: '#b8956a', border: '1px solid #333', fontSize: 13, textDecoration: 'none' }}>
+          🔐 Change Admin Password
+        </Link>
+      </div>
       {success && <div className="adm-alert adm-alert-success">{success}</div>}
       <div className="adm-tabs">{tabs.map(t => <button key={t.id} className={`adm-tab-btn ${tab === t.id ? 'active' : ''}`} onClick={() => setTab(t.id)}>{t.label}</button>)}</div>
       <form onSubmit={handleSave}>

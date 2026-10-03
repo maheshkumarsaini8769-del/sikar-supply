@@ -6,6 +6,7 @@ const API_URL = '/api';
 const defaultSettings = {
   siteName: 'Star Home Interior',
   siteTagline: 'Premium Interior Materials',
+  logo: '/logo.webp',
   phone: '+91 82394 09535',
   whatsapp: '918239409535',
   email: 'skysk9535@gmail.com',
@@ -34,28 +35,34 @@ const defaultSettings = {
   heroSlides: [],
 };
 
-const CACHE_KEY = 'shd_site_cache_v3';
+const CACHE_KEY = 'shi_site_cache_v4';
 
-function getSessionCache() {
+function getLocalCache() {
   try {
-    const raw = sessionStorage.getItem(CACHE_KEY);
+    const raw = localStorage.getItem(CACHE_KEY) || sessionStorage.getItem(CACHE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
-    if (Date.now() - parsed.ts < 300000) { // 5 minutes cache
+    if (Date.now() - parsed.ts < 600000) { // 10 minutes cache
       return parsed.data;
     }
   } catch {}
   return null;
 }
 
-function setSessionCache(data) {
+function setLocalCache(data) {
   try {
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+    const sanitizedSettings = { ...data.settings };
+    if (sanitizedSettings.logo && sanitizedSettings.logo.length > 100000) {
+      sanitizedSettings.logo = '/logo.webp';
+    }
+    const payload = JSON.stringify({ ts: Date.now(), data: { ...data, settings: sanitizedSettings } });
+    localStorage.setItem(CACHE_KEY, payload);
+    sessionStorage.setItem(CACHE_KEY, payload);
   } catch {}
 }
 
 export function SiteProvider({ children }) {
-  const cached = getSessionCache();
+  const cached = getLocalCache();
 
   const [settings, setSettings] = useState(cached?.settings || defaultSettings);
   const [products, setProducts] = useState(cached?.products || []);
@@ -109,9 +116,7 @@ export function SiteProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    if (products.length > 0 || categories.length > 0) {
-      setSessionCache({ settings, products, categories, gallery, reviews });
-    }
+    setLocalCache({ settings, products, categories, gallery, reviews });
   }, [settings, products, categories, gallery, reviews]);
 
   const refreshProducts = async () => {

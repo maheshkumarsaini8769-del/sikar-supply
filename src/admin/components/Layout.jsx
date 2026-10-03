@@ -43,6 +43,7 @@ const navGroups = [
       { path: '/admin/media', label: 'Media Library', icon: '📁' },
       { path: '/admin/reviews', label: 'Reviews', icon: '⭐' },
       { path: '/admin/settings', label: 'Settings', icon: '⚙️' },
+      { path: '/admin/password', label: 'Password & Access', icon: '🔐' },
     ]
   }
 ];

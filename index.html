@@ -48,6 +48,10 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
+    <!-- Preload brand logo for instant 0ms header rendering -->
+    <link rel="preload" href="/logo.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link rel="preload" href="/logo.png" as="image" type="image/png" />
+
     <!-- Preload critical font & media resources for LCP & CWV -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

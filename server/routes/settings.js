@@ -38,6 +38,10 @@ const getSettings = async () => {
       settings.footerDescription = settings.footerDescription.replace('Star Home Design', 'Star Home Interior');
       changed = true;
     }
+    if (settings.logo && (settings.logo.startsWith('data:image') || !settings.logo)) {
+      settings.logo = '/logo.webp';
+      changed = true;
+    }
     if (changed) {
       await settings.save();
     }

@@ -20,8 +20,9 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  const login = async (password) => {
-    const res = await api.post('/auth/login', { password });
+  const login = async (credentials) => {
+    const payload = typeof credentials === 'string' ? { password: credentials } : credentials;
+    const res = await api.post('/auth/login', payload);
     localStorage.setItem('admin_token', res.data.token);
     setUser(res.data.user);
     return res.data;
