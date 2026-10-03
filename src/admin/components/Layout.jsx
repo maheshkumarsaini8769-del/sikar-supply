@@ -32,6 +32,7 @@ const navGroups = [
       { path: '/admin/customers', label: 'Customers', icon: '👤' },
       { path: '/admin/profit-loss', label: 'Profit & Loss', icon: '📈' },
       { path: '/admin/coupons', label: 'Coupons', icon: '🎟️' },
+      { path: '/admin/gst', label: 'GST & Invoicing', icon: '🧾' },
     ]
   },
   {

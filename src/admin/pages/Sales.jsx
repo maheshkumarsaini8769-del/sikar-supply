@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
 import ProductSearch from '../components/ProductSearch';
+import InvoiceModal from '../components/InvoiceModal';
 
 export default function Sales({ saleTypeFilter }) {
   const [sales, setSales] = useState([]);
@@ -11,6 +12,7 @@ export default function Sales({ saleTypeFilter }) {
   const [filter, setFilter] = useState({ saleType: saleTypeFilter || '', source: '', product: '' });
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [customerSales, setCustomerSales] = useState([]);
+  const [selectedSaleForInvoice, setSelectedSaleForInvoice] = useState(null);
 
   const [quickForm, setQuickForm] = useState({
     product: '', customerName: '', customerPhone: '', quantity: '', note: '', saleDate: new Date().toISOString().split('T')[0],
@@ -295,8 +297,17 @@ export default function Sales({ saleTypeFilter }) {
                     color: s.saleType === 'cash' ? '#25d366' : s.saleType === 'online' ? '#6366f1' : '#f59e0b',
                   }}>{s.saleType}</span></td>
                   <td>{s.paymentMethod}</td>
-                  <td style={{ color: '#888', maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.note || '-'}</td>
-                  <td><button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => handleDelete(s._id)}>Del</button></td>
+                  <td style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                    <button
+                      className="adm-btn adm-btn-sm"
+                      style={{ background: '#b8956a', color: '#000', fontWeight: 600, padding: '4px 8px', fontSize: 11 }}
+                      title="Print / Download GST Tax Bill"
+                      onClick={() => setSelectedSaleForInvoice(s)}
+                    >
+                      🧾 Bill
+                    </button>
+                    <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => handleDelete(s._id)}>Del</button>
+                  </td>
                 </tr>
               )})}
               {sales.length === 0 && <tr><td colSpan="13" className="adm-empty-row">No sales yet</td></tr>}
@@ -490,9 +501,18 @@ export default function Sales({ saleTypeFilter }) {
                           </div>
                           <div style={{ fontSize: 11, color: '#888', marginTop: 2 }}>{item.productName || '-'}</div>
                         </div>
-                        <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                          <div style={{ fontSize: 13, fontWeight: 700, color: '#b8956a' }}>₹{s.finalAmount?.toLocaleString('en-IN')}</div>
-                          <div style={{ fontSize: 10, color: '#888' }}>{new Date(s.saleDate || s.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}</div>
+                        <div style={{ textAlign: 'right', flexShrink: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
+                          <div>
+                            <div style={{ fontSize: 13, fontWeight: 700, color: '#b8956a' }}>₹{s.finalAmount?.toLocaleString('en-IN')}</div>
+                            <div style={{ fontSize: 10, color: '#888' }}>{new Date(s.saleDate || s.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}</div>
+                          </div>
+                          <button
+                            className="adm-btn adm-btn-sm"
+                            style={{ background: '#b8956a', color: '#000', fontWeight: 600, padding: '3px 8px', fontSize: 11 }}
+                            onClick={() => setSelectedSaleForInvoice(s)}
+                          >
+                            🧾 Bill
+                          </button>
                         </div>
                       </div>
                     );
@@ -502,6 +522,16 @@ export default function Sales({ saleTypeFilter }) {
             </div>
           </div>
         </div>
+      )}
+
+      {/* GST Tax Invoice / Bill Modal (Print & Download) */}
+      {selectedSaleForInvoice && (
+        <InvoiceModal
+          data={selectedSaleForInvoice}
+          gstSettings={settings?.gst}
+          businessDetails={settings}
+          onClose={() => setSelectedSaleForInvoice(null)}
+        />
       )}
     </div>
   );

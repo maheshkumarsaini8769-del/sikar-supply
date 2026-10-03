@@ -21,6 +21,7 @@ const AdminCustomers = lazy(() => import('./pages/Customers'));
 const AdminProfitLoss = lazy(() => import('./pages/ProfitLoss'));
 const AdminActivity = lazy(() => import('./pages/Activity'));
 const AdminCoupons = lazy(() => import('./pages/Coupons'));
+const AdminGST = lazy(() => import('./pages/GST'));
 
 function ProtectedAdmin({ children }) {
   const { user, loading } = useAuth();
@@ -54,6 +55,7 @@ export default function AdminRoutes() {
             <Route path="profit-loss" element={<AdminProfitLoss />} />
             <Route path="activity" element={<AdminActivity />} />
             <Route path="coupons" element={<AdminCoupons />} />
+            <Route path="gst" element={<AdminGST />} />
           </Route>
         </Routes>
       </Suspense>

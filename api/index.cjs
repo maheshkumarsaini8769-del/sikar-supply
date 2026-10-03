@@ -60,6 +60,7 @@ app.use('/api/purchases', require('../server/routes/purchases'));
 app.use('/api/sales', require('../server/routes/sales'));
 app.use('/api/profitloss', require('../server/routes/profitloss'));
 app.use('/api/coupons', require('../server/routes/coupons'));
+app.use('/api/gst', require('../server/routes/gst'));
 
 // SEO routes (no /api prefix)
 app.use('/sitemap.xml', require('../server/routes/sitemap'));

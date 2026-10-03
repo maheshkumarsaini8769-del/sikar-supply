@@ -61,6 +61,23 @@ const settingsSchema = new mongoose.Schema({
     active: { type: Boolean, default: true },
     order: Number,
   }],
+
+  gst: {
+    enabled: { type: Boolean, default: true },
+    gstin: { type: String, default: '' },
+    legalName: { type: String, default: 'Star Home Interior' },
+    tradeName: { type: String, default: 'Star Home Interior' },
+    state: { type: String, default: 'Rajasthan' },
+    stateCode: { type: String, default: '08' },
+    defaultGstRate: { type: Number, default: 18 },
+    defaultHsnCode: { type: String, default: '3925' },
+    invoicePrefix: { type: String, default: 'SHI-INV-' },
+    invoiceTerms: { type: String, default: '1. Goods once sold will not be taken back without original bill.\n2. 100% waterproof guarantee applicable as per manufacturer warranty.\n3. Subject to Sikar jurisdiction only.' },
+    bankName: { type: String, default: 'State Bank of India' },
+    accountNumber: { type: String, default: '' },
+    ifscCode: { type: String, default: '' },
+    upiId: { type: String, default: '' },
+  },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Settings', settingsSchema);

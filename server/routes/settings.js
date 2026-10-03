@@ -74,6 +74,9 @@ router.put('/', protect, upload.fields([
     if (req.body.heroSlides) {
       updateData.heroSlides = typeof req.body.heroSlides === 'string' ? JSON.parse(req.body.heroSlides) : req.body.heroSlides;
     }
+    if (req.body.gst) {
+      updateData.gst = typeof req.body.gst === 'string' ? JSON.parse(req.body.gst) : req.body.gst;
+    }
 
     const fileFields = ['logo', 'favicon', 'aboutImage', 'showroomImage', 'textureImage'];
     fileFields.forEach(field => {

@@ -1,16 +1,23 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
+import InvoiceModal from '../components/InvoiceModal';
 
 const STATUSES = ['pending', 'confirmed', 'processing', 'completed', 'cancelled'];
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
+  const [settings, setSettings] = useState({});
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedOrderForInvoice, setSelectedOrderForInvoice] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  useEffect(() => {
+    api.get('/settings').then(res => setSettings(res.data.settings || {})).catch(() => {});
+  }, []);
 
   const fetchOrders = () => {
     setLoading(true);
@@ -113,6 +120,14 @@ export default function Orders() {
                   <td>
                     <div className="adm-actions-cell" style={{ flexWrap: 'wrap', gap: 4 }}>
                       <button className="adm-btn adm-btn-sm" onClick={() => setSelectedOrder(order)}>View</button>
+                      <button
+                        className="adm-btn adm-btn-sm"
+                        style={{ background: '#b8956a', color: '#000', fontWeight: 600 }}
+                        title="Print / Download Tax Bill"
+                        onClick={() => setSelectedOrderForInvoice(order)}
+                      >
+                        🧾 Bill
+                      </button>
                       {order.status === 'pending' && (
                         <button className="adm-btn adm-btn-sm" onClick={() => completeToSale(order)}
                           style={{ background: '#25d366', color: '#fff', fontWeight: 700 }}>
@@ -165,17 +180,34 @@ export default function Orders() {
               </table>
               <div className="adm-order-total"><strong>Total: ₹{(selectedOrder.total || selectedOrder.totalAmount || 0).toLocaleString()}</strong></div>
               {selectedOrder.notes && <div className="adm-order-notes"><strong>Notes: </strong>{selectedOrder.notes}</div>}
-              {selectedOrder.status === 'pending' && (
-                <div style={{ marginTop: 16 }}>
+              <div style={{ display: 'flex', gap: 10, marginTop: 16, flexWrap: 'wrap' }}>
+                <button
+                  className="adm-btn"
+                  onClick={() => setSelectedOrderForInvoice(selectedOrder)}
+                  style={{ background: '#b8956a', color: '#000', fontWeight: 700, padding: '10px 18px', fontSize: 13 }}
+                >
+                  🧾 Print / Download Tax Bill
+                </button>
+                {selectedOrder.status === 'pending' && (
                   <button className="adm-btn" onClick={() => { completeToSale(selectedOrder); setSelectedOrder(null); }}
-                    style={{ background: '#25d366', color: '#fff', fontWeight: 700, padding: '12px 24px', fontSize: 14 }}>
+                    style={{ background: '#25d366', color: '#fff', fontWeight: 700, padding: '10px 18px', fontSize: 13 }}>
                     ✅ Complete → Convert to Online Sale
                   </button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
+      )}
+
+      {/* GST Tax Invoice / Bill Modal */}
+      {selectedOrderForInvoice && (
+        <InvoiceModal
+          data={selectedOrderForInvoice}
+          gstSettings={settings?.gst}
+          businessDetails={settings}
+          onClose={() => setSelectedOrderForInvoice(null)}
+        />
       )}
     </div>
   );
