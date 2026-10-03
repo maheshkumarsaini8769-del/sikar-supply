@@ -15,8 +15,8 @@ export const FAQ_ITEMS = [
   {
     id: 1,
     category: 'general',
-    q: 'What services does Star Home Design provide in Sikar?',
-    a: 'Star Home Design is Sikar’s premier interior wall and ceiling studio. We specialize in waterproof PVC wall panels, 3D architectural fluted louvers, high-gloss UV marble sheets, WPC exterior/interior cladding, PVC false ceiling rafter systems, bespoke TV media walls, and complete residential & commercial interior finishes.',
+    q: 'What services does Star Home Interior provide in Sikar?',
+    a: 'Star Home Interior is Sikar’s premier interior wall and ceiling studio. We specialize in waterproof PVC wall panels, 3D architectural fluted louvers, high-gloss UV marble sheets, WPC exterior/interior cladding, PVC false ceiling rafter systems, bespoke TV media walls, and complete residential & commercial interior finishes.',
   },
   {
     id: 2,
@@ -117,7 +117,7 @@ export const FAQ_ITEMS = [
   {
     id: 16,
     category: 'warranty',
-    q: 'What kind of warranty does Star Home Design provide?',
+    q: 'What kind of warranty does Star Home Interior provide?',
     a: 'Our premium PVC wall panels and UV marble sheets carry a 10-Year Anti-Fade and Moisture Resistance Warranty. WPC panels come with a 12-Year Anti-Rot & Termite Warranty. We also provide a 1-year complimentary workmanship warranty on our professional installations.',
   },
   {

@@ -28,10 +28,10 @@ export default function ProjectsPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title="Interior & Wall Panel Projects in Sikar | Portfolio | Star Home Design"
+        title="Interior & Wall Panel Projects in Sikar | Portfolio | Star Home Interior"
         description="Explore completed interior transformations across Sikar, Piprali Road, Radhakishanpura, and Bajor. PVC wall panels, fluted TV units, UV marble sheets, and false ceilings."
         canonicalUrl={`${CANONICAL_DOMAIN}/projects`}
-        keywords="Interior Design Projects Sikar, Wall Panels Portfolio Sikar, TV Unit Designs Sikar, Star Home Design Portfolio"
+        keywords="Interior Design Projects Sikar, Wall Panels Portfolio Sikar, TV Unit Designs Sikar, Star Home Interior Portfolio"
         ogType="website"
         schemas={[breadcrumbSchema]}
       />
@@ -109,7 +109,7 @@ export default function ProjectsPage() {
                         </Link>
                         <a
                           href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                            `Hi Star Home Design, I loved your project "${project.title}" in ${project.location}. Can you provide a quotation for a similar design in my home?`
+                            `Hi Star Home Interior, I loved your project "${project.title}" in ${project.location}. Can you provide a quotation for a similar design in my home?`
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"

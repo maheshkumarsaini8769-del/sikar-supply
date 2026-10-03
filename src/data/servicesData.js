@@ -335,7 +335,7 @@ export const SERVICES_LIST = [
     faqs: [
       {
         q: 'Can you hide all the wires for our TV, soundbar, and set-top box?',
-        a: 'Yes. Every Star Home Design TV unit is engineered with internal service raceways and concealed conduits so zero wires remain visible.',
+        a: 'Yes. Every Star Home Interior TV unit is engineered with internal service raceways and concealed conduits so zero wires remain visible.',
       },
     ],
   },

@@ -13,7 +13,7 @@ export default function Intro() {
             <div className="intro-image">
               <img
                 src={settings?.aboutImage && typeof settings.aboutImage === 'string' ? ((settings.aboutImage.startsWith('http') || settings.aboutImage.startsWith('data:')) ? settings.aboutImage : UPLOAD_URL + settings.aboutImage) : 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=700&q=70&auto=format&fit=crop'}
-                alt="Star Home Design premium interior showroom in Sikar Rajasthan"
+                alt="Star Home Interior premium interior showroom in Sikar Rajasthan"
                 loading="lazy"
                 decoding="async"
                 width="700"
@@ -26,7 +26,7 @@ export default function Intro() {
               <p className="section-eyebrow">About Us</p>
               <h2 className="section-heading">{settings?.aboutHeading || 'Crafting Interiors That Inspire'}</h2>
               <p className="intro-text">
-                {settings?.aboutDescription || 'At Star Home Design, we believe every space tells a story. Based in the heart of Sikar, Rajasthan, we bring you an curated collection of premium interior materials — from sleek PVC panels and architectural fluted designs to luxurious UV sticker sheets and decorative tiles that transform ordinary rooms into extraordinary experiences.'}
+                {settings?.aboutDescription || 'At Star Home Interior, we believe every space tells a story. Based in the heart of Sikar, Rajasthan, we bring you an curated collection of premium interior materials — from sleek PVC panels and architectural fluted designs to luxurious UV sticker sheets and decorative tiles that transform ordinary rooms into extraordinary experiences.'}
               </p>
               <p className="intro-text">
                 Our mission is simple: make world-class interior design accessible, affordable, and effortlessly beautiful for every home and business.

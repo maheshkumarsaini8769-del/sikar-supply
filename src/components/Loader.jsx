@@ -33,7 +33,7 @@ export default function Loader() {
           </svg>
         </div>
         <div className="loader-logo">
-          STAR HOME DESIGN
+          STAR HOME INTERIOR
           <span>Premium Interior Materials</span>
         </div>
         <div className="loader-progress">

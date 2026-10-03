@@ -99,7 +99,7 @@ export default function MaterialStory({ onProductClick }) {
                   <div className="material-card-image">
                     <img
                       src={catImage}
-                      alt={`${cat.name} in Sikar - Star Home Design`}
+                      alt={`${cat.name} in Sikar - Star Home Interior`}
                       loading="lazy"
                       decoding="async"
                       width="400"

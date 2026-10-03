@@ -20,7 +20,7 @@ export default function ProcessPage() {
   const howToSchema = {
     '@context': 'https://schema.org',
     '@type': 'HowTo',
-    name: 'How Star Home Design Executes Wall Panel & Interior Transformations in Sikar',
+    name: 'How Star Home Interior Executes Wall Panel & Interior Transformations in Sikar',
     description: 'Our smooth 9-step turnkey process from initial consultation and free laser site measurement to master craftsman panel installation and warranty handover.',
     step: PROCESS_STEPS.map((s, idx) => ({
       '@type': 'HowToStep',
@@ -33,10 +33,10 @@ export default function ProcessPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title="Our 9-Step Interior Execution Process in Sikar | Star Home Design"
-        description="Discover how Star Home Design transforms rooms in 9 smooth steps: free site laser measurement in Sikar, material selection, transparent quote, and rapid 24-48hr installation."
+        title="Our 9-Step Interior Execution Process in Sikar | Star Home Interior"
+        description="Discover how Star Home Interior transforms rooms in 9 smooth steps: free site laser measurement in Sikar, material selection, transparent quote, and rapid 24-48hr installation."
         canonicalUrl={`${CANONICAL_DOMAIN}/process`}
-        keywords="Interior Design Process Sikar, Wall Panel Installation Steps, Home Renovation Sikar, Star Home Design Process"
+        keywords="Interior Design Process Sikar, Wall Panel Installation Steps, Home Renovation Sikar, Star Home Interior Process"
         ogType="website"
         schemas={[breadcrumbSchema, howToSchema]}
       />
@@ -155,7 +155,7 @@ export default function ProcessPage() {
                 </Link>
                 <a
                   href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                    'Hi Star Home Design, I would like to book an on-site consultation to discuss my wall panel project in Sikar.'
+                    'Hi Star Home Interior, I would like to book an on-site consultation to discuss my wall panel project in Sikar.'
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

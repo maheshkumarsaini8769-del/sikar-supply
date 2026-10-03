@@ -1,5 +1,5 @@
 @echo off
-title Star Home Design
+title Star Home Interior
 echo Starting servers...
 echo.
 

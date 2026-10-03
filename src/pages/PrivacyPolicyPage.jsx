@@ -18,10 +18,10 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title="Privacy Policy | Star Home Design Sikar"
-        description="Privacy Policy for Star Home Design, Sikar, Rajasthan. Learn how we collect, use, and protect your customer information during quotes and consultations."
+        title="Privacy Policy | Star Home Interior Sikar"
+        description="Privacy Policy for Star Home Interior, Sikar, Rajasthan. Learn how we collect, use, and protect your customer information during quotes and consultations."
         canonicalUrl={`${CANONICAL_DOMAIN}/privacy-policy`}
-        keywords="Privacy Policy Star Home Design, Sikar Interior Decorator Privacy"
+        keywords="Privacy Policy Star Home Interior, Sikar Interior Decorator Privacy"
         ogType="website"
         schemas={[breadcrumbSchema]}
       />
@@ -34,7 +34,7 @@ export default function PrivacyPolicyPage() {
             <span className="page-eyebrow">LEGAL &amp; COMPLIANCE</span>
             <h1 className="page-title">Privacy Policy</h1>
             <p className="page-subtitle">
-              Last Updated: March 2026. How Star Home Design safeguards your personal information when you browse our site, request quotations, or book on-site consultations in Sikar.
+              Last Updated: March 2026. How Star Home Interior safeguards your personal information when you browse our site, request quotations, or book on-site consultations in Sikar.
             </p>
             <nav className="breadcrumbs" aria-label="Breadcrumb">
               <Link to="/">Home</Link>
@@ -52,7 +52,7 @@ export default function PrivacyPolicyPage() {
               <div className="legal-section">
                 <h2>1. Introduction &amp; Ownership</h2>
                 <p>
-                  This Privacy Policy governs the manner in which <strong>Star Home Design</strong> ("we", "our", or "us"), located at Jaipur-Jhunjhunu Bypass Road, Opposite Maruti Authorized Service Center, Sikar, Rajasthan 332001, collects, uses, maintains, and discloses information collected from users (each, a "User") of the website <a href={CANONICAL_DOMAIN}>{CANONICAL_DOMAIN}</a>.
+                  This Privacy Policy governs the manner in which <strong>Star Home Interior</strong> ("we", "our", or "us"), located at Jaipur-Jhunjhunu Bypass Road, Opposite Maruti Authorized Service Center, Sikar, Rajasthan 332001, collects, uses, maintains, and discloses information collected from users (each, a "User") of the website <a href={CANONICAL_DOMAIN}>{CANONICAL_DOMAIN}</a>.
                 </p>
               </div>
 
@@ -68,7 +68,7 @@ export default function PrivacyPolicyPage() {
 
               <div className="legal-section">
                 <h2>3. How We Use Collected Information</h2>
-                <p>Star Home Design uses customer information strictly for legitimate interior business purposes:</p>
+                <p>Star Home Interior uses customer information strictly for legitimate interior business purposes:</p>
                 <ul>
                   <li>To calculate accurate, transparent material and installation estimates.</li>
                   <li>To coordinate and schedule free on-site laser measurement visits in Sikar.</li>
@@ -80,7 +80,7 @@ export default function PrivacyPolicyPage() {
               <div className="legal-section">
                 <h2>4. Zero Third-Party Sale Policy</h2>
                 <p>
-                  <strong>We do not sell, trade, or rent Users' personal identification information to others.</strong> We do not share your contact details with external advertising networks, telemarketers, or unrelated third parties. Your data is used exclusively by Star Home Design employees and certified installation supervisors.
+                  <strong>We do not sell, trade, or rent Users' personal identification information to others.</strong> We do not share your contact details with external advertising networks, telemarketers, or unrelated third parties. Your data is used exclusively by Star Home Interior employees and certified installation supervisors.
                 </p>
               </div>
 
@@ -104,7 +104,7 @@ export default function PrivacyPolicyPage() {
                   If you have any questions regarding this Privacy Policy or your personal information, please contact us at:
                 </p>
                 <div className="legal-contact-box">
-                  <p><strong>Star Home Design</strong></p>
+                  <p><strong>Star Home Interior</strong></p>
                   <p>{BUSINESS_NAP.streetAddress}, Sikar, Rajasthan {BUSINESS_NAP.postalCode}</p>
                   <p>Phone: <a href={`tel:${BUSINESS_NAP.rawPhone}`}>{BUSINESS_NAP.phone}</a></p>
                   <p>Email: <a href={`mailto:${BUSINESS_NAP.email}`}>{BUSINESS_NAP.email}</a></p>

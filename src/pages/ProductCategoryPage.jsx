@@ -39,9 +39,9 @@ export default function ProductCategoryPage() {
       item: {
         '@type': 'Product',
         name: d.name,
-        description: `${d.name} (${d.finish}) available at Star Home Design in Sikar, Rajasthan.`,
+        description: `${d.name} (${d.finish}) available at Star Home Interior in Sikar, Rajasthan.`,
         image: d.image,
-        brand: { '@type': 'Brand', name: 'Star Home Design' },
+        brand: { '@type': 'Brand', name: 'Star Home Interior' },
         category: category.name,
         url: `${CANONICAL_DOMAIN}/products/${category.slug}`,
       },
@@ -88,7 +88,7 @@ export default function ProductCategoryPage() {
         title={category.pageTitle}
         description={category.metaDescription}
         canonicalUrl={`${CANONICAL_DOMAIN}/products/${category.slug}`}
-        keywords={`${category.keywordHeading}, ${category.name} in Sikar, Wall Panels Sikar, Star Home Design`}
+        keywords={`${category.keywordHeading}, ${category.name} in Sikar, Wall Panels Sikar, Star Home Interior`}
         ogImage={category.designs[0]?.image}
         ogType="product.group"
         schemas={[breadcrumbSchema, productListSchema, faqSchema, localBusinessSchema]}
@@ -124,7 +124,7 @@ export default function ProductCategoryPage() {
               <div className="category-hero-actions">
                 <a
                   href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                    `Hi Star Home Design, I am interested in ${category.name} in Sikar. Please share the catalog and prices.`
+                    `Hi Star Home Interior, I am interested in ${category.name} in Sikar. Please share the catalog and prices.`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

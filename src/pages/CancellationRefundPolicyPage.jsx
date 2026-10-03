@@ -18,10 +18,10 @@ export default function CancellationRefundPolicyPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title="Cancellation & Refund Policy | Star Home Design Sikar"
-        description="Learn about Star Home Design's cancellation, replacement, and refund policies for wall panels, UV sheets, and installation contracts in Sikar, Rajasthan."
+        title="Cancellation & Refund Policy | Star Home Interior Sikar"
+        description="Learn about Star Home Interior's cancellation, replacement, and refund policies for wall panels, UV sheets, and installation contracts in Sikar, Rajasthan."
         canonicalUrl={`${CANONICAL_DOMAIN}/cancellation-refund-policy`}
-        keywords="Cancellation Policy Star Home Design, Refund Policy Wall Panels Sikar"
+        keywords="Cancellation Policy Star Home Interior, Refund Policy Wall Panels Sikar"
         ogType="website"
         schemas={[breadcrumbSchema]}
       />
@@ -52,7 +52,7 @@ export default function CancellationRefundPolicyPage() {
               <div className="legal-section">
                 <h2>1. Commitment to Customer Satisfaction</h2>
                 <p>
-                  At <strong>Star Home Design</strong>, customer satisfaction and trust are foundational to our reputation in Sikar. We strive to provide transparent terms for order cancellations, replacements, and refunds.
+                  At <strong>Star Home Interior</strong>, customer satisfaction and trust are foundational to our reputation in Sikar. We strive to provide transparent terms for order cancellations, replacements, and refunds.
                 </p>
               </div>
 
@@ -105,7 +105,7 @@ export default function CancellationRefundPolicyPage() {
                   To request an order modification, replacement, or cancellation, please visit our showroom or reach us at:
                 </p>
                 <div className="legal-contact-box">
-                  <p><strong>Star Home Design</strong></p>
+                  <p><strong>Star Home Interior</strong></p>
                   <p>{BUSINESS_NAP.streetAddress}, Sikar, Rajasthan {BUSINESS_NAP.postalCode}</p>
                   <p>Phone / WhatsApp: <a href={`tel:${BUSINESS_NAP.rawPhone}`}>{BUSINESS_NAP.phone}</a></p>
                   <p>Email: <a href={`mailto:${BUSINESS_NAP.email}`}>{BUSINESS_NAP.email}</a></p>

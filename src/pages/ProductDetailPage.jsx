@@ -50,7 +50,7 @@ export default function ProductDetailPage() {
     description: product.description,
     brand: {
       '@type': 'Brand',
-      name: 'Star Home Design',
+      name: 'Star Home Interior',
     },
     offers: {
       '@type': 'AggregateOffer',
@@ -65,10 +65,10 @@ export default function ProductDetailPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title={`${product.name} in Sikar | Star Home Design`}
+        title={`${product.name} in Sikar | Star Home Interior`}
         description={`${product.shortDesc} Available in multiple colors and textures with professional installation in Sikar. Price: ${product.priceIndicator}.`}
         canonicalUrl={`${CANONICAL_DOMAIN}/products/${product.slug}`}
-        keywords={`${product.name}, ${product.categoryName} Sikar, Wall Panels Sikar, Star Home Design`}
+        keywords={`${product.name}, ${product.categoryName} Sikar, Wall Panels Sikar, Star Home Interior`}
         ogImage={product.image}
         ogType="product"
         schemas={[breadcrumbSchema, productSchema]}
@@ -186,7 +186,7 @@ export default function ProductDetailPage() {
                 <div className="product-detail-actions">
                   <a
                     href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                      `Hi Star Home Design, I am interested in ordering/inquiring about "${product.name}" in Sikar. Please send sample images and current pricing.`
+                      `Hi Star Home Interior, I am interested in ordering/inquiring about "${product.name}" in Sikar. Please send sample images and current pricing.`
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"

@@ -19,7 +19,7 @@ export const BLOG_ARTICLES = [
     excerpt: 'Groundwater seepage and peeling paint plague homes across Sikar. Discover why modern interlocking PVC wall panels provide a permanent 15-year moisture barrier.',
     date: 'March 15, 2026',
     readTime: '6 min read',
-    author: 'Star Home Design Editorial Team',
+    author: 'Star Home Interior Editorial Team',
     image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&q=85&auto=format&fit=crop',
     content: [
       {
@@ -52,7 +52,7 @@ export const BLOG_ARTICLES = [
     excerpt: 'Vertical ribbed louvers have taken interior design by storm. Explore 7 stunning ways to combine fluted wood with marble sheets and ambient LED lighting.',
     date: 'March 10, 2026',
     readTime: '5 min read',
-    author: 'Star Home Design Styling Team',
+    author: 'Star Home Interior Styling Team',
     image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1000&q=85&auto=format&fit=crop',
     content: [
       {
@@ -85,7 +85,7 @@ export const BLOG_ARTICLES = [
     excerpt: 'Want the luxury of Italian Statuario marble without the ₹800/sq.ft price tag and heavy slab installation? Here is how UV marble sheets compare.',
     date: 'March 05, 2026',
     readTime: '7 min read',
-    author: 'Star Home Design Materials Specialist',
+    author: 'Star Home Interior Materials Specialist',
     image: 'https://images.unsplash.com/photo-1615529328331-f8917597711f?w=1000&q=85&auto=format&fit=crop',
     content: [
       {
@@ -118,7 +118,7 @@ export const BLOG_ARTICLES = [
     excerpt: 'Smart material selection, strategic accent walls, and ambient lighting can transform your home into a luxury residence without overspending.',
     date: 'February 28, 2026',
     readTime: '5 min read',
-    author: 'Star Home Design Interior Team',
+    author: 'Star Home Interior Interior Team',
     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&q=85&auto=format&fit=crop',
     content: [
       {
@@ -147,7 +147,7 @@ export const BLOG_ARTICLES = [
     excerpt: 'Upgrade your bedroom sanctuary with acoustic wood slats, fluted louvers, and warm ambient backlighting designed for peaceful relaxation.',
     date: 'February 20, 2026',
     readTime: '6 min read',
-    author: 'Star Home Design Styling Team',
+    author: 'Star Home Interior Styling Team',
     image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1000&q=85&auto=format&fit=crop',
     content: [
       {
@@ -176,7 +176,7 @@ export const BLOG_ARTICLES = [
     excerpt: 'Traditional gypsum false ceilings crack and sag under terrace dampness. Discover why cellular PVC rafter systems are revolutionizing modern ceiling design in Sikar.',
     date: 'February 15, 2026',
     readTime: '5 min read',
-    author: 'Star Home Design Technical Team',
+    author: 'Star Home Interior Technical Team',
     image: 'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=1000&q=85&auto=format&fit=crop',
     content: [
       {
@@ -205,7 +205,7 @@ export const BLOG_ARTICLES = [
     excerpt: 'Wood Plastic Composite (WPC) delivers the rich warmth of solid timber without termites, warping, or rotting. Learn where and how to use it.',
     date: 'February 08, 2026',
     readTime: '6 min read',
-    author: 'Star Home Design Engineering Team',
+    author: 'Star Home Interior Engineering Team',
     image: 'https://images.unsplash.com/photo-1615876234886-fd9a39fda97f?w=1000&q=85&auto=format&fit=crop',
     content: [
       {
@@ -234,7 +234,7 @@ export const BLOG_ARTICLES = [
     excerpt: 'Avoid common renovation mistakes. Here is your essential checklist covering laser measurements, sub-frame battens, moisture checks, and warranties.',
     date: 'January 28, 2026',
     readTime: '7 min read',
-    author: 'Star Home Design Project Director',
+    author: 'Star Home Interior Project Director',
     image: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1000&q=85&auto=format&fit=crop',
     content: [
       {

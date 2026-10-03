@@ -76,10 +76,10 @@ export default function ServiceDetailPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title={`${service.title} in Sikar | Installation & Cost | Star Home Design`}
+        title={`${service.title} in Sikar | Installation & Cost | Star Home Interior`}
         description={`${service.shortDesc} Professional installation across Sikar, Jhunjhunu & Jaipur with 10-year warranty. Starting from ${service.startingPrice}.`}
         canonicalUrl={`${CANONICAL_DOMAIN}/services/${service.slug}`}
-        keywords={`${service.title} Sikar, ${service.title} price in Sikar, Wall Panels Sikar, Star Home Design`}
+        keywords={`${service.title} Sikar, ${service.title} price in Sikar, Wall Panels Sikar, Star Home Interior`}
         ogImage={service.image}
         ogType="service"
         schemas={[breadcrumbSchema, serviceSchema, faqSchema]}
@@ -109,7 +109,7 @@ export default function ServiceDetailPage() {
               </Link>
               <a
                 href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                  `Hi Star Home Design, I am interested in ${service.title} in Sikar. Please share design options and pricing.`
+                  `Hi Star Home Interior, I am interested in ${service.title} in Sikar. Please share design options and pricing.`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"

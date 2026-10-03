@@ -63,16 +63,16 @@ export default function ProductCollection({ activeCategory }) {
     const jsonLd = {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
-      name: 'Star Home Design - Interior Materials Collection in Sikar',
+      name: 'Star Home Interior - Interior Materials Collection in Sikar',
       numberOfItems: filtered.length,
       itemListElement: filtered.slice(0, 20).map((p, i) => {
         const prodData = {
           '@type': 'Product',
           name: `${p.name} in Sikar`,
-          description: p.description || p.shortDescription || `${p.name} available at Star Home Design, Sikar.`,
+          description: p.description || p.shortDescription || `${p.name} available at Star Home Interior, Sikar.`,
           image: getImage(p),
           url: `${window.location.origin}/#products`,
-          brand: { '@type': 'Brand', name: 'Star Home Design' },
+          brand: { '@type': 'Brand', name: 'Star Home Interior' },
         };
         if (p.price > 0) {
           prodData.offers = {

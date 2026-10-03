@@ -66,7 +66,7 @@ export default function GetQuotePage() {
     setErrorMsg('');
     setLoading(true);
 
-    const waText = `*New Quote Request - Star Home Design Sikar*\n` +
+    const waText = `*New Quote Request - Star Home Interior Sikar*\n` +
       `👤 Name: ${formData.name}\n` +
       `📞 Phone: ${formData.phone}\n` +
       `📍 Locality: ${formData.locality || 'Sikar'}\n` +
@@ -111,10 +111,10 @@ export default function GetQuotePage() {
   return (
     <div className="site-page">
       <SEOHead
-        title="Get Free Quote & Site Measurement in Sikar | Star Home Design"
+        title="Get Free Quote & Site Measurement in Sikar | Star Home Interior"
         description="Request a free on-site visit and itemized quote for PVC wall panels, fluted louvers, UV marble sheets, and false ceilings in Sikar. Zero obligation."
         canonicalUrl={`${CANONICAL_DOMAIN}/get-quote`}
-        keywords="Get Quote Sikar, Wall Panels Estimation Sikar, Free Site Visit Interior Sikar, Star Home Design Consultation"
+        keywords="Get Quote Sikar, Wall Panels Estimation Sikar, Free Site Visit Interior Sikar, Star Home Interior Consultation"
         ogType="website"
         schemas={[breadcrumbSchema]}
       />
@@ -154,7 +154,7 @@ export default function GetQuotePage() {
                     <div className="success-actions">
                       <a
                         href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                          `Hi Star Home Design, I just submitted a quote request on your website for ${formData.spaceType} in ${formData.locality || 'Sikar'}. Let's discuss details!`
+                          `Hi Star Home Interior, I just submitted a quote request on your website for ${formData.spaceType} in ${formData.locality || 'Sikar'}. Let's discuss details!`
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"

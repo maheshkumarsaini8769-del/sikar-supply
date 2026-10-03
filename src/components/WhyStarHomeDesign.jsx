@@ -44,7 +44,7 @@ export default function WhyStarHomeDesign() {
           <div className="why-left">
             <ScrollReveal>
               <h2 className="section-heading">
-                <span>{settings?.whyUsHeading || 'Why Star Home Design'}</span>
+                <span>{settings?.whyUsHeading || 'Why Star Home Interior'}</span>
               </h2>
               <p>
                 We don't just supply materials — we craft experiences.

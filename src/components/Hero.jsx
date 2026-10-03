@@ -64,7 +64,7 @@ export default function Hero() {
                 src={slide}
                 srcSet={typeof slide === 'string' && slide.includes('images.unsplash.com') ? `${slide.replace(/w=\d+/, 'w=480').replace(/q=\d+/, 'q=60')} 480w, ${slide} 800w` : undefined}
                 sizes="(max-width: 600px) 480px, 800px"
-                alt={`Star Home Design showroom slide ${i + 1} - Premium interior materials in Sikar Rajasthan`}
+                alt={`Star Home Interior showroom slide ${i + 1} - Premium interior materials in Sikar Rajasthan`}
                 fetchPriority={i === 0 ? "high" : "low"}
                 loading={i === 0 ? "eager" : "lazy"}
                 decoding={i === 0 ? "sync" : "async"}
@@ -78,7 +78,7 @@ export default function Hero() {
       </div>
 
       <div className="container hero-content">
-        <p className="hero-eyebrow">{settings?.heroEyebrow || 'STAR HOME DESIGN'}</p>
+        <p className="hero-eyebrow">{settings?.heroEyebrow || 'STAR HOME INTERIOR'}</p>
         <h1 className="hero-heading">{settings?.heroHeading || 'Transform Your Space'}</h1>
         <p className="hero-description">
           {settings?.heroDescription || 'Premium interior materials for modern living'}

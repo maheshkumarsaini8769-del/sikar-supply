@@ -39,12 +39,12 @@ export default function BlogDetailPage() {
     dateModified: '2026-03-15T08:00:00+05:30',
     author: {
       '@type': 'Organization',
-      name: 'Star Home Design',
+      name: 'Star Home Interior',
       url: CANONICAL_DOMAIN,
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Star Home Design',
+      name: 'Star Home Interior',
       logo: {
         '@type': 'ImageObject',
         url: `${CANONICAL_DOMAIN}/favicon.ico`,
@@ -59,10 +59,10 @@ export default function BlogDetailPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title={`${article.title} | Star Home Design Sikar`}
+        title={`${article.title} | Star Home Interior Sikar`}
         description={article.excerpt}
         canonicalUrl={`${CANONICAL_DOMAIN}/blog/${article.slug}`}
-        keywords={`${article.categoryName} Sikar, Interior Design Blog Sikar, Wall Panels Sikar, Star Home Design`}
+        keywords={`${article.categoryName} Sikar, Interior Design Blog Sikar, Wall Panels Sikar, Star Home Interior`}
         ogImage={article.image}
         ogType="article"
         schemas={[breadcrumbSchema, blogPostingSchema]}
@@ -129,7 +129,7 @@ export default function BlogDetailPage() {
                 <div className="blog-protip-box">
                   <div className="protip-header">
                     <span className="protip-icon">💡</span>
-                    <h3>Star Home Design Interior Advice</h3>
+                    <h3>Star Home Interior Interior Advice</h3>
                   </div>
                   <p>
                     Living in Sikar or Shekhawati? Due to intense summer heat and groundwater mineral salts, standard wallpaper and gypsum plaster degrade rapidly. High-density interlocking PVC panels and Stone Polymer Composite (SPC) UV sheets are the most durable materials engineered specifically for our regional climate.
@@ -146,7 +146,7 @@ export default function BlogDetailPage() {
               <div className="author-bio-card">
                 <div className="author-avatar">★</div>
                 <div className="author-info">
-                  <h4>Star Home Design Editorial Team</h4>
+                  <h4>Star Home Interior Editorial Team</h4>
                   <p>
                     Written by our team of interior designers and wall finishing specialists with over 8 years of hands-on installation experience in Sikar, Rajasthan.
                   </p>
@@ -158,7 +158,7 @@ export default function BlogDetailPage() {
                 <span>Interested in creating this look?</span>
                 <a
                   href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                    `Hi Star Home Design, I read your article "${article.title}" and would like to consult with you about doing something similar in my home.`
+                    `Hi Star Home Interior, I read your article "${article.title}" and would like to consult with you about doing something similar in my home.`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

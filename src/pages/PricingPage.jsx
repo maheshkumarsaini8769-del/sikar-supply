@@ -63,7 +63,7 @@ export default function PricingPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title="Wall Panel & Interior Pricing Sikar | Material Cost & Calculator | Star Home Design"
+        title="Wall Panel & Interior Pricing Sikar | Material Cost & Calculator | Star Home Interior"
         description="Transparent pricing guide for PVC wall panels, fluted louvers, UV marble sheets, and false ceilings in Sikar. Compare materials and calculate your instant estimated project cost."
         canonicalUrl={`${CANONICAL_DOMAIN}/pricing`}
         keywords="Wall Panel Price Sikar, PVC Wall Panels Cost Sikar, Fluted Louvers Rate, UV Marble Sheet Price Sikar, Interior Cost Calculator"
@@ -237,7 +237,7 @@ export default function PricingPage() {
                   <div className="result-actions">
                     <a
                       href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                        `Hi Star Home Design, I calculated an estimate of ₹${calculation.minEstimate.toLocaleString('en-IN')} - ₹${calculation.maxEstimate.toLocaleString('en-IN')} on your website for ${calculation.area} sq.ft of ${calculation.serviceName}. Can you schedule an on-site visit to inspect the site and confirm the final quote?`
+                        `Hi Star Home Interior, I calculated an estimate of ₹${calculation.minEstimate.toLocaleString('en-IN')} - ₹${calculation.maxEstimate.toLocaleString('en-IN')} on your website for ${calculation.area} sq.ft of ${calculation.serviceName}. Can you schedule an on-site visit to inspect the site and confirm the final quote?`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

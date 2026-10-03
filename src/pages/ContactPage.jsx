@@ -23,7 +23,7 @@ export default function ContactPage() {
     if (!formData.name.trim() || !formData.phone.trim()) return;
     setLoading(true);
 
-    const waText = `*Contact Enquiry - Star Home Design Sikar*\n` +
+    const waText = `*Contact Enquiry - Star Home Interior Sikar*\n` +
       `👤 Name: ${formData.name}\n` +
       `📞 Phone: ${formData.phone}\n` +
       (formData.email ? `📧 Email: ${formData.email}\n` : '') +
@@ -100,10 +100,10 @@ export default function ContactPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title="Contact Star Home Design Sikar | Showroom Location, Phone & Directions"
-        description="Visit Star Home Design showroom on Jaipur-Jhunjhunu Bypass Road, Sikar (Opp. Maruti Service Center). Phone: +91 82394 09535. Free site consultation & quotes."
+        title="Contact Star Home Interior Sikar | Showroom Location, Phone & Directions"
+        description="Visit Star Home Interior showroom on Jaipur-Jhunjhunu Bypass Road, Sikar (Opp. Maruti Service Center). Phone: +91 82394 09535. Free site consultation & quotes."
         canonicalUrl={`${CANONICAL_DOMAIN}/contact`}
-        keywords="Contact Star Home Design, Wall Panels Showroom Sikar, PVC Panels Shop Sikar, Star Home Design Location Sikar"
+        keywords="Contact Star Home Interior, Wall Panels Showroom Sikar, PVC Panels Shop Sikar, Star Home Interior Location Sikar"
         ogType="website"
         schemas={[breadcrumbSchema, localBusinessSchema]}
       />
@@ -114,7 +114,7 @@ export default function ContactPage() {
         <div className="container">
           <div className="page-hero-content">
             <span className="page-eyebrow">VISIT OUR SHOWROOM</span>
-            <h1 className="page-title">Contact Star Home Design in Sikar</h1>
+            <h1 className="page-title">Contact Star Home Interior in Sikar</h1>
             <p className="page-subtitle">
               Have a question about wall panels, UV sheets, or installation timelines? Visit our showroom, call us directly, or book a free on-site design consultation.
             </p>
@@ -203,7 +203,7 @@ export default function ContactPage() {
                       </p>
                       <a
                         href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                          `Hi Star Home Design, I sent a consultation inquiry on your contact page regarding ${formData.service}.`
+                          `Hi Star Home Interior, I sent a consultation inquiry on your contact page regarding ${formData.service}.`
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -289,7 +289,7 @@ export default function ContactPage() {
                   <h3>Showroom Location Map</h3>
                   <div className="map-iframe-container">
                     <iframe
-                      title="Star Home Design Showroom Location Sikar"
+                      title="Star Home Interior Showroom Location Sikar"
                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113337.89269584742!2d75.06456300439453!3d27.609438999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396ca371077be0ef%3A0xe54e60ca213e8ca7!2sSikar%2C%20Rajasthan!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin"
                       width="100%"
                       height="320"

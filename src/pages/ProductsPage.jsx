@@ -49,7 +49,7 @@ export default function ProductsPage() {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Interior Products & Wall Panels Catalog in Sikar',
-    description: 'High-density PVC wall panels, fluted louvers, UV marble sheets, and false ceilings available at Star Home Design showroom in Sikar.',
+    description: 'High-density PVC wall panels, fluted louvers, UV marble sheets, and false ceilings available at Star Home Interior showroom in Sikar.',
     numberOfItems: PRODUCTS_CATALOG.length,
     itemListElement: PRODUCTS_CATALOG.map((p, idx) => ({
       '@type': 'ListItem',
@@ -60,7 +60,7 @@ export default function ProductsPage() {
         description: p.shortDesc,
         image: p.image,
         url: `${CANONICAL_DOMAIN}/products/${p.slug}`,
-        brand: { '@type': 'Brand', name: 'Star Home Design' },
+        brand: { '@type': 'Brand', name: 'Star Home Interior' },
       },
     })),
   };
@@ -68,8 +68,8 @@ export default function ProductsPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title="Wall Panels, Fluted Louvers & UV Marble Catalog in Sikar | Star Home Design"
-        description="Browse Star Home Design's full catalog of waterproof PVC panels, fluted louver slats, UV marble sheets, and ceiling panels in Sikar. Wholesale rates & professional installation."
+        title="Wall Panels, Fluted Louvers & UV Marble Catalog in Sikar | Star Home Interior"
+        description="Browse Star Home Interior's full catalog of waterproof PVC panels, fluted louver slats, UV marble sheets, and ceiling panels in Sikar. Wholesale rates & professional installation."
         canonicalUrl={`${CANONICAL_DOMAIN}/products`}
         keywords="Wall Panels Sikar, PVC Panels Catalog, Fluted Panels Price Sikar, UV Marble Sheet Sikar, WPC Louvers Rajasthan"
         ogType="website"
@@ -192,7 +192,7 @@ export default function ProductsPage() {
                             </Link>
                             <a
                               href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                                `Hi Star Home Design, I want to inquire about "${product.name}" in Sikar. What are the wholesale rates and available designs?`
+                                `Hi Star Home Interior, I want to inquire about "${product.name}" in Sikar. What are the wholesale rates and available designs?`
                               )}`}
                               target="_blank"
                               rel="noopener noreferrer"

@@ -42,7 +42,7 @@ export default function ServicesPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title="Interior & Wall Panel Installation Services in Sikar | Star Home Design"
+        title="Interior & Wall Panel Installation Services in Sikar | Star Home Interior"
         description="Explore 9 specialized interior decoration services in Sikar: waterproof PVC wall panels, fluted louvers, UV marble sheets, false ceilings, TV units & commercial fitouts."
         canonicalUrl={`${CANONICAL_DOMAIN}/services`}
         keywords="Wall Panel Installation Sikar, PVC Wall Panels Sikar, False Ceiling Sikar, UV Marble Sheet Installation Sikar, TV Unit Design Sikar"
@@ -118,7 +118,7 @@ export default function ServicesPage() {
                         </Link>
                         <a
                           href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                            `Hi Star Home Design, I am interested in ${service.title} in Sikar. Please share cost estimate and details.`
+                            `Hi Star Home Interior, I am interested in ${service.title} in Sikar. Please share cost estimate and details.`
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -140,7 +140,7 @@ export default function ServicesPage() {
         <section className="about-section quality-section">
           <div className="container">
             <div className="section-header text-center">
-              <span className="section-badge">THE STAR HOME DESIGN ADVANTAGE</span>
+              <span className="section-badge">THE STAR HOME INTERIOR ADVANTAGE</span>
               <h2>How We Deliver Precision Workmanship</h2>
               <p className="section-subtitle">
                 Installing architectural wall panels requires laser alignment, specialized framing, and concealed fastening.

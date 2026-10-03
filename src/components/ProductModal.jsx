@@ -116,7 +116,7 @@ export default function ProductModal({ product, onClose }) {
         .replace(/{address}/g, form.address.trim());
     } else {
       const lines = [
-        settings?.whatsappGreeting || 'Hello Star Home Design,',
+        settings?.whatsappGreeting || 'Hello Star Home Interior,',
         ``,
         `I am interested in:`,
         ``,

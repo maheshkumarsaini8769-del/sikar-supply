@@ -331,7 +331,7 @@ export default function Navbar({ onSearchProduct }) {
           <div className="drawer-contact-card">
             <div className="drawer-showroom-header">
               <span className="showroom-badge">SIKAR SHOWROOM</span>
-              <h5>Star Home Design</h5>
+              <h5>Star Home Interior</h5>
               <p>Jaipur-Jhunjhunu Bypass Road, Opp. Maruti Authorized Service Center, Sikar</p>
             </div>
 
@@ -341,7 +341,7 @@ export default function Navbar({ onSearchProduct }) {
                 Call Us
               </a>
               <a
-                href="https://wa.me/918239409535?text=Hi%20Star%20Home%20Design%2C%20I%20am%20interested%20in%20your%20products."
+                href="https://wa.me/918239409535?text=Hi%20Star%20Home%20Interior%2C%20I%20am%20interested%20in%20your%20products."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="drawer-action-btn wa"

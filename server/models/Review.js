@@ -6,6 +6,8 @@ const reviewSchema = new mongoose.Schema({
   text: { type: String, required: true },
   image: { type: String, default: '' },
   active: { type: Boolean, default: true },
+  reply: { type: String, default: '' },
+  replyDate: { type: Date },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Review', reviewSchema);

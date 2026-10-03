@@ -99,10 +99,10 @@ export default function AboutPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title="About Star Home Design | Sikar's Premier Wall Panel & Interior Showroom"
-        description="Learn about Star Home Design, Sikar's leading interior showroom specializing in waterproof PVC panels, fluted louvers, UV marble sheets, and false ceilings on Jaipur-Jhunjhunu Bypass."
+        title="About Star Home Interior | Sikar's Premier Wall Panel & Interior Showroom"
+        description="Learn about Star Home Interior, Sikar's leading interior showroom specializing in waterproof PVC panels, fluted louvers, UV marble sheets, and false ceilings on Jaipur-Jhunjhunu Bypass."
         canonicalUrl={`${CANONICAL_DOMAIN}/about`}
-        keywords="About Star Home Design Sikar, Interior Decorators Sikar, Wall Panels Showroom Sikar, PVC panel supplier Rajasthan"
+        keywords="About Star Home Interior Sikar, Interior Decorators Sikar, Wall Panels Showroom Sikar, PVC panel supplier Rajasthan"
         ogType="website"
         schemas={[breadcrumbSchema, localBusinessSchema]}
       />
@@ -113,10 +113,10 @@ export default function AboutPage() {
       <header className="page-hero">
         <div className="container">
           <div className="page-hero-content">
-            <span className="page-eyebrow">ABOUT STAR HOME DESIGN</span>
+            <span className="page-eyebrow">ABOUT STAR HOME INTERIOR</span>
             <h1 className="page-title">Transforming Sikar Homes with Modern Architectural Materials</h1>
             <p className="page-subtitle">
-              From permanent dampness remedies to high-end luxury focal walls, Star Home Design is dedicated to bringing world-class interior finishing products directly to homeowners, architects, and contractors across Sikar and Shekhawati.
+              From permanent dampness remedies to high-end luxury focal walls, Star Home Interior is dedicated to bringing world-class interior finishing products directly to homeowners, architects, and contractors across Sikar and Shekhawati.
             </p>
             <nav className="breadcrumbs" aria-label="Breadcrumb">
               <Link to="/">Home</Link>
@@ -137,7 +137,7 @@ export default function AboutPage() {
                   <span className="section-badge">OUR STORY</span>
                   <h2>Pioneering Resilient &amp; Elegant Wall Finishes in Sikar</h2>
                   <p>
-                    Founded in the heart of Sikar, Rajasthan, <strong>Star Home Design</strong> emerged with a clear, uncompromising mission: to solve one of the most frustrating problems faced by regional property owners — persistent wall seepage, blistering plaster, and peeling paint — while delivering sophisticated interior aesthetics once reserved only for metropolitan luxury penthouses.
+                    Founded in the heart of Sikar, Rajasthan, <strong>Star Home Interior</strong> emerged with a clear, uncompromising mission: to solve one of the most frustrating problems faced by regional property owners — persistent wall seepage, blistering plaster, and peeling paint — while delivering sophisticated interior aesthetics once reserved only for metropolitan luxury penthouses.
                   </p>
                   <p>
                     Traditional wall treatments like POP, putty, and repeated wall repainting fail within 12 to 24 months due to groundwater dampness (seelan) common across Shekhawati. We introduced heavy-duty, 100% waterproof virgin PVC wall panels and seamless UV marble sheets as permanent, lifetime-grade solutions.
@@ -160,7 +160,7 @@ export default function AboutPage() {
                 <div className="about-image-wrapper">
                   <img
                     src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&q=85&auto=format&fit=crop"
-                    alt="Star Home Design Showroom Experience in Sikar"
+                    alt="Star Home Interior Showroom Experience in Sikar"
                     loading="lazy"
                     decoding="async"
                     width="1000"
@@ -222,7 +222,7 @@ export default function AboutPage() {
           <div className="container">
             <div className="section-header text-center">
               <span className="section-badge">MATERIAL QUALITY STANDARDS</span>
-              <h2>Why Star Home Design Panels Last Longer</h2>
+              <h2>Why Star Home Interior Panels Last Longer</h2>
               <p className="section-subtitle">
                 We refuse to stock lightweight, brittle or substandard panels. Every batch meets rigorous durability parameters.
               </p>
@@ -310,7 +310,7 @@ export default function AboutPage() {
                 </Link>
                 <a
                   href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                    'Hi Star Home Design, I would like to schedule a free site measurement visit in Sikar.'
+                    'Hi Star Home Interior, I would like to schedule a free site measurement visit in Sikar.'
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

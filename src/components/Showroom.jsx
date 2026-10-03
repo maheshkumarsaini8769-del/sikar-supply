@@ -13,7 +13,7 @@ export default function Showroom() {
             <div className="showroom-image">
               <img
                 src={settings?.showroomImage && typeof settings.showroomImage === 'string' ? ((settings.showroomImage.startsWith('http') || settings.showroomImage.startsWith('data:')) ? settings.showroomImage : UPLOAD_URL + settings.showroomImage) : 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=70&auto=format&fit=crop'}
-                alt="Star Home Design premium showroom interior"
+                alt="Star Home Interior premium showroom interior"
                 loading="lazy"
                 decoding="async"
                 width="800"
@@ -24,7 +24,7 @@ export default function Showroom() {
           <ScrollReveal direction="right" delay={200}>
             <div className="showroom-content">
               <span className="eyebrow">{settings?.showroomHeading || 'Visit Our Showroom'}</span>
-              <h2 className="section-heading">{settings?.siteName || 'Star Home Design'}</h2>
+              <h2 className="section-heading">{settings?.siteName || 'Star Home Interior'}</h2>
 
               <div className="showroom-details">
                 <div className="showroom-detail">

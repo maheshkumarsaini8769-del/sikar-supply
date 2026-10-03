@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const settingsSchema = new mongoose.Schema({
-  siteName: { type: String, default: 'Star Home Design' },
+  siteName: { type: String, default: 'Star Home Interior' },
   siteTagline: { type: String, default: 'Premium Interior Materials' },
   logo: { type: String, default: '' },
   favicon: { type: String, default: '' },
@@ -20,7 +20,7 @@ const settingsSchema = new mongoose.Schema({
   }],
   slideDuration: { type: Number, default: 3000 },
 
-  heroEyebrow: { type: String, default: 'STAR HOME DESIGN' },
+  heroEyebrow: { type: String, default: 'STAR HOME INTERIOR' },
   heroHeading: { type: String, default: 'Transform Your Space' },
   heroDescription: { type: String, default: 'Premium interior materials for modern living' },
   heroBtnText: { type: String, default: 'Explore Collection' },
@@ -33,14 +33,14 @@ const settingsSchema = new mongoose.Schema({
   statsProjects: { type: String, default: '1000+' },
   statsRating: { type: String, default: '5' },
 
-  whyUsHeading: { type: String, default: 'Why Choose Star Home Design' },
+  whyUsHeading: { type: String, default: 'Why Choose Star Home Interior' },
   showroomHeading: { type: String, default: 'Visit Our Showroom' },
   showroomImage: { type: String, default: '' },
 
   textureImage: { type: String, default: '' },
 
   footerDescription: { type: String, default: 'Your trusted partner for premium interior materials.' },
-  copyrightText: { type: String, default: '© 2024 Star Home Design. All rights reserved.' },
+  copyrightText: { type: String, default: '© 2026 Star Home Interior. All rights reserved.' },
 
   socialLinks: {
     instagram: { type: String, default: '' },
@@ -48,11 +48,11 @@ const settingsSchema = new mongoose.Schema({
     youtube: { type: String, default: '' },
   },
 
-  seoTitle: { type: String, default: 'Star Home Design - Premium Interior Materials' },
+  seoTitle: { type: String, default: 'Star Home Interior - Premium Interior Materials' },
   seoDescription: { type: String, default: '' },
   seoKeywords: { type: String, default: '' },
 
-  whatsappGreeting: { type: String, default: 'Hello Star Home Design,' },
+  whatsappGreeting: { type: String, default: 'Hello Star Home Interior,' },
   whatsappProductMessage: { type: String, default: 'I am interested in {product}. Please share price and availability.' },
 
   homeSections: [{

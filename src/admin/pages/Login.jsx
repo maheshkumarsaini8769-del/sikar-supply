@@ -33,7 +33,7 @@ export default function Login() {
     <div className="login-page">
       <div className="login-card">
         <div className="login-header">
-          <h1>STAR HOME</h1>
+          <h1>STAR HOME INTERIOR</h1>
           <p>Admin Panel</p>
         </div>
         <form onSubmit={handleSubmit}>

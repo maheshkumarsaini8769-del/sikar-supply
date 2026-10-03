@@ -55,14 +55,14 @@ export default function GalleryPage() {
   const imageGallerySchema = {
     '@context': 'https://schema.org',
     '@type': 'ImageGallery',
-    name: 'Star Home Design Interior & Wall Panel Gallery Sikar',
+    name: 'Star Home Interior Interior & Wall Panel Gallery Sikar',
     description: 'Photo gallery of waterproof PVC wall panels, fluted louvers, UV marble sheets, and false ceilings installed in Sikar, Rajasthan.',
   };
 
   return (
     <div className="site-page">
       <SEOHead
-        title="Interior Wall Panels & UV Marble Photo Gallery Sikar | Star Home Design"
+        title="Interior Wall Panels & UV Marble Photo Gallery Sikar | Star Home Interior"
         description="Browse our visual gallery of living room TV units, bedroom fluted accents, waterproof PVC panels, and false ceilings installed across Sikar and Shekhawati."
         canonicalUrl={`${CANONICAL_DOMAIN}/gallery`}
         keywords="Wall Panels Gallery Sikar, TV Unit Photos Sikar, PVC Wall Panels Photos, UV Marble Sheet Gallery"
@@ -191,7 +191,7 @@ export default function GalleryPage() {
                 </div>
                 <a
                   href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                    `Hi Star Home Design, I saw this design in your gallery: "${activeItem.title}" (${activeItem.location}). Can you share pricing and installation details?`
+                    `Hi Star Home Interior, I saw this design in your gallery: "${activeItem.title}" (${activeItem.location}). Can you share pricing and installation details?`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

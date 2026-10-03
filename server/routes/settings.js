@@ -8,6 +8,39 @@ const getSettings = async () => {
   let settings = await Settings.findOne();
   if (!settings) {
     settings = await Settings.create({});
+  } else {
+    let changed = false;
+    if (settings.siteName === 'Star Home Design') {
+      settings.siteName = 'Star Home Interior';
+      changed = true;
+    }
+    if (settings.heroEyebrow === 'STAR HOME DESIGN') {
+      settings.heroEyebrow = 'STAR HOME INTERIOR';
+      changed = true;
+    }
+    if (settings.whyUsHeading && settings.whyUsHeading.includes('Star Home Design')) {
+      settings.whyUsHeading = settings.whyUsHeading.replace('Star Home Design', 'Star Home Interior');
+      changed = true;
+    }
+    if (settings.whatsappGreeting && settings.whatsappGreeting.includes('Star Home Design')) {
+      settings.whatsappGreeting = settings.whatsappGreeting.replace('Star Home Design', 'Star Home Interior');
+      changed = true;
+    }
+    if (settings.copyrightText && settings.copyrightText.includes('Star Home Design')) {
+      settings.copyrightText = settings.copyrightText.replace('Star Home Design', 'Star Home Interior');
+      changed = true;
+    }
+    if (settings.seoTitle && settings.seoTitle.includes('Star Home Design')) {
+      settings.seoTitle = settings.seoTitle.replace('Star Home Design', 'Star Home Interior');
+      changed = true;
+    }
+    if (settings.footerDescription && settings.footerDescription.includes('Star Home Design')) {
+      settings.footerDescription = settings.footerDescription.replace('Star Home Design', 'Star Home Interior');
+      changed = true;
+    }
+    if (changed) {
+      await settings.save();
+    }
   }
   return settings;
 };

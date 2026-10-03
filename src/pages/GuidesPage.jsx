@@ -35,10 +35,10 @@ export default function GuidesPage() {
   return (
     <>
       <SEOHead
-        title="Home Interior & Wall Panel Guides | Star Home Design Sikar"
+        title="Home Interior & Wall Panel Guides | Star Home Interior Sikar"
         description="Expert guides on PVC wall panels, fluted louvers, UV marble sheets, and interior decoration for homes in Sikar and Rajasthan. Read actionable tips."
         canonicalUrl={`${CANONICAL_DOMAIN}/guides`}
-        keywords="PVC Wall Panels Guide, Fluted Panel Ideas, UV Marble Sheet Installation, Interior Design Sikar, Star Home Design Guides"
+        keywords="PVC Wall Panels Guide, Fluted Panel Ideas, UV Marble Sheet Installation, Interior Design Sikar, Star Home Interior Guides"
         schemas={[breadcrumbSchema, itemListSchema]}
       />
 

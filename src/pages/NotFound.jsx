@@ -8,8 +8,8 @@ export default function NotFound() {
   return (
     <div className="site-page">
       <SEOHead
-        title="404 - Page Not Found | Star Home Design Sikar"
-        description="The page or interior section you are searching for doesn't exist or has moved. Explore waterproof PVC wall panels, fluted louvers, and UV marble sheets at Star Home Design in Sikar."
+        title="404 - Page Not Found | Star Home Interior Sikar"
+        description="The page or interior section you are searching for doesn't exist or has moved. Explore waterproof PVC wall panels, fluted louvers, and UV marble sheets at Star Home Interior in Sikar."
         noindex={true}
       />
 

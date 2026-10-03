@@ -18,10 +18,10 @@ export default function TermsConditionsPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title="Terms and Conditions | Star Home Design Sikar"
-        description="Official Terms and Conditions for interior material supply and installation services provided by Star Home Design in Sikar, Rajasthan."
+        title="Terms and Conditions | Star Home Interior Sikar"
+        description="Official Terms and Conditions for interior material supply and installation services provided by Star Home Interior in Sikar, Rajasthan."
         canonicalUrl={`${CANONICAL_DOMAIN}/terms-and-conditions`}
-        keywords="Terms and Conditions Star Home Design, Sikar Interior Contract Terms"
+        keywords="Terms and Conditions Star Home Interior, Sikar Interior Contract Terms"
         ogType="website"
         schemas={[breadcrumbSchema]}
       />
@@ -52,14 +52,14 @@ export default function TermsConditionsPage() {
               <div className="legal-section">
                 <h2>1. Agreement to Terms</h2>
                 <p>
-                  By accessing our website, purchasing materials, or commissioning installation services from <strong>Star Home Design</strong>, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use our services or website.
+                  By accessing our website, purchasing materials, or commissioning installation services from <strong>Star Home Interior</strong>, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use our services or website.
                 </p>
               </div>
 
               <div className="legal-section">
                 <h2>2. Quotations &amp; Pricing Validity</h2>
                 <ul>
-                  <li>All official price estimates and itemized quotations issued by Star Home Design are valid for <strong>30 days</strong> from the date of issuance.</li>
+                  <li>All official price estimates and itemized quotations issued by Star Home Interior are valid for <strong>30 days</strong> from the date of issuance.</li>
                   <li>Online calculator estimates are indicative; final contractual pricing is confirmed only after our technical laser on-site measurement is performed.</li>
                   <li>All prices are quoted in Indian Rupees (INR) and include applicable taxes unless specifically stated otherwise.</li>
                 </ul>
@@ -88,7 +88,7 @@ export default function TermsConditionsPage() {
               <div className="legal-section">
                 <h2>5. 10-Year Product Warranty Coverage</h2>
                 <p>
-                  Star Home Design warrants that virgin PVC panels and UV marble sheets supplied by us will remain free from manufacturing defects, moisture decay, swelling, delamination, and termite damage for a period of <strong>10 years</strong> from installation date.
+                  Star Home Interior warrants that virgin PVC panels and UV marble sheets supplied by us will remain free from manufacturing defects, moisture decay, swelling, delamination, and termite damage for a period of <strong>10 years</strong> from installation date.
                 </p>
                 <p>
                   <strong>Exclusions:</strong> The warranty does not cover damages caused by severe structural building settlement, external mechanical impact (hammering, heavy scratches from sharp metal objects), unauthorized third-party modifications, or natural disasters.
@@ -105,7 +105,7 @@ export default function TermsConditionsPage() {
               <div className="legal-section">
                 <h2>7. Contact Information</h2>
                 <div className="legal-contact-box">
-                  <p><strong>Star Home Design</strong></p>
+                  <p><strong>Star Home Interior</strong></p>
                   <p>{BUSINESS_NAP.streetAddress}, Sikar, Rajasthan {BUSINESS_NAP.postalCode}</p>
                   <p>Phone: <a href={`tel:${BUSINESS_NAP.rawPhone}`}>{BUSINESS_NAP.phone}</a></p>
                   <p>Email: <a href={`mailto:${BUSINESS_NAP.email}`}>{BUSINESS_NAP.email}</a></p>

@@ -53,10 +53,10 @@ export default function FAQPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title="Frequently Asked Questions (FAQs) | Star Home Design Sikar"
+        title="Frequently Asked Questions (FAQs) | Star Home Interior Sikar"
         description="Comprehensive answers about PVC wall panels, fluted louvers, UV marble sheets, pricing, dampness solutions, and 10-year warranty in Sikar, Rajasthan."
         canonicalUrl={`${CANONICAL_DOMAIN}/faq`}
-        keywords="Wall Panels FAQ Sikar, PVC Panels Cost Sikar, Waterproof Panels Questions, Star Home Design FAQ"
+        keywords="Wall Panels FAQ Sikar, PVC Panels Cost Sikar, Waterproof Panels Questions, Star Home Interior FAQ"
         ogType="website"
         schemas={[breadcrumbSchema, faqSchema]}
       />
@@ -170,7 +170,7 @@ export default function FAQPage() {
               <div className="support-actions">
                 <a
                   href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                    'Hi Star Home Design, I have a specific question regarding wall panel materials for my house in Sikar.'
+                    'Hi Star Home Interior, I have a specific question regarding wall panel materials for my house in Sikar.'
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

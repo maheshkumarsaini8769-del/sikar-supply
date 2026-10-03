@@ -34,12 +34,12 @@ export default function GuideDetailPage() {
     dateModified: '2026-09-21',
     author: {
       '@type': 'Organization',
-      name: 'Star Home Design',
+      name: 'Star Home Interior',
       url: CANONICAL_DOMAIN,
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Star Home Design',
+      name: 'Star Home Interior',
       logo: {
         '@type': 'ImageObject',
         url: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=200&h=200',
@@ -57,7 +57,7 @@ export default function GuideDetailPage() {
         title={guide.title}
         description={guide.metaDescription}
         canonicalUrl={`${CANONICAL_DOMAIN}/guides/${guide.slug}`}
-        keywords={`${guide.h1}, ${guide.category}, Star Home Design Sikar`}
+        keywords={`${guide.h1}, ${guide.category}, Star Home Interior Sikar`}
         ogType="article"
         schemas={[breadcrumbSchema, articleSchema]}
       />
@@ -106,7 +106,7 @@ export default function GuideDetailPage() {
                   <div className="article-cta-box">
                     <h3>Explore Relevant Materials in Sikar</h3>
                     <p>
-                      Star Home Design stocks ready inventories of these materials. View designs and specifications:
+                      Star Home Interior stocks ready inventories of these materials. View designs and specifications:
                     </p>
                     <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
                       {guide.relatedProducts.map((prodSlug) => {
@@ -134,13 +134,13 @@ export default function GuideDetailPage() {
                   <div className="showroom-banner-text">
                     <h2>Need Expert Advice for Your Home?</h2>
                     <p>
-                      Visit the Star Home Design showroom on <strong>{BUSINESS_NAP.streetAddress}</strong> or speak with our team directly.
+                      Visit the Star Home Interior showroom on <strong>{BUSINESS_NAP.streetAddress}</strong> or speak with our team directly.
                     </p>
                   </div>
                   <div className="category-hero-actions">
                     <a
                       href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                        `Hi Star Home Design, I read your guide "${guide.h1}" and want more information for my home in Sikar.`
+                        `Hi Star Home Interior, I read your guide "${guide.h1}" and want more information for my home in Sikar.`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

@@ -88,6 +88,25 @@ export default function ReviewSection() {
       <span className="review-date">
         {new Date(review.createdAt || review.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
       </span>
+
+      {review.reply && (
+        <div className="review-owner-reply">
+          <div className="review-owner-reply-header">
+            <span className="review-owner-badge">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 5 }}>
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              Response from Star Home Interior
+            </span>
+            {review.replyDate && (
+              <span className="review-owner-date">
+                {new Date(review.replyDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+              </span>
+            )}
+          </div>
+          <p className="review-owner-text">{review.reply}</p>
+        </div>
+      )}
     </div>
   );
 

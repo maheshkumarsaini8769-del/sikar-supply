@@ -55,7 +55,32 @@ router.put('/:id', protect, upload.single('image'), async (req, res) => {
     if (req.file) {
       data.image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
     }
+    if (req.body.reply !== undefined) {
+      const trimmedReply = typeof req.body.reply === 'string' ? req.body.reply.trim() : '';
+      data.reply = trimmedReply;
+      data.replyDate = trimmedReply ? new Date() : null;
+    }
     const review = await Review.findByIdAndUpdate(req.params.id, data, { new: true });
+    if (!review) return res.status(404).json({ success: false, message: 'Review not found' });
+    res.json({ success: true, review });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+router.post('/:id/reply', protect, async (req, res) => {
+  try {
+    const { reply } = req.body;
+    const trimmedReply = typeof reply === 'string' ? reply.trim() : '';
+    const review = await Review.findByIdAndUpdate(
+      req.params.id,
+      {
+        reply: trimmedReply,
+        replyDate: trimmedReply ? new Date() : null,
+      },
+      { new: true }
+    );
+    if (!review) return res.status(404).json({ success: false, message: 'Review not found' });
     res.json({ success: true, review });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

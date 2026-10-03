@@ -34,10 +34,10 @@ export default function ProjectDetailPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title={`${project.title} in ${project.location} | Star Home Design Project`}
-        description={`Interior transformation in ${project.location}. Installed ${project.materialsUsed.join(', ')}. Completed by Star Home Design Sikar.`}
+        title={`${project.title} in ${project.location} | Star Home Interior Project`}
+        description={`Interior transformation in ${project.location}. Installed ${project.materialsUsed.join(', ')}. Completed by Star Home Interior Sikar.`}
         canonicalUrl={`${CANONICAL_DOMAIN}/projects/${project.slug}`}
-        keywords={`${project.title}, Interior Project ${project.location}, Wall Panels Sikar, Star Home Design`}
+        keywords={`${project.title}, Interior Project ${project.location}, Wall Panels Sikar, Star Home Interior`}
         ogImage={project.heroImage}
         ogType="article"
         schemas={[breadcrumbSchema]}
@@ -130,7 +130,7 @@ export default function ProjectDetailPage() {
                           <p>{project.beforeAfter.beforeDesc}</p>
                         </div>
                         <div className="ba-card after">
-                          <span className="ba-tag">Star Home Design Solution</span>
+                          <span className="ba-tag">Star Home Interior Solution</span>
                           <p>{project.beforeAfter.afterDesc}</p>
                         </div>
                       </div>
@@ -159,7 +159,7 @@ export default function ProjectDetailPage() {
                       <p>Get a fast, itemized estimate based on your exact wall dimensions.</p>
                       <a
                         href={`https://wa.me/${BUSINESS_NAP.whatsapp}?text=${encodeURIComponent(
-                          `Hi Star Home Design, I am interested in the materials used in "${project.title}" (${project.location}). Please provide cost details.`
+                          `Hi Star Home Interior, I am interested in the materials used in "${project.title}" (${project.location}). Please provide cost details.`
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"

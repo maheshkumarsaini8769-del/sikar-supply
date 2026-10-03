@@ -4,19 +4,19 @@ const SiteContext = createContext(null);
 const API_URL = '/api';
 
 const defaultSettings = {
-  siteName: 'Star Home Design',
+  siteName: 'Star Home Interior',
   siteTagline: 'Premium Interior Materials',
   phone: '+91 82394 09535',
   whatsapp: '918239409535',
   email: 'skysk9535@gmail.com',
   address: 'Jaipur-Jhunjhunu Bypass Road, Opp. Maruti Authorized Service Center, Sikar, Rajasthan',
-  heroEyebrow: 'STAR HOME DESIGN',
+  heroEyebrow: 'STAR HOME INTERIOR',
   heroHeading: 'Transform Your Space',
   heroDescription: 'Premium interior materials for modern living',
   heroBtnText: 'Explore Collection',
   aboutHeading: 'Crafting Interiors That Inspire',
-  aboutDescription: 'At Star Home Design, we believe every space tells a story. Based in the heart of Sikar, Rajasthan, we bring you a curated collection of premium interior materials — from sleek PVC panels and architectural fluted designs to luxurious UV marble sheets and decorative wall tiles that transform ordinary rooms into extraordinary experiences.',
-  whyUsHeading: 'Why Star Home Design',
+  aboutDescription: 'At Star Home Interior, we believe every space tells a story. Based in the heart of Sikar, Rajasthan, we bring you a curated collection of premium interior materials — from sleek PVC panels and architectural fluted designs to luxurious UV marble sheets and decorative wall tiles that transform ordinary rooms into extraordinary experiences.',
+  whyUsHeading: 'Why Star Home Interior',
   showroomHeading: 'Visit Our Showroom',
   homeSections: [
     { id: 'hero', name: 'Hero', active: true },
@@ -34,7 +34,7 @@ const defaultSettings = {
   heroSlides: [],
 };
 
-const CACHE_KEY = 'shd_site_cache_v2';
+const CACHE_KEY = 'shd_site_cache_v3';
 
 function getSessionCache() {
   try {

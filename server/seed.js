@@ -235,7 +235,7 @@ const seed = async () => {
           { image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=85&auto=format&fit=crop', active: true, displayOrder: 2 },
         ],
         slideDuration: 3000,
-        heroEyebrow: 'STAR HOME DESIGN',
+        heroEyebrow: 'STAR HOME INTERIOR',
         heroHeading: 'Transform Your Space',
         heroDescription: 'Premium interior materials for modern living',
         heroBtnText: 'Explore Collection',
@@ -243,15 +243,15 @@ const seed = async () => {
         statsYears: '12+',
         statsProjects: '1000+',
         statsRating: '5',
-        whyUsHeading: 'Why Choose Star Home Design',
+        whyUsHeading: 'Why Choose Star Home Interior',
         showroomHeading: 'Visit Our Showroom',
         phone: '+918239409535',
         whatsapp: '918239409535',
         address: 'Sikar, Rajasthan',
         openingHours: 'Mon - Sat: 9:00 AM - 7:00 PM',
-        copyrightText: '© 2024 Star Home Design. All rights reserved.',
+        copyrightText: '© 2026 Star Home Interior. All rights reserved.',
         footerDescription: 'Your trusted partner for premium interior materials.',
-        seoTitle: 'Star Home Design - Premium Interior Materials',
+        seoTitle: 'Star Home Interior - Premium Interior Materials',
       });
       console.log('Settings created');
     }

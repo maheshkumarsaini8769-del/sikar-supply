@@ -31,7 +31,7 @@ export default function BlogPage() {
   return (
     <div className="site-page">
       <SEOHead
-        title="Interior Design Ideas, Guides & Trends in Sikar | Star Home Design Blog"
+        title="Interior Design Ideas, Guides & Trends in Sikar | Star Home Interior Blog"
         description="Expert advice on PVC wall panels, fluted louvers, UV marble sheets, dampness remedies, and modern home decor for Sikar and Rajasthan homes."
         canonicalUrl={`${CANONICAL_DOMAIN}/blog`}
         keywords="Interior Design Blog Sikar, Wall Panels Ideas, TV Unit Design Trends, Home Decoration Tips Rajasthan"

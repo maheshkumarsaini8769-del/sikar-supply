@@ -1,7 +1,7 @@
 export const CANONICAL_DOMAIN = 'https://star-home-design-five.vercel.app';
 
 export const BUSINESS_NAP = {
-  name: 'Star Home Design',
+  name: 'Star Home Interior',
   tagline: 'Premium Wall & Interior Decoration Products in Sikar',
   streetAddress: 'Jaipur-Jhunjhunu Bypass Road, Opp. Maruti Authorized Service Center',
   locality: 'Sikar',
@@ -27,8 +27,8 @@ export const BUSINESS_NAP = {
 };
 
 export const HOMEPAGE_SEO = {
-  title: 'Star Home Design | PVC, Fluted Panels & UV Sheets in Sikar',
-  metaDescription: 'Buy premium PVC wall panels, fluted panels & UV sheets in Sikar at Star Home Design. Quality interior materials for modern homes. Visit showroom or call.',
+  title: 'Star Home Interior | PVC, Fluted Panels & UV Sheets in Sikar',
+  metaDescription: 'Buy premium PVC wall panels, fluted panels & UV sheets in Sikar at Star Home Interior. Quality interior materials for modern homes. Visit showroom or call.',
   h1: 'Transform Your Space',
   keywords: [
     'PVC Panels in Sikar',
@@ -41,28 +41,28 @@ export const HOMEPAGE_SEO = {
     'Ceiling Panels in Sikar',
     'Interior Decoration Products in Sikar',
     'Home Interior Products in Sikar',
-    'Star Home Design Sikar',
+    'Star Home Interior Sikar',
   ],
 };
 
 export const SCO_DIRECT_ANSWERS = [
   {
     id: 'products-provided',
-    question: 'What products does Star Home Design provide?',
-    shortAnswer: 'Star Home Design provides premium interior materials including 100% waterproof PVC wall panels, deep architectural fluted panels, high-gloss UV marble sheets, decorative ceiling panels, rafter profiles, and 3D textured tiles.',
+    question: 'What products does Star Home Interior provide?',
+    shortAnswer: 'Star Home Interior provides premium interior materials including 100% waterproof PVC wall panels, deep architectural fluted panels, high-gloss UV marble sheets, decorative ceiling panels, rafter profiles, and 3D textured tiles.',
     details: 'Our Sikar showroom offers comprehensive wall and ceiling solutions designed specifically for residential homes, duplex villas, and commercial offices. All materials are engineered for Rajasthan’s climate—providing resistance to seepage, moisture damage, termite infestation, and seasonal temperature shifts.'
   },
   {
     id: 'buy-pvc-sikar',
     question: 'Where can I buy PVC panels in Sikar?',
-    shortAnswer: 'You can buy authentic, high-density PVC panels directly from Star Home Design located on Jaipur-Jhunjhunu Bypass Road, Opposite Maruti Authorized Service Center in Sikar, Rajasthan.',
+    shortAnswer: 'You can buy authentic, high-density PVC panels directly from Star Home Interior located on Jaipur-Jhunjhunu Bypass Road, Opposite Maruti Authorized Service Center in Sikar, Rajasthan.',
     details: 'We maintain ready stock of over 50+ textures and wooden, marble, and matte finishes. Customers can visit our experience showroom to view full-scale wall mockups or contact us at +91 82394 09535 for catalog delivery and on-site measurements across Sikar and surrounding districts.'
   },
   {
     id: 'fluted-panels-use',
     question: 'What are fluted panels used for?',
     shortAnswer: 'Fluted panels are used for creating luxurious accent walls, modern TV unit backdrops, bedroom headboard feature walls, dining room partitions, and acoustic texture in living spaces.',
-    details: 'Their vertical corrugated ribbed profile adds architectural depth, conceals wall imperfections, and pairs seamlessly with warm LED strip lighting. At Star Home Design in Sikar, we offer fluted panels in natural oak, charcoal grey, teak, and metallic shades.'
+    details: 'Their vertical corrugated ribbed profile adds architectural depth, conceals wall imperfections, and pairs seamlessly with warm LED strip lighting. At Star Home Interior in Sikar, we offer fluted panels in natural oak, charcoal grey, teak, and metallic shades.'
   },
   {
     id: 'uv-sheets-use',
@@ -77,9 +77,9 @@ export const SCO_DIRECT_ANSWERS = [
     details: 'Because groundwater seepage (seelan) is a common challenge in Sikar homes, PVC panels act as an impermeable vapor barrier that permanently stops paint peeling. For dry decorative accent areas, fluted wooden panels and UV sheets create five-star contemporary ambiances.'
   },
   {
-    id: 'contact-star-home-design',
-    question: 'How can I contact Star Home Design?',
-    shortAnswer: 'You can reach Star Home Design by calling or WhatsApp at +91 82394 09535, emailing skysk9535@gmail.com, or visiting our showroom on Jaipur-Jhunjhunu Bypass Road in Sikar.',
+    id: 'contact-star-home-interior',
+    question: 'How can I contact Star Home Interior?',
+    shortAnswer: 'You can reach Star Home Interior by calling or WhatsApp at +91 82394 09535, emailing skysk9535@gmail.com, or visiting our showroom on Jaipur-Jhunjhunu Bypass Road in Sikar.',
     details: 'Our showroom is open Monday through Saturday from 10:00 AM to 8:00 PM, and Sunday from 11:00 AM to 5:00 PM. We offer free on-site design consultations, material estimation, and professional installation assistance across Sikar, Nawalgarh, Fatehpur, Laxmangarh, and nearby areas.'
   }
 ];
@@ -89,11 +89,11 @@ export const PRODUCT_CATEGORIES = {
     slug: 'pvc-panels',
     name: 'PVC Wall Panels',
     keywordHeading: 'PVC Panels in Sikar',
-    pageTitle: 'PVC Wall Panels in Sikar | Star Home Design',
+    pageTitle: 'PVC Wall Panels in Sikar | Star Home Interior',
     h1: 'PVC Panels in Sikar - Waterproof Wall & Ceiling Solutions',
-    metaDescription: 'Get premium PVC wall panels in Sikar at Star Home Design. 100% waterproof, termite-proof, easy maintenance & fast installation for homes & offices.',
+    metaDescription: 'Get premium PVC wall panels in Sikar at Star Home Interior. 100% waterproof, termite-proof, easy maintenance & fast installation for homes & offices.',
     badge: '100% Waterproof & Termite Proof',
-    intro: 'Star Home Design is the premier destination for high-density PVC wall and ceiling panels in Sikar, Rajasthan. Engineered with advanced polymer compounds, our PVC panels provide a permanent, beautiful solution for walls troubled by moisture seepage, flaking paint, and termite degradation.',
+    intro: 'Star Home Interior is the premier destination for high-density PVC wall and ceiling panels in Sikar, Rajasthan. Engineered with advanced polymer compounds, our PVC panels provide a permanent, beautiful solution for walls troubled by moisture seepage, flaking paint, and termite degradation.',
     applications: [
       { title: 'Living Room Accent Walls', desc: 'Sleek wood-grain and stone textures that replace repetitive painting cycles with lasting luxury.' },
       { title: 'Seepage & Damp Wall Remediation', desc: 'Creates an impermeable barrier preventing ground dampness and salt efflorescence from damaging interiors.' },
@@ -116,10 +116,10 @@ export const PRODUCT_CATEGORIES = {
       { name: 'Golden Oak Linear PVC Panel', finish: 'Warm Natural Timber', width: '250mm', thickness: '8.5mm', image: 'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=800&q=85&auto=format&fit=crop', alt: 'Golden oak linear PVC wall cladding in Sikar Rajasthan' },
     ],
     faqs: [
-      { q: 'How long do PVC wall panels last in Sikar homes?', a: 'High-density PVC panels from Star Home Design last 15–20+ years without warping, peeling, or fading when properly installed.' },
+      { q: 'How long do PVC wall panels last in Sikar homes?', a: 'High-density PVC panels from Star Home Interior last 15–20+ years without warping, peeling, or fading when properly installed.' },
       { q: 'Can PVC panels be installed directly over damp walls?', a: 'Yes. PVC panels are completely waterproof and are commonly installed using aluminum or wooden framing over damp walls to seal off moisture permanently.' },
       { q: 'What is the cleaning and maintenance procedure?', a: 'Simply wipe down with a soft damp cloth and mild liquid soap. Avoid harsh acidic abrasive cleaners or wire brushes.' },
-      { q: 'Where can I inspect physical samples in Sikar?', a: 'Visit the Star Home Design showroom on Jaipur-Jhunjhunu Bypass Road, Sikar to explore full wall mockups and compare 50+ finishes.' }
+      { q: 'Where can I inspect physical samples in Sikar?', a: 'Visit the Star Home Interior showroom on Jaipur-Jhunjhunu Bypass Road, Sikar to explore full wall mockups and compare 50+ finishes.' }
     ],
     relatedCategories: ['fluted-panels', 'uv-sheets', 'ceiling-panels'],
   },
@@ -128,11 +128,11 @@ export const PRODUCT_CATEGORIES = {
     slug: 'fluted-panels',
     name: 'Fluted Panels',
     keywordHeading: 'Fluted Panels in Sikar',
-    pageTitle: 'Fluted Panels in Sikar | Star Home Design',
+    pageTitle: 'Fluted Panels in Sikar | Star Home Interior',
     h1: 'Architectural Fluted Panels in Sikar - Premium 3D Wall Texture',
-    metaDescription: 'Explore modern fluted wall panels in Sikar at Star Home Design. Premium wooden oak, charcoal & metallic finishes for TV walls & luxury living rooms.',
+    metaDescription: 'Explore modern fluted wall panels in Sikar at Star Home Interior. Premium wooden oak, charcoal & metallic finishes for TV walls & luxury living rooms.',
     badge: 'Signature Luxury Architectural Slats',
-    intro: 'Fluted wall panels (also known as louvers, slatted panels, or ribbed cladding) are the gold standard of modern interior architecture. Star Home Design brings Sikar homeowners an exclusive collection of high-definition fluted profiles that infuse depth, symmetry, and warmth into contemporary spaces.',
+    intro: 'Fluted wall panels (also known as louvers, slatted panels, or ribbed cladding) are the gold standard of modern interior architecture. Star Home Interior brings Sikar homeowners an exclusive collection of high-definition fluted profiles that infuse depth, symmetry, and warmth into contemporary spaces.',
     applications: [
       { title: 'TV Entertainment Units', desc: 'The most popular modern backdrop in Indian homes, creating contrast behind sleek wall-mounted screens.' },
       { title: 'Master Bedroom Bed-Backs', desc: 'Full-height fluted headboard accent walls paired with warm pendant and LED strip lighting.' },
@@ -164,11 +164,11 @@ export const PRODUCT_CATEGORIES = {
     slug: 'uv-sheets',
     name: 'UV Sheets & UV Marble Sheets',
     keywordHeading: 'UV Sheets in Sikar',
-    pageTitle: 'UV Sheets & UV Marble Sheets in Sikar | Star Home Design',
+    pageTitle: 'UV Sheets & UV Marble Sheets in Sikar | Star Home Interior',
     h1: 'UV Marble Sheets in Sikar - High-Gloss Luxury Stone Finishes',
-    metaDescription: 'Buy UV sheets & UV marble sheets in Sikar at Star Home Design. High-gloss, scratch-resistant Italian marble finishes for walls, TV units & kitchens.',
+    metaDescription: 'Buy UV sheets & UV marble sheets in Sikar at Star Home Interior. High-gloss, scratch-resistant Italian marble finishes for walls, TV units & kitchens.',
     badge: 'High-Gloss Italian Marble Replica',
-    intro: 'UV Marble Sheets bring the grandeur of Statuario, Calacatta, and Nero Marquina marble to your home with zero structural weight and effortless installation. Star Home Design in Sikar supplies premium 8x4 ft UV sheets cured with industrial ultraviolet coatings for unmatched gloss and scratch resistance.',
+    intro: 'UV Marble Sheets bring the grandeur of Statuario, Calacatta, and Nero Marquina marble to your home with zero structural weight and effortless installation. Star Home Interior in Sikar supplies premium 8x4 ft UV sheets cured with industrial ultraviolet coatings for unmatched gloss and scratch resistance.',
     applications: [
       { title: 'TV Backdrops & Media Units', desc: 'Large continuous 8x4 ft marble slabs flanked by warm wooden fluted louvers.' },
       { title: 'Kitchen Splashbacks', desc: 'Heat-resistant, oil-proof surface that wipes clean without grout stains.' },
@@ -200,11 +200,11 @@ export const PRODUCT_CATEGORIES = {
     slug: 'wall-panels',
     name: 'Decorative Wall Panels',
     keywordHeading: 'Decorative Wall Panels in Sikar',
-    pageTitle: 'Decorative Wall Panels in Sikar | Star Home Design',
+    pageTitle: 'Decorative Wall Panels in Sikar | Star Home Interior',
     h1: 'Decorative Wall Panels in Sikar - Modern Interior Wall Enhancements',
-    metaDescription: 'Discover decorative wall panels in Sikar at Star Home Design. Transforming plain walls into designer accent features with wood, PVC & 3D textures.',
+    metaDescription: 'Discover decorative wall panels in Sikar at Star Home Interior. Transforming plain walls into designer accent features with wood, PVC & 3D textures.',
     badge: 'Complete Interior Wall Solutions',
-    intro: 'Transform dull, plain walls into captivating focal points. At Star Home Design in Sikar, we curate an extensive spectrum of decorative wall panels—including 3D geometric tiles, acoustic wood slats, polyurethane stone replicas, and composite wall claddings.',
+    intro: 'Transform dull, plain walls into captivating focal points. At Star Home Interior in Sikar, we curate an extensive spectrum of decorative wall panels—including 3D geometric tiles, acoustic wood slats, polyurethane stone replicas, and composite wall claddings.',
     applications: [
       { title: 'Drawing Room Accent Walls', desc: 'Create statement backdrops that anchor luxury sofas and conversation corners.' },
       { title: 'Pooja Room Sanctums', desc: 'Traditional and contemporary wall claddings that bring spiritual serenity.' },
@@ -225,7 +225,7 @@ export const PRODUCT_CATEGORIES = {
     ],
     faqs: [
       { q: 'How do I choose the right wall panel design for my home in Sikar?', a: 'Consider your lighting, room size, and moisture exposure. For smaller rooms, lighter oak fluted panels or white marble UV sheets reflect light and create openness. For large halls, deep charcoal fluted or 3D geometric panels add grounded luxury.' },
-      { q: 'Do you provide professional carpenters and fitters in Sikar?', a: 'Yes! Star Home Design has trained installation crews experienced in fast, clean execution across Sikar and nearby towns.' }
+      { q: 'Do you provide professional carpenters and fitters in Sikar?', a: 'Yes! Star Home Interior has trained installation crews experienced in fast, clean execution across Sikar and nearby towns.' }
     ],
     relatedCategories: ['pvc-panels', 'fluted-panels', 'uv-sheets'],
   },
@@ -234,11 +234,11 @@ export const PRODUCT_CATEGORIES = {
     slug: 'ceiling-panels',
     name: 'Ceiling Panels',
     keywordHeading: 'Ceiling Panels in Sikar',
-    pageTitle: 'Ceiling Panels in Sikar | Star Home Design',
+    pageTitle: 'Ceiling Panels in Sikar | Star Home Interior',
     h1: 'Ceiling Panels in Sikar - PVC Rafter & Modern False Ceiling Solutions',
-    metaDescription: 'Upgrade your ceilings with PVC ceiling panels in Sikar at Star Home Design. Lightweight, moisture-proof, rafter designs with integrated LED lighting.',
+    metaDescription: 'Upgrade your ceilings with PVC ceiling panels in Sikar at Star Home Interior. Lightweight, moisture-proof, rafter designs with integrated LED lighting.',
     badge: 'Lightweight & Moisture-Proof Ceilings',
-    intro: 'Ceilings are your interior’s "fifth wall." Star Home Design offers high-quality PVC ceiling panels, rafter profiles, and coffered ceiling tiles in Sikar that eliminate the dust, cracks, and painting cycles of traditional plaster false ceilings.',
+    intro: 'Ceilings are your interior’s "fifth wall." Star Home Interior offers high-quality PVC ceiling panels, rafter profiles, and coffered ceiling tiles in Sikar that eliminate the dust, cracks, and painting cycles of traditional plaster false ceilings.',
     applications: [
       { title: 'Living Room False Ceilings', desc: 'Geometric dropped ceiling designs with warm cove lights and central chandeliers.' },
       { title: 'Kitchen & Porch Ceilings', desc: 'Withstands kitchen humidity, external monsoon moisture, and balcony exposure.' },
@@ -267,7 +267,7 @@ export const PRODUCT_CATEGORIES = {
 export const INTERIOR_GUIDES = {
   'pvc-wall-panels-guide': {
     slug: 'pvc-wall-panels-guide',
-    title: 'PVC Wall Panels: Complete Guide for Sikar Homeowners | Star Home Design',
+    title: 'PVC Wall Panels: Complete Guide for Sikar Homeowners | Star Home Interior',
     h1: 'PVC Wall Panels: Complete Guide for Modern Home Interiors',
     metaDescription: 'Everything you need to know about PVC wall panels in Sikar: costs, installation process, durability, moisture protection, and design choices.',
     readTime: '6 min read',
@@ -281,7 +281,7 @@ export const INTERIOR_GUIDES = {
       },
       {
         heading: 'Key Benefits of Modern High-Density PVC Panels',
-        content: 'Unlike fragile plastic sheets from decades past, contemporary PVC panels installed by Star Home Design feature an engineered honeycomb inner core that offers high tensile strength and rigidity. They are 100% waterproof, immune to subterranean termites, fire-retardant (Class B1), and washable with ordinary soapy water.'
+        content: 'Unlike fragile plastic sheets from decades past, contemporary PVC panels installed by Star Home Interior feature an engineered honeycomb inner core that offers high tensile strength and rigidity. They are 100% waterproof, immune to subterranean termites, fire-retardant (Class B1), and washable with ordinary soapy water.'
       },
       {
         heading: 'Installation Process: Fast, Dry & Dust-Free',
@@ -289,7 +289,7 @@ export const INTERIOR_GUIDES = {
       },
       {
         heading: 'Where to Experience Physical Samples in Sikar',
-        content: 'Visit the Star Home Design showroom located on Jaipur-Jhunjhunu Bypass Road, Opposite Maruti Authorized Service Center in Sikar. Here you can touch, inspect, and evaluate over 50+ finishes under natural and warm interior lighting.'
+        content: 'Visit the Star Home Interior showroom located on Jaipur-Jhunjhunu Bypass Road, Opposite Maruti Authorized Service Center in Sikar. Here you can touch, inspect, and evaluate over 50+ finishes under natural and warm interior lighting.'
       }
     ],
     relatedProducts: ['pvc-panels', 'wall-panels'],
@@ -297,7 +297,7 @@ export const INTERIOR_GUIDES = {
 
   'fluted-panel-design-ideas': {
     slug: 'fluted-panel-design-ideas',
-    title: 'Modern Fluted Panel Design Ideas for Living Rooms & Bedrooms | Star Home Design',
+    title: 'Modern Fluted Panel Design Ideas for Living Rooms & Bedrooms | Star Home Interior',
     h1: 'Fluted Panel Design Ideas: Transform Your Living Space',
     metaDescription: 'Discover modern fluted panel design ideas for TV units, bedroom headboards & feature walls. Transform your Sikar home with luxury 3D fluted textures.',
     readTime: '5 min read',
@@ -319,7 +319,7 @@ export const INTERIOR_GUIDES = {
       },
       {
         heading: 'Idea 3: Space Partitions in Open-Plan Living Rooms',
-        content: 'Fluted partition screens provide semi-privacy between living and dining zones while maintaining airflow and sightlines. Star Home Design fabricates custom double-sided fluted dividers tailored to your floor dimensions.'
+        content: 'Fluted partition screens provide semi-privacy between living and dining zones while maintaining airflow and sightlines. Star Home Interior fabricates custom double-sided fluted dividers tailored to your floor dimensions.'
       }
     ],
     relatedProducts: ['fluted-panels', 'uv-sheets'],
@@ -327,7 +327,7 @@ export const INTERIOR_GUIDES = {
 
   'uv-marble-sheet-guide': {
     slug: 'uv-marble-sheet-guide',
-    title: 'UV Marble Sheet Guide: Benefits, Designs & Sikar Installation | Star Home Design',
+    title: 'UV Marble Sheet Guide: Benefits, Designs & Sikar Installation | Star Home Interior',
     h1: 'UV Marble Sheet Guide: Luxury Stone Aesthetic on a Smart Budget',
     metaDescription: 'Complete guide to UV marble sheets in Sikar: Italian marble alternatives, kitchen backsplash suitability, heat resistance & maintenance tips.',
     readTime: '5 min read',
@@ -341,7 +341,7 @@ export const INTERIOR_GUIDES = {
       },
       {
         heading: 'UV Sheets vs Natural Marble: A Practical Comparison',
-        content: 'Real Italian marble costs upwards of ₹350–₹1200 per square foot, requires heavy civil framing, absorbs turmeric and oil spills, and demands regular machine polishing. UV marble sheets from Star Home Design cost a fraction of that, weigh under 15 kilograms per 8x4 ft sheet, never absorb liquids, and require zero polishing forever.'
+        content: 'Real Italian marble costs upwards of ₹350–₹1200 per square foot, requires heavy civil framing, absorbs turmeric and oil spills, and demands regular machine polishing. UV marble sheets from Star Home Interior cost a fraction of that, weigh under 15 kilograms per 8x4 ft sheet, never absorb liquids, and require zero polishing forever.'
       },
       {
         heading: 'Top Application Areas in Modern Homes',
@@ -353,7 +353,7 @@ export const INTERIOR_GUIDES = {
 
   'pvc-vs-traditional-wall-finishes': {
     slug: 'pvc-vs-traditional-wall-finishes',
-    title: 'PVC Panels vs Traditional Wall Finishes: Comprehensive Comparison | Star Home Design',
+    title: 'PVC Panels vs Traditional Wall Finishes: Comprehensive Comparison | Star Home Interior',
     h1: 'PVC Panels vs Paint vs Wallpaper: Which Wall Finish is Best for Sikar Homes?',
     metaDescription: 'Compare PVC panels vs paint and wallpaper in Sikar. Evaluate lifespan, cost, dampness resistance, maintenance, and interior styling benefits.',
     readTime: '7 min read',
@@ -379,7 +379,7 @@ export const INTERIOR_GUIDES = {
 
   'best-wall-panel-designs': {
     slug: 'best-wall-panel-designs',
-    title: 'Best Wall Panel Designs for Modern Homes in Sikar | Star Home Design',
+    title: 'Best Wall Panel Designs for Modern Homes in Sikar | Star Home Interior',
     h1: 'Best Wall Panel Designs for Contemporary Living Spaces',
     metaDescription: 'Explore the best wall panel designs for contemporary Rajasthan homes. From geometric patterns to acoustic fluted slats and luxury UV marble.',
     readTime: '5 min read',
@@ -405,7 +405,7 @@ export const INTERIOR_GUIDES = {
 
   'interior-decoration-ideas-sikar': {
     slug: 'interior-decoration-ideas-sikar',
-    title: 'Interior Decoration Ideas for Homes in Sikar, Rajasthan | Star Home Design',
+    title: 'Interior Decoration Ideas for Homes in Sikar, Rajasthan | Star Home Interior',
     h1: 'Interior Decoration Ideas for Homes in Sikar, Rajasthan',
     metaDescription: 'Practical interior decoration ideas for Sikar homes. How to combine PVC panels, fluted textures, LED cove lighting, and UV sheets for luxury spaces.',
     readTime: '6 min read',
@@ -426,8 +426,8 @@ export const INTERIOR_GUIDES = {
         content: 'Never install wall panels in isolation from your lighting plan. Ceiling cove lighting washes down along fluted panel ridges, while targeted spotlights bring out the crystalline reflections in UV marble surfaces.'
       },
       {
-        heading: 'Visit Star Home Design for Free Local Consultation',
-        content: 'Bring your home floor plan or photos of your room to the Star Home Design showroom in Sikar. Our team will help you select matching textures, estimate panel quantities, and provide free design recommendations.'
+        heading: 'Visit Star Home Interior for Free Local Consultation',
+        content: 'Bring your home floor plan or photos of your room to the Star Home Interior showroom in Sikar. Our team will help you select matching textures, estimate panel quantities, and provide free design recommendations.'
       }
     ],
     relatedProducts: ['pvc-panels', 'fluted-panels', 'ceiling-panels'],

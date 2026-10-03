@@ -45,7 +45,7 @@ export default function Sales({ saleTypeFilter }) {
     const qty = Number(quickForm.quantity) || 1;
     const price = prod.salePrice || prod.price || 0;
     const total = qty * price;
-    const msg = `*🛒 STAR HOME DESIGN — Order Request*\n\n` +
+    const msg = `*🛒 STAR HOME INTERIOR — Order Request*\n\n` +
       `📦 *Product:* ${prod.name}\n` +
       `💰 *Price:* ₹${price}/${prod.unit || 'sqft'}\n` +
       `📊 *Quantity:* ${qty} ${prod.unit || 'sqft'}\n` +

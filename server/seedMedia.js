@@ -6,7 +6,7 @@ const defaultMedia = [
   { filename: 'hero-1.jpg', originalName: 'hero-1.jpg', url: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=85&auto=format&fit=crop', section: 'hero', alt: 'Modern Interior' },
   { filename: 'hero-2.jpg', originalName: 'hero-2.jpg', url: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&q=85&auto=format&fit=crop', section: 'hero', alt: 'Luxury Living Room' },
   { filename: 'hero-3.jpg', originalName: 'hero-3.jpg', url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=85&auto=format&fit=crop', section: 'hero', alt: 'Designer Interior' },
-  { filename: 'about.jpg', originalName: 'about.jpg', url: 'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=1200&q=85&auto=format&fit=crop', section: 'about', alt: 'About Star Home Design' },
+  { filename: 'about.jpg', originalName: 'about.jpg', url: 'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=1200&q=85&auto=format&fit=crop', section: 'about', alt: 'About Star Home Interior' },
   { filename: 'showroom.jpg', originalName: 'showroom.jpg', url: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=85&auto=format&fit=crop', section: 'showroom', alt: 'Showroom' },
   { filename: 'pvc-1.jpg', originalName: 'pvc-1.jpg', url: 'https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=800&q=85&auto=format&fit=crop', section: 'products', alt: 'PVC Panel' },
   { filename: 'fluted-1.jpg', originalName: 'fluted-1.jpg', url: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=85&auto=format&fit=crop', section: 'products', alt: 'Fluted Panel' },
