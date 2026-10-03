@@ -1,28 +1,31 @@
-import { lazy, Suspense } from 'react';
+import { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { SiteProvider } from '../context/SiteContext';
+import { lazyWithRetry } from '../utils/lazyWithRetry';
 
-const AdminLayout = lazy(() => import('./components/Layout'));
-const AdminLogin = lazy(() => import('./pages/Login'));
-const AdminDashboard = lazy(() => import('./pages/Dashboard'));
-const AdminOrders = lazy(() => import('./pages/Orders'));
-const AdminProducts = lazy(() => import('./pages/Products'));
-const AdminCategories = lazy(() => import('./pages/Categories'));
-const AdminSettings = lazy(() => import('./pages/Settings'));
-const AdminMedia = lazy(() => import('./pages/Media'));
-const AdminHeroSlides = lazy(() => import('./pages/HeroSlides'));
-const AdminGallery = lazy(() => import('./pages/Gallery'));
-const AdminReviews = lazy(() => import('./pages/Reviews'));
-const AdminStock = lazy(() => import('./pages/Stock'));
-const AdminSales = lazy(() => import('./pages/Sales'));
-const AdminPurchases = lazy(() => import('./pages/Purchases'));
-const AdminCustomers = lazy(() => import('./pages/Customers'));
-const AdminProfitLoss = lazy(() => import('./pages/ProfitLoss'));
-const AdminActivity = lazy(() => import('./pages/Activity'));
-const AdminCoupons = lazy(() => import('./pages/Coupons'));
-const AdminGST = lazy(() => import('./pages/GST'));
-const AdminPassword = lazy(() => import('./pages/Password'));
+// Direct synchronous import for Login - guarantees no dynamic chunk loading errors on login page
+import AdminLogin from './pages/Login';
+
+const AdminLayout = lazyWithRetry(() => import('./components/Layout'));
+const AdminDashboard = lazyWithRetry(() => import('./pages/Dashboard'));
+const AdminOrders = lazyWithRetry(() => import('./pages/Orders'));
+const AdminProducts = lazyWithRetry(() => import('./pages/Products'));
+const AdminCategories = lazyWithRetry(() => import('./pages/Categories'));
+const AdminSettings = lazyWithRetry(() => import('./pages/Settings'));
+const AdminMedia = lazyWithRetry(() => import('./pages/Media'));
+const AdminHeroSlides = lazyWithRetry(() => import('./pages/HeroSlides'));
+const AdminGallery = lazyWithRetry(() => import('./pages/Gallery'));
+const AdminReviews = lazyWithRetry(() => import('./pages/Reviews'));
+const AdminStock = lazyWithRetry(() => import('./pages/Stock'));
+const AdminSales = lazyWithRetry(() => import('./pages/Sales'));
+const AdminPurchases = lazyWithRetry(() => import('./pages/Purchases'));
+const AdminCustomers = lazyWithRetry(() => import('./pages/Customers'));
+const AdminProfitLoss = lazyWithRetry(() => import('./pages/ProfitLoss'));
+const AdminActivity = lazyWithRetry(() => import('./pages/Activity'));
+const AdminCoupons = lazyWithRetry(() => import('./pages/Coupons'));
+const AdminGST = lazyWithRetry(() => import('./pages/GST'));
+const AdminPassword = lazyWithRetry(() => import('./pages/Password'));
 
 function ProtectedAdmin({ children }) {
   const { user, loading } = useAuth();
