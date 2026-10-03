@@ -203,13 +203,14 @@
 
 @media (max-width: 768px) {
   .hero {
-    height: 90svh;
-    min-height: 500px;
+    height: 65svh;
+    min-height: 420px;
+    max-height: 540px;
   }
 
   .hero-content {
-    padding-top: 64px;
-    padding-bottom: 48px;
+    padding-top: 50px;
+    padding-bottom: 30px;
   }
 
   .hero-heading {
@@ -246,14 +247,15 @@
   }
 
   .hero-indicators {
-    bottom: 20px;
+    bottom: 14px;
   }
 }
 
 @media (max-width: 480px) {
   .hero {
-    height: 92svh;
-    min-height: 460px;
+    height: 58svh;
+    min-height: 380px;
+    max-height: 480px;
   }
 
   .hero-overlay {
@@ -267,8 +269,8 @@
   }
 
   .hero-content {
-    padding-top: 58px;
-    padding-bottom: 40px;
+    padding-top: 48px;
+    padding-bottom: 24px;
   }
 
   .hero-eyebrow {

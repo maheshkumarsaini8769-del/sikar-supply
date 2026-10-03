@@ -64,7 +64,7 @@ export default function MaterialStory({ onProductClick }) {
     <section className="material-story" id="materials">
       <div className="container">
         <ScrollReveal>
-          <p className="section-eyebrow">Our Materials in Sikar</p>
+          <p className="section-eyebrow">Our Materials</p>
           <h2 className="section-heading">
             {activeCategories.length} Signature Materials, Endless Possibilities
           </h2>

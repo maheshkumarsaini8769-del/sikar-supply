@@ -81,9 +81,31 @@ export default function Orders() {
     window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
+  const handleClearAllOrders = async () => {
+    if (!confirm('Kya aap sach me SABHI orders delete karna chahte hain? Yeh wapas nahi aayenge.')) return;
+    try {
+      const res = await api.delete('/orders/clear/all');
+      alert(res.data?.message || 'Sabhi orders delete ho gaye!');
+      fetchOrders();
+    } catch {
+      alert('Orders delete karne me error aayi');
+    }
+  };
+
   return (
     <div>
-      <div className="adm-page-header"><h1 className="adm-page-title">Orders</h1></div>
+      <div className="adm-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
+        <h1 className="adm-page-title">Orders</h1>
+        {orders.length > 0 && (
+          <button
+            onClick={handleClearAllOrders}
+            className="adm-btn adm-btn-danger"
+            style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700 }}
+          >
+            🗑️ Clear All Orders (सभी डिलीट करें)
+          </button>
+        )}
+      </div>
       <div className="adm-filters">
         <input type="text" placeholder="Search orders..." value={search} onChange={(e) => setSearch(e.target.value)} className="adm-filter-input" />
         <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="adm-filter-select">
