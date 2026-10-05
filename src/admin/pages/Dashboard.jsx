@@ -6,61 +6,6 @@ import { useAuth } from '../context/AuthContext';
 
 const COLORS = ['#b8956a', '#25d366', '#f59e0b', '#ef4444', '#6366f1'];
 
-function timeAgo(dateStr) {
-  if (!dateStr) return '';
-  const diff = Math.floor((new Date() - new Date(dateStr)) / 1000);
-  if (diff < 60) return 'Just now';
-  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-  if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
-  return new Date(dateStr).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
-}
-
-function getEventBadge(type) {
-  switch (type) {
-    case 'click':
-      return { label: 'Product Click', color: '#25d366', bg: 'rgba(37, 211, 102, 0.15)', icon: '🖱️' };
-    case 'whatsapp':
-      return { label: 'WhatsApp', color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', icon: '💬' };
-    case 'call':
-      return { label: 'Direct Call', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.15)', icon: '📞' };
-    case 'search':
-      return { label: 'Search', color: '#6366f1', bg: 'rgba(99, 102, 241, 0.15)', icon: '🔍' };
-    case 'pageview':
-      return { label: 'Pageview', color: '#38bdf8', bg: 'rgba(56, 189, 248, 0.15)', icon: '👁️' };
-    case 'order':
-      return { label: 'Order Inquiry', color: '#b8956a', bg: 'rgba(184, 149, 106, 0.15)', icon: '📋' };
-    default:
-      return { label: type || 'Event', color: '#888', bg: 'rgba(255, 255, 255, 0.1)', icon: '⚡' };
-  }
-}
-
-function getEventDescription(item) {
-  if (!item) return '';
-  const { type, data } = item;
-  if (type === 'click') {
-    return data?.product ? `Clicked "${data.product}"` : 'Clicked product item';
-  }
-  if (type === 'whatsapp') {
-    if (data?.product) return `WhatsApp inquiry: "${data.product}"`;
-    if (data?.text) return `WhatsApp: "${data.text}"`;
-    return `WhatsApp inquiry clicked (${data?.location || 'Direct'})`;
-  }
-  if (type === 'call') {
-    return `Call button clicked ${data?.phone ? `(${data.phone})` : ''}`;
-  }
-  if (type === 'search') {
-    return `Searched for "${data?.query || ''}"`;
-  }
-  if (type === 'pageview') {
-    return `Visited ${data?.page || 'Home page'}`;
-  }
-  if (type === 'order') {
-    return `Order placed #${data?.orderId || ''} (₹${data?.total || 0})`;
-  }
-  return typeof data === 'string' ? data : JSON.stringify(data || {});
-}
-
 export default function Dashboard() {
   const { user } = useAuth();
   const [orderStats, setOrderStats] = useState(null);
@@ -121,7 +66,6 @@ export default function Dashboard() {
   const uniqueVisitors = analytics?.uniqueVisitors || 0;
   const totalPageviews = analytics?.pageviews || 0;
   const topProductsList = analytics?.topProducts || [];
-  const recentActivitiesList = analytics?.recentActivity || [];
   const maxProductClicks = topProductsList[0]?.count || 1;
 
   const statusData = [
@@ -736,149 +680,65 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* DUAL GRID: Search Queries & Live Visitor Activity */}
+      {/* SEARCH QUERIES SECTION */}
       {(activeTab === 'all' || activeTab === 'traffic') && (
-        <div className="adm-dual-grid" style={{ marginTop: '20px' }}>
-          {/* Box 1: Search Queries */}
-          <div className="adm-dashboard-section" style={{ margin: 0 }}>
-            <div className="adm-section-header">
-              <div>
-                <span className="adm-section-title">🔍 Search Queries & Traffic</span>
-                <span className="adm-section-desc">What customer visitors are looking for most</span>
-              </div>
-              <span className="adm-kpi-pill" style={{ background: 'rgba(99, 102, 241, 0.15)', color: '#6366f1' }}>
-                {totalPageviews} Total Pageviews
-              </span>
+        <div className="adm-dashboard-section" style={{ marginTop: '20px' }}>
+          <div className="adm-section-header">
+            <div>
+              <span className="adm-section-title">🔍 Search Queries & Keywords</span>
+              <span className="adm-section-desc">What customer visitors are looking for most</span>
             </div>
-
-            {analytics?.topSearches?.length > 0 ? (
-              <div style={{ maxHeight: '280px', overflowY: 'auto' }}>
-                {analytics.topSearches.map((s, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      padding: '10px 4px',
-                      borderBottom: '1px solid #242424',
-                      fontSize: '13px'
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span
-                        style={{
-                          width: '20px',
-                          height: '20px',
-                          borderRadius: '50%',
-                          background: i === 0 ? '#b8956a' : i === 1 ? '#6366f1' : '#333',
-                          color: i < 2 ? '#000' : '#888',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '10px',
-                          fontWeight: 'bold'
-                        }}
-                      >
-                        {i + 1}
-                      </span>
-                      <span style={{ color: '#e5e5e5' }}>{s._id || 'Keyword'}</span>
-                    </div>
-                    <span style={{ color: '#b8956a', fontWeight: 'bold', background: 'rgba(184, 149, 106, 0.1)', padding: '2px 8px', borderRadius: '4px', fontSize: '11px' }}>
-                      {s.count} searches
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="adm-empty-state" style={{ padding: '60px 20px' }}>
-                No search records yet. User searches will appear here automatically.
-              </div>
-            )}
+            <span className="adm-kpi-pill" style={{ background: 'rgba(99, 102, 241, 0.15)', color: '#6366f1' }}>
+              {totalPageviews} Total Pageviews
+            </span>
           </div>
 
-          {/* Box 2: Live Visitor Activity */}
-          <div className="adm-dashboard-section" style={{ margin: 0 }}>
-            <div className="adm-section-header">
-              <div>
-                <span className="adm-section-title">⚡ Live Visitor Activity</span>
-                <span className="adm-section-desc">Real-time clicks, searches & enquiries</span>
-              </div>
-              <button
-                onClick={fetchAll}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#b8956a',
-                  cursor: 'pointer',
-                  fontSize: '11px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px'
-                }}
-              >
-                🔄 Refresh
-              </button>
-            </div>
-
-            {recentActivitiesList.length > 0 ? (
-              <div style={{ maxHeight: '280px', overflowY: 'auto' }}>
-                {recentActivitiesList.slice(0, 12).map((act, i) => {
-                  const badge = getEventBadge(act.type);
-                  const desc = getEventDescription(act);
-                  return (
-                    <div
-                      key={act._id || i}
+          {analytics?.topSearches?.length > 0 ? (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '10px' }}>
+              {analytics.topSearches.map((s, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '10px 14px',
+                    background: '#1c1c1c',
+                    borderRadius: '8px',
+                    border: '1px solid #282828',
+                    fontSize: '13px'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span
                       style={{
+                        width: '20px',
+                        height: '20px',
+                        borderRadius: '50%',
+                        background: i === 0 ? '#b8956a' : i === 1 ? '#6366f1' : '#333',
+                        color: i < 2 ? '#000' : '#888',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'space-between',
-                        gap: '10px',
-                        padding: '10px 4px',
-                        borderBottom: '1px solid #242424',
-                        fontSize: '12px'
+                        justifyContent: 'center',
+                        fontSize: '10px',
+                        fontWeight: 'bold'
                       }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
-                        <span
-                          style={{
-                            background: badge.bg,
-                            color: badge.color,
-                            padding: '2px 6px',
-                            borderRadius: '4px',
-                            fontSize: '10px',
-                            fontWeight: '600',
-                            whiteSpace: 'nowrap',
-                            flexShrink: 0
-                          }}
-                        >
-                          {badge.icon} {badge.label}
-                        </span>
-                        <span
-                          style={{
-                            color: '#ccc',
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis'
-                          }}
-                          title={desc}
-                        >
-                          {desc}
-                        </span>
-                      </div>
-                      <span style={{ color: '#777', fontSize: '11px', flexShrink: 0 }}>
-                        {timeAgo(act.createdAt)}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="adm-empty-state" style={{ padding: '60px 20px' }}>
-                No recent activity recorded yet
-              </div>
-            )}
-          </div>
+                      {i + 1}
+                    </span>
+                    <span style={{ color: '#e5e5e5', fontWeight: '500' }}>{s._id || 'Keyword'}</span>
+                  </div>
+                  <span style={{ color: '#b8956a', fontWeight: 'bold', background: 'rgba(184, 149, 106, 0.12)', padding: '2px 8px', borderRadius: '4px', fontSize: '11px' }}>
+                    {s.count} searches
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="adm-empty-state" style={{ padding: '40px 20px' }}>
+              No search records yet. User searches will appear here automatically.
+            </div>
+          )}
         </div>
       )}
 

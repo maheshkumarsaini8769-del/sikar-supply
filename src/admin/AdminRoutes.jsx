@@ -22,7 +22,6 @@ const AdminSales = lazyWithRetry(() => import('./pages/Sales'));
 const AdminPurchases = lazyWithRetry(() => import('./pages/Purchases'));
 const AdminCustomers = lazyWithRetry(() => import('./pages/Customers'));
 const AdminProfitLoss = lazyWithRetry(() => import('./pages/ProfitLoss'));
-const AdminActivity = lazyWithRetry(() => import('./pages/Activity'));
 const AdminCoupons = lazyWithRetry(() => import('./pages/Coupons'));
 const AdminGST = lazyWithRetry(() => import('./pages/GST'));
 const AdminPassword = lazyWithRetry(() => import('./pages/Password'));
@@ -57,7 +56,7 @@ export default function AdminRoutes() {
             <Route path="purchases" element={<AdminPurchases />} />
             <Route path="customers" element={<AdminCustomers />} />
             <Route path="profit-loss" element={<AdminProfitLoss />} />
-            <Route path="activity" element={<AdminActivity />} />
+            <Route path="activity" element={<Navigate to="/admin" replace />} />
             <Route path="coupons" element={<AdminCoupons />} />
             <Route path="gst" element={<AdminGST />} />
             <Route path="password" element={<AdminPassword />} />

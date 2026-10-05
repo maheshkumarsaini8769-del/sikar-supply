@@ -11,7 +11,6 @@ const navGroups = [
     items: [
       { path: '/admin', label: 'Dashboard', icon: '📊' },
       { path: '/admin/orders', label: 'Orders', icon: '📦' },
-      { path: '/admin/activity', label: 'Activity Log', icon: '🕐' },
     ]
   },
   {
