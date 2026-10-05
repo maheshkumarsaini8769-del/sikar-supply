@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSite } from '../context/SiteContext';
 import { UPLOAD_URL } from '../api';
+import { trackWhatsAppClick } from '../utils/analytics';
 
 const fallbackSlides = [
   'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=70&auto=format&fit=crop',
@@ -87,7 +88,13 @@ export default function Hero() {
           <button className="btn-primary" onClick={scrollToProducts}>
             {settings?.heroBtnText || 'Explore Collection'}
           </button>
-          <a href={`https://wa.me/${settings?.whatsapp || '918239409535'}?text=${encodeURIComponent(settings?.whatsappGreeting || "Hi, I'm interested in your products")}`} target="_blank" rel="noopener noreferrer" className="btn-outline">
+          <a
+            href={`https://wa.me/${settings?.whatsapp || '918239409535'}?text=${encodeURIComponent(settings?.whatsappGreeting || "Hi, I'm interested in your products")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-outline"
+            onClick={() => trackWhatsAppClick('hero_section')}
+          >
             WhatsApp Us
           </a>
         </div>

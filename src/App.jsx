@@ -1,7 +1,7 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { SiteProvider, useSite } from './context/SiteContext';
-import { trackPageview } from './utils/analytics';
+import { trackPageview, trackWhatsAppClick, trackCallClick } from './utils/analytics';
 
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -300,9 +300,47 @@ function MainContent({ activeCategory, onMaterialClick }) {
 
 function PageviewTracker() {
   const location = useLocation();
+
   useEffect(() => {
-    trackPageview(location.pathname + location.hash);
+    // Only track public visits (ignore admin backend navigation)
+    if (!location.pathname.startsWith('/admin')) {
+      trackPageview(location.pathname + location.hash);
+    }
   }, [location]);
+
+  useEffect(() => {
+    const handleGlobalClicks = (e) => {
+      // Ignore clicks within admin panel
+      if (window.location.pathname.startsWith('/admin')) return;
+
+      const link = e.target.closest('a');
+      if (!link) return;
+
+      const href = link.getAttribute('href') || '';
+      if (href.includes('wa.me') || href.includes('whatsapp.com') || href.startsWith('whatsapp:')) {
+        const text = (link.innerText || link.getAttribute('aria-label') || 'WhatsApp').trim().slice(0, 60);
+        trackWhatsAppClick('link_click', {
+          href: href.slice(0, 100),
+          text: text || 'WhatsApp Link',
+          path: window.location.pathname
+        });
+      } else if (href.startsWith('tel:')) {
+        const phone = href.replace('tel:', '').trim();
+        const text = (link.innerText || link.getAttribute('aria-label') || 'Call').trim().slice(0, 60);
+        trackCallClick('link_click', {
+          phone,
+          text: text || 'Direct Call',
+          path: window.location.pathname
+        });
+      }
+    };
+
+    document.addEventListener('click', handleGlobalClicks, { capture: true, passive: true });
+    return () => {
+      document.removeEventListener('click', handleGlobalClicks, { capture: true });
+    };
+  }, []);
+
   return null;
 }
 

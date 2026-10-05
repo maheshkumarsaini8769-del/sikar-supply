@@ -6,6 +6,61 @@ import { useAuth } from '../context/AuthContext';
 
 const COLORS = ['#b8956a', '#25d366', '#f59e0b', '#ef4444', '#6366f1'];
 
+function timeAgo(dateStr) {
+  if (!dateStr) return '';
+  const diff = Math.floor((new Date() - new Date(dateStr)) / 1000);
+  if (diff < 60) return 'Just now';
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
+  return new Date(dateStr).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+}
+
+function getEventBadge(type) {
+  switch (type) {
+    case 'click':
+      return { label: 'Product Click', color: '#25d366', bg: 'rgba(37, 211, 102, 0.15)', icon: '🖱️' };
+    case 'whatsapp':
+      return { label: 'WhatsApp', color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', icon: '💬' };
+    case 'call':
+      return { label: 'Direct Call', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.15)', icon: '📞' };
+    case 'search':
+      return { label: 'Search', color: '#6366f1', bg: 'rgba(99, 102, 241, 0.15)', icon: '🔍' };
+    case 'pageview':
+      return { label: 'Pageview', color: '#38bdf8', bg: 'rgba(56, 189, 248, 0.15)', icon: '👁️' };
+    case 'order':
+      return { label: 'Order Inquiry', color: '#b8956a', bg: 'rgba(184, 149, 106, 0.15)', icon: '📋' };
+    default:
+      return { label: type || 'Event', color: '#888', bg: 'rgba(255, 255, 255, 0.1)', icon: '⚡' };
+  }
+}
+
+function getEventDescription(item) {
+  if (!item) return '';
+  const { type, data } = item;
+  if (type === 'click') {
+    return data?.product ? `Clicked "${data.product}"` : 'Clicked product item';
+  }
+  if (type === 'whatsapp') {
+    if (data?.product) return `WhatsApp inquiry: "${data.product}"`;
+    if (data?.text) return `WhatsApp: "${data.text}"`;
+    return `WhatsApp inquiry clicked (${data?.location || 'Direct'})`;
+  }
+  if (type === 'call') {
+    return `Call button clicked ${data?.phone ? `(${data.phone})` : ''}`;
+  }
+  if (type === 'search') {
+    return `Searched for "${data?.query || ''}"`;
+  }
+  if (type === 'pageview') {
+    return `Visited ${data?.page || 'Home page'}`;
+  }
+  if (type === 'order') {
+    return `Order placed #${data?.orderId || ''} (₹${data?.total || 0})`;
+  }
+  return typeof data === 'string' ? data : JSON.stringify(data || {});
+}
+
 export default function Dashboard() {
   const { user } = useAuth();
   const [orderStats, setOrderStats] = useState(null);
@@ -20,7 +75,7 @@ export default function Dashboard() {
 
   const fetchAll = () => {
     setLoading(true);
-    const p = { params: { period } };
+    const p = { params: { period, _t: Date.now() } };
     Promise.allSettled([
       api.get('/orders/stats', p),
       api.get('/analytics/stats', p),
@@ -57,6 +112,17 @@ export default function Dashboard() {
   const completedOrders = orderStats?.completed || 0;
   const lowStockCount = stockStats?.lowStock || 0;
   const outOfStockCount = stockStats?.outOfStock || 0;
+
+  // Analytics & Traffic Metrics
+  const totalClicks = analytics?.totalInteractions ?? ((analytics?.clicks || 0) + (analytics?.whatsappClicks || 0) + (analytics?.callClicks || 0));
+  const productClicks = analytics?.clicks || 0;
+  const whatsappClicks = analytics?.whatsappClicks || 0;
+  const callClicks = analytics?.callClicks || 0;
+  const uniqueVisitors = analytics?.uniqueVisitors || 0;
+  const totalPageviews = analytics?.pageviews || 0;
+  const topProductsList = analytics?.topProducts || [];
+  const recentActivitiesList = analytics?.recentActivity || [];
+  const maxProductClicks = topProductsList[0]?.count || 1;
 
   const statusData = [
     { name: 'Pending', value: orderStats?.pending || 0 },
@@ -223,6 +289,99 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* 3.5. Website Traffic & Visitor Clicks KPI Bar */}
+      <div style={{ marginBottom: '24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '15px', fontWeight: 'bold', color: '#fff' }}>🌐 Website Visitors & Traffic Clicks</span>
+            <span style={{ fontSize: '11px', background: 'rgba(184, 149, 106, 0.15)', color: '#b8956a', padding: '2px 8px', borderRadius: '4px', fontWeight: '600' }}>
+              वेबसाइट विजिटर्स व क्लिक्स
+            </span>
+          </div>
+          <span style={{ fontSize: '11px', color: '#888' }}>
+            {period === 'today' ? '📅 Today' : period === 'week' ? '📅 Past 7 Days' : period === 'month' ? '📅 Past 30 Days' : '📅 All Time'}
+          </span>
+        </div>
+
+        <div className="adm-kpi-grid" style={{ marginBottom: 0 }}>
+          {/* Card 1: Total Visitors */}
+          <div className="adm-kpi-card" style={{ borderTop: '3px solid #6366f1' }}>
+            <div className="adm-kpi-header">
+              <span className="adm-kpi-title">Total Visitors</span>
+              <div className="adm-kpi-icon-badge" style={{ background: 'rgba(99, 102, 241, 0.12)', color: '#6366f1' }}>
+                👥
+              </div>
+            </div>
+            <div className="adm-kpi-value" style={{ color: '#818cf8' }}>
+              {uniqueVisitors.toLocaleString('en-IN')}
+            </div>
+            <div className="adm-kpi-footer">
+              <span className="adm-kpi-pill" style={{ background: 'rgba(99, 102, 241, 0.15)', color: '#818cf8' }}>
+                {totalPageviews.toLocaleString('en-IN')} Pageviews
+              </span>
+              <span>कुल विजिटर्स</span>
+            </div>
+          </div>
+
+          {/* Card 2: Total Clicks */}
+          <div className="adm-kpi-card" style={{ borderTop: '3px solid #25d366' }}>
+            <div className="adm-kpi-header">
+              <span className="adm-kpi-title">Total Website Clicks</span>
+              <div className="adm-kpi-icon-badge" style={{ background: 'rgba(37, 211, 102, 0.12)', color: '#25d366' }}>
+                🖱️
+              </div>
+            </div>
+            <div className="adm-kpi-value" style={{ color: '#25d366' }}>
+              {totalClicks.toLocaleString('en-IN')}
+            </div>
+            <div className="adm-kpi-footer">
+              <span className="adm-kpi-pill" style={{ background: 'rgba(37, 211, 102, 0.15)', color: '#25d366' }}>
+                {productClicks} Product Clicks
+              </span>
+              <span>कुल क्लिक्स</span>
+            </div>
+          </div>
+
+          {/* Card 3: WhatsApp Enquiries */}
+          <div className="adm-kpi-card" style={{ borderTop: '3px solid #10b981' }}>
+            <div className="adm-kpi-header">
+              <span className="adm-kpi-title">WhatsApp Enquiries</span>
+              <div className="adm-kpi-icon-badge" style={{ background: 'rgba(16, 185, 129, 0.12)', color: '#10b981' }}>
+                💬
+              </div>
+            </div>
+            <div className="adm-kpi-value" style={{ color: '#34d399' }}>
+              {whatsappClicks.toLocaleString('en-IN')}
+            </div>
+            <div className="adm-kpi-footer">
+              <span className="adm-kpi-pill" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}>
+                Direct Chat Clicks
+              </span>
+              <span>व्हाट्सएप पूछताछ</span>
+            </div>
+          </div>
+
+          {/* Card 4: Direct Calls */}
+          <div className="adm-kpi-card" style={{ borderTop: '3px solid #f59e0b' }}>
+            <div className="adm-kpi-header">
+              <span className="adm-kpi-title">Direct Call Clicks</span>
+              <div className="adm-kpi-icon-badge" style={{ background: 'rgba(245, 158, 11, 0.12)', color: '#f59e0b' }}>
+                📞
+              </div>
+            </div>
+            <div className="adm-kpi-value" style={{ color: '#fbbf24' }}>
+              {callClicks.toLocaleString('en-IN')}
+            </div>
+            <div className="adm-kpi-footer">
+              <span className="adm-kpi-pill" style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24' }}>
+                Phone Dial Clicks
+              </span>
+              <span>कॉल बटन क्लिक</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* 4. Structured Tabs */}
       <div className="adm-dashboard-tabs">
         <button
@@ -247,7 +406,7 @@ export default function Dashboard() {
           className={`adm-dashboard-tab ${activeTab === 'traffic' ? 'active' : ''}`}
           onClick={() => setActiveTab('traffic')}
         >
-          🌐 Website Analytics
+          🌐 Website Analytics {totalClicks > 0 && <span style={{ background: '#25d366', color: '#000', borderRadius: '10px', padding: '1px 6px', fontSize: '10px', fontWeight: 'bold', marginLeft: '4px' }}>{totalClicks}</span>}
         </button>
       </div>
 
@@ -487,7 +646,100 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Top Searches / Product Interests */}
+          {/* Box 2: Top Clicked Products */}
+          <div className="adm-dashboard-section" style={{ margin: 0 }}>
+            <div className="adm-section-header">
+              <div>
+                <span className="adm-section-title">🔥 Top Clicked Products</span>
+                <span className="adm-section-desc">Sabse jyada dekhe gaye products</span>
+              </div>
+              <span className="adm-kpi-pill" style={{ background: 'rgba(37, 211, 102, 0.15)', color: '#25d366' }}>
+                {topProductsList.length} Products
+              </span>
+            </div>
+
+            {topProductsList.length > 0 ? (
+              <div style={{ maxHeight: '280px', overflowY: 'auto' }}>
+                {topProductsList.slice(0, 8).map((p, i) => {
+                  const pct = Math.min(100, Math.max(8, Math.round((p.count / maxProductClicks) * 100)));
+                  return (
+                    <div
+                      key={i}
+                      style={{
+                        padding: '10px 8px',
+                        borderBottom: '1px solid #242424',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        borderRadius: '4px',
+                        marginBottom: '4px'
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: 'absolute',
+                          left: 0,
+                          top: 0,
+                          bottom: 0,
+                          width: `${pct}%`,
+                          background: i === 0 ? 'rgba(184, 149, 106, 0.1)' : 'rgba(37, 211, 102, 0.06)',
+                          pointerEvents: 'none',
+                        }}
+                      />
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                          <span
+                            style={{
+                              width: '22px',
+                              height: '22px',
+                              borderRadius: '50%',
+                              background: i === 0 ? '#b8956a' : i === 1 ? '#6366f1' : i === 2 ? '#25d366' : '#2d2d2d',
+                              color: i < 3 ? '#000' : '#888',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '11px',
+                              fontWeight: 'bold',
+                              flexShrink: 0
+                            }}
+                          >
+                            {i + 1}
+                          </span>
+                          <span style={{ color: '#e5e5e5', fontSize: '13px', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                            {p._id}
+                          </span>
+                        </div>
+                        <span
+                          style={{
+                            color: i === 0 ? '#b8956a' : '#25d366',
+                            fontWeight: 'bold',
+                            background: i === 0 ? 'rgba(184, 149, 106, 0.15)' : 'rgba(37, 211, 102, 0.12)',
+                            padding: '3px 8px',
+                            borderRadius: '4px',
+                            fontSize: '11px',
+                            whiteSpace: 'nowrap',
+                            marginLeft: '8px'
+                          }}
+                        >
+                          🖱️ {p.count} clicks
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="adm-empty-state" style={{ padding: '60px 20px' }}>
+                No product clicks recorded yet for this time period
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* DUAL GRID: Search Queries & Live Visitor Activity */}
+      {(activeTab === 'all' || activeTab === 'traffic') && (
+        <div className="adm-dual-grid" style={{ marginTop: '20px' }}>
+          {/* Box 1: Search Queries */}
           <div className="adm-dashboard-section" style={{ margin: 0 }}>
             <div className="adm-section-header">
               <div>
@@ -495,7 +747,7 @@ export default function Dashboard() {
                 <span className="adm-section-desc">What customer visitors are looking for most</span>
               </div>
               <span className="adm-kpi-pill" style={{ background: 'rgba(99, 102, 241, 0.15)', color: '#6366f1' }}>
-                {analytics?.pageviews || 0} Total Pageviews
+                {totalPageviews} Total Pageviews
               </span>
             </div>
 
@@ -544,23 +796,112 @@ export default function Dashboard() {
               </div>
             )}
           </div>
+
+          {/* Box 2: Live Visitor Activity */}
+          <div className="adm-dashboard-section" style={{ margin: 0 }}>
+            <div className="adm-section-header">
+              <div>
+                <span className="adm-section-title">⚡ Live Visitor Activity</span>
+                <span className="adm-section-desc">Real-time clicks, searches & enquiries</span>
+              </div>
+              <button
+                onClick={fetchAll}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#b8956a',
+                  cursor: 'pointer',
+                  fontSize: '11px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}
+              >
+                🔄 Refresh
+              </button>
+            </div>
+
+            {recentActivitiesList.length > 0 ? (
+              <div style={{ maxHeight: '280px', overflowY: 'auto' }}>
+                {recentActivitiesList.slice(0, 12).map((act, i) => {
+                  const badge = getEventBadge(act.type);
+                  const desc = getEventDescription(act);
+                  return (
+                    <div
+                      key={act._id || i}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '10px',
+                        padding: '10px 4px',
+                        borderBottom: '1px solid #242424',
+                        fontSize: '12px'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
+                        <span
+                          style={{
+                            background: badge.bg,
+                            color: badge.color,
+                            padding: '2px 6px',
+                            borderRadius: '4px',
+                            fontSize: '10px',
+                            fontWeight: '600',
+                            whiteSpace: 'nowrap',
+                            flexShrink: 0
+                          }}
+                        >
+                          {badge.icon} {badge.label}
+                        </span>
+                        <span
+                          style={{
+                            color: '#ccc',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis'
+                          }}
+                          title={desc}
+                        >
+                          {desc}
+                        </span>
+                      </div>
+                      <span style={{ color: '#777', fontSize: '11px', flexShrink: 0 }}>
+                        {timeAgo(act.createdAt)}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="adm-empty-state" style={{ padding: '60px 20px' }}>
+                No recent activity recorded yet
+              </div>
+            )}
+          </div>
         </div>
       )}
 
-      {/* TAB: TRAFFIC & ANALYTICS ONLY */}
+      {/* TAB: TRAFFIC & ANALYTICS CHARTS */}
       {(activeTab === 'all' || activeTab === 'traffic') && (
-        <div className="adm-dashboard-section">
+        <div className="adm-dashboard-section" style={{ marginTop: '20px' }}>
           <div className="adm-section-header">
             <div>
               <span className="adm-section-title">📈 Website Traffic & User Engagement Trends</span>
               <span className="adm-section-desc">Customer clicks, catalogue searches, and visit flow</span>
             </div>
-            <div style={{ display: 'flex', gap: '8px' }}>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               <span className="adm-kpi-pill" style={{ background: 'rgba(37, 211, 102, 0.15)', color: '#25d366' }}>
-                {analytics?.clicks || 0} Clicks
+                {totalClicks} Total Clicks
               </span>
               <span className="adm-kpi-pill" style={{ background: 'rgba(99, 102, 241, 0.15)', color: '#6366f1' }}>
-                {analytics?.searches || 0} Searches
+                {totalPageviews} Pageviews
+              </span>
+              <span className="adm-kpi-pill" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#10b981' }}>
+                {whatsappClicks} WhatsApp
+              </span>
+              <span className="adm-kpi-pill" style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#f59e0b' }}>
+                {callClicks} Calls
               </span>
             </div>
           </div>
@@ -568,9 +909,9 @@ export default function Dashboard() {
           <div className="adm-dashboard-charts" style={{ marginBottom: 0 }}>
             {/* Clicks Chart */}
             <div className="adm-chart-card" style={{ background: '#1c1c1c', border: '1px solid #282828' }}>
-              <h3 style={{ margin: '0 0 12px', fontSize: '13px' }}>Visitor Clicks Over Time</h3>
+              <h3 style={{ margin: '0 0 12px', fontSize: '13px' }}>Visitor Clicks & Inquiries Over Time</h3>
               {analytics?.clicksByDay?.length > 0 ? (
-                <ResponsiveContainer width="100%" height={220}>
+                <ResponsiveContainer width="100%" height={230}>
                   <LineChart data={analytics.clicksByDay}>
                     <XAxis dataKey="_id" tick={{ fontSize: 11, fill: '#888' }} />
                     <YAxis tick={{ fontSize: 11, fill: '#888' }} />
@@ -583,11 +924,20 @@ export default function Dashboard() {
               )}
             </div>
 
-            {/* Searches Chart */}
+            {/* Pageviews / Searches Chart */}
             <div className="adm-chart-card" style={{ background: '#1c1c1c', border: '1px solid #282828' }}>
-              <h3 style={{ margin: '0 0 12px', fontSize: '13px' }}>Searches Over Time</h3>
-              {analytics?.searchesByDay?.length > 0 ? (
-                <ResponsiveContainer width="100%" height={220}>
+              <h3 style={{ margin: '0 0 12px', fontSize: '13px' }}>Traffic Pageviews Over Time</h3>
+              {analytics?.pageviewsByDay?.length > 0 ? (
+                <ResponsiveContainer width="100%" height={230}>
+                  <BarChart data={analytics.pageviewsByDay}>
+                    <XAxis dataKey="_id" tick={{ fontSize: 11, fill: '#888' }} />
+                    <YAxis tick={{ fontSize: 11, fill: '#888' }} />
+                    <Tooltip contentStyle={{ background: '#1c1c1c', border: '1px solid #333', borderRadius: '6px', color: '#fff' }} />
+                    <Bar dataKey="count" fill="#818cf8" radius={[4, 4, 0, 0]} name="Pageviews" />
+                  </BarChart>
+                </ResponsiveContainer>
+              ) : analytics?.searchesByDay?.length > 0 ? (
+                <ResponsiveContainer width="100%" height={230}>
                   <BarChart data={analytics.searchesByDay}>
                     <XAxis dataKey="_id" tick={{ fontSize: 11, fill: '#888' }} />
                     <YAxis tick={{ fontSize: 11, fill: '#888' }} />
@@ -596,7 +946,7 @@ export default function Dashboard() {
                   </BarChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="adm-empty-state" style={{ padding: '40px' }}>No search data yet</div>
+                <div className="adm-empty-state" style={{ padding: '40px' }}>No traffic data yet</div>
               )}
             </div>
           </div>

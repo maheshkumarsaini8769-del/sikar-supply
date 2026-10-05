@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { UPLOAD_URL } from '../api';
 import { useSite } from '../context/SiteContext';
+import { trackWhatsAppClick } from '../utils/analytics';
 
 export default function ProductModal({ product, onClose }) {
   const { settings } = useSite();
@@ -169,6 +170,14 @@ export default function ProductModal({ product, onClose }) {
     } catch (e) {
       console.error('Order save error:', e);
     }
+
+    // Track WhatsApp Click
+    trackWhatsAppClick('product_modal', {
+      product: product.name,
+      productId: product._id,
+      category: product.category || '',
+      price: product.price || 0,
+    });
 
     // Open WhatsApp
     window.open(`https://wa.me/${settings?.whatsapp || '918239409535'}?text=${encodeURIComponent(msg)}`, '_blank');

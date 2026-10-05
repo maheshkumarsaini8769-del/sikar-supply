@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSite } from '../context/SiteContext';
 import ScrollReveal from './ScrollReveal';
+import { trackWhatsAppClick } from '../utils/analytics';
 
 export default function QuoteForm() {
   const { categories, settings } = useSite();
@@ -34,8 +35,10 @@ export default function QuoteForm() {
           whatsappMessage: `Quote Request: ${form.product}`,
         }),
       });
-    } catch (e) { console.error('Order save failed:', e); }
-
+    } catch (e) {
+      console.error('Order save failed:', e);
+    }
+    trackWhatsAppClick('quote_form', { product: form.product, name: form.name });
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   };
 

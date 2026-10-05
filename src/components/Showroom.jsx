@@ -1,6 +1,7 @@
 import { useSite } from '../context/SiteContext';
 import ScrollReveal from './ScrollReveal';
 import { UPLOAD_URL } from '../api';
+import { trackWhatsAppClick, trackCallClick } from '../utils/analytics';
 
 export default function Showroom() {
   const { settings } = useSite();
@@ -61,8 +62,22 @@ export default function Showroom() {
               </div>
 
               <div className="showroom-buttons">
-                <a href={`tel:${settings?.phone || '+918239409535'}`} className="btn-primary">Call Now</a>
-                <a href={`https://wa.me/${settings?.whatsapp || '918239409535'}?text=${encodeURIComponent(settings?.whatsappGreeting || "Hi, I'm interested in your products")}`} target="_blank" rel="noopener noreferrer" className="btn-outline">WhatsApp</a>
+                <a
+                  href={`tel:${settings?.phone || '+918239409535'}`}
+                  className="btn-primary"
+                  onClick={() => trackCallClick('showroom_section', { phone: settings?.phone || '+918239409535' })}
+                >
+                  Call Now
+                </a>
+                <a
+                  href={`https://wa.me/${settings?.whatsapp || '918239409535'}?text=${encodeURIComponent(settings?.whatsappGreeting || "Hi, I'm interested in your products")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-outline"
+                  onClick={() => trackWhatsAppClick('showroom_section')}
+                >
+                  WhatsApp
+                </a>
                 <a href={settings?.googleMapsUrl || 'https://maps.google.com/?q=Sikar+Rajasthan'} target="_blank" rel="noopener noreferrer" className="btn-outline">Get Directions</a>
               </div>
             </div>

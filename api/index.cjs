@@ -40,6 +40,7 @@ app.use((req, res, next) => {
                       req.url.startsWith('/api/purchases') || 
                       req.url.startsWith('/api/sales') || 
                       req.url.startsWith('/api/profitloss') || 
+                      req.url.startsWith('/api/analytics') || 
                       req.url.startsWith('/api/stock');
     if (!isPrivate) {
       res.setHeader('Cache-Control', 'public, max-age=10, s-maxage=30, stale-while-revalidate=60');

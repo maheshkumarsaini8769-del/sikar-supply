@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const analyticsSchema = new mongoose.Schema({
-  type: { type: String, enum: ['click', 'search', 'order', 'pageview'], required: true },
+  type: { type: String, required: true },
   data: { type: mongoose.Schema.Types.Mixed, default: {} },
   ip: { type: String, default: '' },
   userAgent: { type: String, default: '' },
