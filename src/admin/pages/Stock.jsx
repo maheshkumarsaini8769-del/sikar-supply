@@ -148,14 +148,20 @@ export default function Stock() {
 
   const confirmDeleteProduct = async () => {
     if (!deleteTarget) return;
+    const targetId = deleteTarget.id;
+    const targetName = deleteTarget.name;
+    setProducts(prev => prev.filter(p => p._id !== targetId));
+    setDeleteTarget(null);
     setDeleting(true);
     try {
-      await api.delete(`/products/${deleteTarget.id}`);
-      setDeleteTarget(null);
+      await api.delete(`/products/${targetId}`);
       fetchInventory();
       fetchStats();
     } catch (err) {
-      alert('Failed: ' + (err.response?.data?.message || err.message));
+      if (err.response?.status !== 404) {
+        alert('Failed: ' + (err.response?.data?.message || err.message));
+        fetchInventory();
+      }
     } finally {
       setDeleting(false);
     }

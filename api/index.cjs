@@ -27,10 +27,14 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Edge caching middleware for public read-only GET endpoints (eliminates cold starts)
+// Edge caching middleware for public read-only GET endpoints
 app.use((req, res, next) => {
   if (req.method === 'GET' && req.url.startsWith('/api')) {
-    const isPrivate = req.url.startsWith('/api/auth') || 
+    const isAdminOrNoCache = req.headers.authorization ||
+                            req.headers['cache-control']?.includes('no-cache') ||
+                            req.query._t;
+    const isPrivate = isAdminOrNoCache ||
+                      req.url.startsWith('/api/auth') || 
                       req.url.startsWith('/api/orders') || 
                       req.url.startsWith('/api/customers') || 
                       req.url.startsWith('/api/purchases') || 
@@ -38,7 +42,10 @@ app.use((req, res, next) => {
                       req.url.startsWith('/api/profitloss') || 
                       req.url.startsWith('/api/stock');
     if (!isPrivate) {
-      res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=600, stale-while-revalidate=86400');
+      res.setHeader('Cache-Control', 'public, max-age=10, s-maxage=30, stale-while-revalidate=60');
+    } else {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
     }
   }
   next();

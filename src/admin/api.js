@@ -11,6 +11,11 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  config.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+  config.headers['Pragma'] = 'no-cache';
+  if (config.method === 'get') {
+    config.params = { ...config.params, _t: Date.now() };
+  }
   return config;
 });
 

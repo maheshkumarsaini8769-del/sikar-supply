@@ -89,15 +89,25 @@ export default function Products() {
 
   const confirmDeleteProduct = async () => {
     if (!deleteTarget) return;
+    const targetId = deleteTarget._id;
+    const targetName = deleteTarget.name;
+    // Optimistically remove from view immediately so user sees instant result
+    setProducts(prev => prev.filter(p => p._id !== targetId));
+    setDeleteTarget(null);
     setDeleting(true);
     try {
-      await api.delete(`/products/${deleteTarget._id}`);
-      setFeedback({ type: 'success', message: `✅ Product "${deleteTarget.name}" safalta-purvak delete ho gaya!` });
-      setDeleteTarget(null);
+      await api.delete(`/products/${targetId}`);
+      setFeedback({ type: 'success', message: `✅ Product "${targetName}" safalta-purvak delete ho gaya!` });
       fetchData();
       setTimeout(() => setFeedback({ type: '', message: '' }), 4000);
     } catch (err) {
-      setFeedback({ type: 'error', message: `❌ Delete nahi ho saka: ${err.response?.data?.message || err.message}` });
+      if (err.response?.status === 404) {
+        setFeedback({ type: 'success', message: `✅ Product "${targetName}" pehle se hi delete ho chuka tha!` });
+        fetchData();
+      } else {
+        setFeedback({ type: 'error', message: `❌ Delete nahi ho saka: ${err.response?.data?.message || err.message}` });
+        fetchData();
+      }
     } finally {
       setDeleting(false);
     }
