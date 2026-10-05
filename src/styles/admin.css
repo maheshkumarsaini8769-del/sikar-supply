@@ -1225,3 +1225,114 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Responsive Products View */
+.adm-products-desktop-table {
+  display: block;
+}
+
+.adm-products-mobile-cards {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .adm-products-desktop-table {
+    display: none;
+  }
+
+  .adm-products-mobile-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .adm-mobile-card {
+    background: #181818;
+    border: 1px solid #282828;
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .adm-mobile-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .adm-mobile-card-img {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .adm-mobile-card-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .adm-mobile-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #f3f4f6;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .adm-mobile-card-cat {
+    font-size: 11px;
+    color: #b8956a;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .adm-mobile-card-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 8px 10px;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .adm-mobile-stat-box span {
+    display: block;
+    font-size: 10px;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .adm-mobile-stat-box strong {
+    font-size: 13px;
+    color: #e5e5e5;
+  }
+
+  .adm-mobile-card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  .adm-mobile-card-actions button {
+    flex: 1;
+    height: 38px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+}
+

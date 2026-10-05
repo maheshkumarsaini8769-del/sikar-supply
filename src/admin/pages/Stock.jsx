@@ -19,6 +19,8 @@ export default function Stock() {
   // Add Stock form
   const [addForm, setAddForm] = useState({ productId: '', quantity: '', costPrice: '', supplier: '', note: '' });
   const [addMode, setAddMode] = useState('add');
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const fetchInventory = () => {
     setLoading(true);
@@ -140,13 +142,22 @@ export default function Stock() {
     }
   };
 
-  const deleteProduct = async (id, name) => {
-    if (!confirm(`"${name}" delete karna hai? Product website se hata diya jayega.`)) return;
+  const deleteProduct = (id, name) => {
+    setDeleteTarget({ id, name });
+  };
+
+  const confirmDeleteProduct = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
     try {
-      await api.delete(`/products/${id}`);
+      await api.delete(`/products/${deleteTarget.id}`);
+      setDeleteTarget(null);
       fetchInventory();
+      fetchStats();
     } catch (err) {
       alert('Failed: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -385,9 +396,60 @@ export default function Stock() {
                 </div>
               </div>
 
-              <div style={{ marginTop: 16, display: 'flex', gap: 10 }}>
-                <button className="adm-btn adm-btn-primary" onClick={saveEdit} style={{ background: '#b8956a', color: '#fff', padding: '10px 24px' }}>Save Changes</button>
-                <button className="adm-btn" onClick={() => setEditProduct(null)} style={{ padding: '10px 24px' }}>Cancel</button>
+              <div style={{ marginTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-danger"
+                  onClick={() => {
+                    const target = { id: editProduct._id, name: editProduct.name };
+                    setEditProduct(null);
+                    setDeleteTarget(target);
+                  }}
+                  style={{ background: '#dc2626', color: '#fff', padding: '9px 16px', borderRadius: 8, border: 'none', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}
+                >
+                  🗑️ Delete Product
+                </button>
+                <div style={{ display: 'flex', gap: 10 }}>
+                  <button className="adm-btn" onClick={() => setEditProduct(null)} style={{ padding: '10px 24px' }}>Cancel</button>
+                  <button className="adm-btn adm-btn-primary" onClick={saveEdit} style={{ background: '#b8956a', color: '#fff', padding: '10px 24px' }}>Save Changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Product Confirmation Modal */}
+      {deleteTarget && (
+        <div className="adm-modal-overlay" onClick={() => !deleting && setDeleteTarget(null)} style={{ zIndex: 11000 }}>
+          <div className="adm-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 440, width: '92%', borderRadius: 12, overflow: 'hidden', background: '#171717', border: '1px solid #2d2d2d' }}>
+            <div style={{ padding: '26px 22px', textAlign: 'center' }}>
+              <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(239, 68, 68, 0.15)', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 26 }}>
+                🗑️
+              </div>
+              <h3 style={{ fontSize: 18, color: '#f3f4f6', marginBottom: 8, fontWeight: 700 }}>Delete Product?</h3>
+              <p style={{ color: '#9ca3af', fontSize: 14, lineHeight: 1.5, marginBottom: 22 }}>
+                Kya aap sach me <strong style={{ color: '#fff' }}>"{deleteTarget.name}"</strong> ko permanently delete karna chahte hain? Yeh product website aur database se turant hata diya jayega.
+              </p>
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                <button
+                  type="button"
+                  className="adm-btn"
+                  disabled={deleting}
+                  onClick={() => setDeleteTarget(null)}
+                  style={{ flex: 1, padding: '10px 16px', background: '#262626', color: '#e5e5e5', border: '1px solid #3a3a3a' }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-danger"
+                  disabled={deleting}
+                  onClick={confirmDeleteProduct}
+                  style={{ flex: 1, padding: '10px 16px', background: '#dc2626', color: '#fff', fontWeight: 700, border: 'none' }}
+                >
+                  {deleting ? 'Deleting...' : 'Haan, Delete Karein'}
+                </button>
               </div>
             </div>
           </div>

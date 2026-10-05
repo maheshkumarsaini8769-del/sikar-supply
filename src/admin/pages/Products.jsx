@@ -25,6 +25,9 @@ export default function Products() {
   const [form, setForm] = useState({ name: '', category: '', description: '', shortDescription: '', price: '', salePrice: '', costPrice: '', sku: '', unit: 'sqft', stockStatus: 'in_stock', stockQuantity: '', lowStockThreshold: '10', featured: false, active: true, displayOrder: '', specs: [] });
   const [images, setImages] = useState([]);
   const [saving, setSaving] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+  const [feedback, setFeedback] = useState({ type: '', message: '' });
 
   const fetchData = () => {
     setLoading(true);
@@ -65,22 +68,48 @@ export default function Products() {
       images.forEach(f => fd.append('images', f));
       if (editing) {
         await api.put(`/products/${editing._id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+        setFeedback({ type: 'success', message: `✅ Product "${form.name}" safalta-purvak update ho gaya!` });
       } else {
         await api.post('/products', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+        setFeedback({ type: 'success', message: `✅ Naya product "${form.name}" safalta-purvak add ho gaya!` });
       }
       setShowForm(false);
       fetchData();
-    } catch { alert('Failed to save product'); } finally { setSaving(false); }
+      setTimeout(() => setFeedback({ type: '', message: '' }), 4000);
+    } catch (err) {
+      alert('Failed to save product: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm('Delete this product permanently?')) return;
-    try { await api.delete(`/products/${id}`); fetchData(); } catch { alert('Failed'); }
+  const handleDeleteClick = (product) => {
+    setDeleteTarget(product);
+  };
+
+  const confirmDeleteProduct = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
+    try {
+      await api.delete(`/products/${deleteTarget._id}`);
+      setFeedback({ type: 'success', message: `✅ Product "${deleteTarget.name}" safalta-purvak delete ho gaya!` });
+      setDeleteTarget(null);
+      fetchData();
+      setTimeout(() => setFeedback({ type: '', message: '' }), 4000);
+    } catch (err) {
+      setFeedback({ type: 'error', message: `❌ Delete nahi ho saka: ${err.response?.data?.message || err.message}` });
+    } finally {
+      setDeleting(false);
+    }
   };
 
   const removeImage = async (productId, imageIndex) => {
-    if (!confirm('Remove image?')) return;
-    try { await api.delete(`/products/${productId}/images/${imageIndex}`); fetchData(); } catch { alert('Failed'); }
+    try {
+      await api.delete(`/products/${productId}/images/${imageIndex}`);
+      fetchData();
+    } catch (err) {
+      alert('Failed: ' + (err.response?.data?.message || err.message));
+    }
   };
 
   return (
@@ -103,42 +132,140 @@ export default function Products() {
           {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
         </select>
       </div>
-      {loading ? <div className="adm-loading"><div className="adm-spinner"/></div> : (
-        <div className="adm-table-wrapper">
-          <table className="adm-data-table">
-            <thead>
-              <tr><th>Image</th><th>Name</th><th>Category</th><th>Purchase ₹</th><th>Sell ₹</th><th>Profit ₹</th><th>Margin</th><th>Stock</th><th>Status</th><th>Featured</th><th>Actions</th></tr>
-            </thead>
-            <tbody>
-              {products.map(p => (
-                <tr key={p._id}>
-                  <td>{p.images?.[0] ? <img src={(p.images[0].url.startsWith('http') || p.images[0].url.startsWith('data:')) ? p.images[0].url : UPLOAD_URL + p.images[0].url} alt="" className="adm-table-img" /> : <div className="adm-table-img-placeholder">No</div>}</td>
-                  <td className="adm-td-bold">{p.name}</td>
-                  <td>{p.category?.name || 'N/A'}</td>
-                  <td style={{color:'#ff8a80'}}>{p.costPrice ? `₹${p.costPrice}` : '-'}</td>
-                  <td style={{color:'#b8956a', fontWeight:700}}>{p.price ? `₹${p.price}` : '-'}</td>
-                  <td style={{color: (p.price && p.costPrice && p.price > p.costPrice) ? '#51cf66' : '#ff6b6b', fontWeight:700}}>
-                    {p.price && p.costPrice ? `₹${p.price - p.costPrice}` : '-'}
-                  </td>
-                  <td style={{color: (p.price && p.costPrice && p.price > p.costPrice) ? '#51cf66' : '#ff6b6b', fontWeight:700}}>
-                    {p.price && p.costPrice && p.costPrice > 0 ? `${Math.round(((p.price - p.costPrice) / p.costPrice) * 100)}%` : '-'}
-                  </td>
-                  <td style={{fontWeight:600, color: p.stockQuantity <= (p.lowStockThreshold || 10) ? '#ff6b6b' : '#51cf66'}}>{p.stockQuantity} {p.unit || 'sqft'}</td>
-                  <td><span className={`adm-stock-badge adm-stock-${p.stockStatus}`}>{p.stockStatus.replace(/_/g, ' ')}</span></td>
-                  <td>{p.featured ? '⭐' : '-'}</td>
-                  <td>
-                    <div className="adm-actions-cell">
-                      <button className="adm-btn adm-btn-sm" onClick={() => openEdit(p)}>Edit</button>
-                      <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => handleDelete(p._id)} style={{ fontSize: 11 }}>Del</button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-              {products.length === 0 && <tr><td colSpan="12" className="adm-empty-row">No products found</td></tr>}
-            </tbody>
-          </table>
+      {feedback.message && (
+        <div
+          className={`adm-alert ${feedback.type === 'error' ? 'adm-alert-error' : 'adm-alert-success'}`}
+          style={{
+            marginBottom: 16,
+            padding: '12px 16px',
+            borderRadius: 8,
+            fontSize: 14,
+            fontWeight: 600,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            background: feedback.type === 'error' ? 'rgba(239, 68, 68, 0.15)' : 'rgba(37, 211, 102, 0.15)',
+            border: `1px solid ${feedback.type === 'error' ? '#ef4444' : '#25d366'}`,
+            color: feedback.type === 'error' ? '#ef4444' : '#25d366',
+          }}
+        >
+          <span>{feedback.message}</span>
+          <button
+            type="button"
+            onClick={() => setFeedback({ type: '', message: '' })}
+            style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', fontSize: 16 }}
+          >
+            &times;
+          </button>
         </div>
       )}
+
+      {loading ? <div className="adm-loading"><div className="adm-spinner"/></div> : (
+        <>
+          {/* Desktop Table View (>= 768px) */}
+          <div className="adm-table-wrapper adm-products-desktop-table">
+            <table className="adm-data-table">
+              <thead>
+                <tr><th>Image</th><th>Name</th><th>Category</th><th>Purchase ₹</th><th>Sell ₹</th><th>Profit ₹</th><th>Margin</th><th>Stock</th><th>Status</th><th>Featured</th><th>Actions</th></tr>
+              </thead>
+              <tbody>
+                {products.map(p => (
+                  <tr key={p._id}>
+                    <td>{p.images?.[0] ? <img src={(p.images[0].url.startsWith('http') || p.images[0].url.startsWith('data:')) ? p.images[0].url : UPLOAD_URL + p.images[0].url} alt="" className="adm-table-img" /> : <div className="adm-table-img-placeholder">No</div>}</td>
+                    <td className="adm-td-bold">{p.name}</td>
+                    <td>{p.category?.name || 'N/A'}</td>
+                    <td style={{color:'#ff8a80'}}>{p.costPrice ? `₹${p.costPrice}` : '-'}</td>
+                    <td style={{color:'#b8956a', fontWeight:700}}>{p.price ? `₹${p.price}` : '-'}</td>
+                    <td style={{color: (p.price && p.costPrice && p.price > p.costPrice) ? '#51cf66' : '#ff6b6b', fontWeight:700}}>
+                      {p.price && p.costPrice ? `₹${p.price - p.costPrice}` : '-'}
+                    </td>
+                    <td style={{color: (p.price && p.costPrice && p.price > p.costPrice) ? '#51cf66' : '#ff6b6b', fontWeight:700}}>
+                      {p.price && p.costPrice && p.costPrice > 0 ? `${Math.round(((p.price - p.costPrice) / p.costPrice) * 100)}%` : '-'}
+                    </td>
+                    <td style={{fontWeight:600, color: p.stockQuantity <= (p.lowStockThreshold || 10) ? '#ff6b6b' : '#51cf66'}}>{p.stockQuantity} {p.unit || 'sqft'}</td>
+                    <td><span className={`adm-stock-badge adm-stock-${p.stockStatus}`}>{p.stockStatus.replace(/_/g, ' ')}</span></td>
+                    <td>{p.featured ? '⭐' : '-'}</td>
+                    <td>
+                      <div className="adm-actions-cell">
+                        <button className="adm-btn adm-btn-sm" onClick={() => openEdit(p)}>Edit</button>
+                        <button className="adm-btn adm-btn-sm adm-btn-danger" onClick={() => handleDeleteClick(p)} style={{ fontSize: 11, background: '#ef4444', color: '#fff' }}>Del</button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                {products.length === 0 && <tr><td colSpan="11" className="adm-empty-row">No products found</td></tr>}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile Cards View (< 768px) */}
+          <div className="adm-products-mobile-cards">
+            {products.map(p => (
+              <div key={p._id} className="adm-mobile-card">
+                <div className="adm-mobile-card-header">
+                  {p.images?.[0] ? (
+                    <img
+                      src={(p.images[0].url.startsWith('http') || p.images[0].url.startsWith('data:')) ? p.images[0].url : UPLOAD_URL + p.images[0].url}
+                      alt=""
+                      className="adm-mobile-card-img"
+                    />
+                  ) : (
+                    <div className="adm-table-img-placeholder adm-mobile-card-img">No Img</div>
+                  )}
+                  <div className="adm-mobile-card-info">
+                    <div className="adm-mobile-card-title">{p.name}</div>
+                    <div className="adm-mobile-card-cat">{p.category?.name || 'Uncategorized'}</div>
+                  </div>
+                  {p.featured && <span style={{ fontSize: 18 }} title="Featured">⭐</span>}
+                </div>
+
+                <div className="adm-mobile-card-stats">
+                  <div className="adm-mobile-stat-box">
+                    <span>Sell Price</span>
+                    <strong style={{ color: '#b8956a' }}>₹{p.price || 0}</strong>
+                  </div>
+                  <div className="adm-mobile-stat-box">
+                    <span>Purchase</span>
+                    <strong style={{ color: '#ff8a80' }}>₹{p.costPrice || 0}</strong>
+                  </div>
+                  <div className="adm-mobile-stat-box">
+                    <span>Stock</span>
+                    <strong style={{ color: p.stockQuantity <= (p.lowStockThreshold || 10) ? '#ff6b6b' : '#51cf66' }}>
+                      {p.stockQuantity || 0} {p.unit || 'sqft'}
+                    </strong>
+                  </div>
+                </div>
+
+                <div className="adm-mobile-card-actions">
+                  <button
+                    type="button"
+                    className="adm-btn"
+                    onClick={() => openEdit(p)}
+                    style={{ background: '#262626', border: '1px solid #3a3a3a', color: '#fff' }}
+                  >
+                    ✏️ Edit Product
+                  </button>
+                  <button
+                    type="button"
+                    className="adm-btn adm-btn-danger"
+                    onClick={() => handleDeleteClick(p)}
+                    style={{ background: '#dc2626', color: '#fff', border: 'none' }}
+                  >
+                    🗑️ Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+            {products.length === 0 && (
+              <div style={{ textAlign: 'center', padding: '40px 12px', color: '#888' }}>
+                No products found
+              </div>
+            )}
+          </div>
+        </>
+      )}
+
+      {/* Edit / Add Product Modal */}
       {showForm && (
         <div className="adm-modal-overlay" onClick={() => setShowForm(false)}>
           <div className="adm-modal adm-modal-lg" onClick={e => e.stopPropagation()}>
@@ -200,11 +327,64 @@ export default function Products() {
                   )}
                 </div>
               </div>
-              <div className="adm-modal-footer">
-                <button type="button" className="adm-btn" onClick={() => setShowForm(false)}>Cancel</button>
-                <button type="submit" className="adm-btn adm-btn-primary" disabled={saving}>{saving ? 'Saving...' : 'Save'}</button>
+              <div className="adm-modal-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
+                {editing ? (
+                  <button
+                    type="button"
+                    className="adm-btn adm-btn-danger"
+                    onClick={() => {
+                      const target = editing;
+                      setShowForm(false);
+                      handleDeleteClick(target);
+                    }}
+                    style={{ background: '#dc2626', color: '#fff', border: 'none', borderRadius: 6, padding: '9px 16px', display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600 }}
+                  >
+                    🗑️ Delete Product
+                  </button>
+                ) : <div />}
+                <div style={{ display: 'flex', gap: 10 }}>
+                  <button type="button" className="adm-btn" onClick={() => setShowForm(false)}>Cancel</button>
+                  <button type="submit" className="adm-btn adm-btn-primary" disabled={saving}>{saving ? 'Saving...' : 'Save'}</button>
+                </div>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Dedicated In-App Delete Confirmation Modal */}
+      {deleteTarget && (
+        <div className="adm-modal-overlay" onClick={() => !deleting && setDeleteTarget(null)} style={{ zIndex: 11000 }}>
+          <div className="adm-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 440, width: '92%', borderRadius: 12, overflow: 'hidden', background: '#171717', border: '1px solid #2d2d2d' }}>
+            <div style={{ padding: '26px 22px', textAlign: 'center' }}>
+              <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(239, 68, 68, 0.15)', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 26 }}>
+                🗑️
+              </div>
+              <h3 style={{ fontSize: 18, color: '#f3f4f6', marginBottom: 8, fontWeight: 700 }}>Delete Product?</h3>
+              <p style={{ color: '#9ca3af', fontSize: 14, lineHeight: 1.5, marginBottom: 22 }}>
+                Kya aap sach me <strong style={{ color: '#fff' }}>"{deleteTarget.name}"</strong> ko permanently delete karna chahte hain? Yeh product website aur database se turant hata diya jayega.
+              </p>
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                <button
+                  type="button"
+                  className="adm-btn"
+                  disabled={deleting}
+                  onClick={() => setDeleteTarget(null)}
+                  style={{ flex: 1, padding: '10px 16px', background: '#262626', color: '#e5e5e5', border: '1px solid #3a3a3a' }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-danger"
+                  disabled={deleting}
+                  onClick={confirmDeleteProduct}
+                  style={{ flex: 1, padding: '10px 16px', background: '#dc2626', color: '#fff', fontWeight: 700, border: 'none' }}
+                >
+                  {deleting ? 'Deleting...' : 'Haan, Delete Karein'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
