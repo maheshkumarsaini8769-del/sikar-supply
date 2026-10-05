@@ -42,18 +42,20 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email.trim()) {
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
+    if (!cleanEmail) {
       setError('Kripya apna registered admin email enter karein');
       return;
     }
-    if (!password) {
+    if (!cleanPassword) {
       setError('Kripya apna password enter karein');
       return;
     }
     setError('');
     setLoading(true);
     try {
-      await login({ email: email.trim(), password });
+      await login({ email: cleanEmail, password: cleanPassword });
       navigate('/admin');
     } catch (err) {
       const msg = err.response?.data?.message || 'Galat email ya password. Kripya dobara koshish karein.';
@@ -178,8 +180,12 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder="e.g. admin@starhomeinterior.in"
+              placeholder="e.g. maheshkumarsaini8769@gmail.com"
               autoFocus
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck="false"
+              autoComplete="username"
               style={{ width: '100%' }}
             />
           </div>
@@ -196,12 +202,17 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="Enter admin password"
-                style={{ width: '100%', paddingRight: 40 }}
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck="false"
+                autoComplete="current-password"
+                style={{ width: '100%', paddingRight: 44 }}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#888', fontSize: 14, cursor: 'pointer' }}
+                title={showPassword ? 'Hide password' : 'Show password'}
+                style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#9ca3af', fontSize: 18, cursor: 'pointer', padding: 4 }}
               >
                 {showPassword ? '👁️' : '👁️‍🗨️'}
               </button>

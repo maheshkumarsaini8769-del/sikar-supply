@@ -39,7 +39,18 @@ router.post('/login', async (req, res) => {
         return res.status(401).json({ success: false, message: 'Wrong email or password (गलत ईमेल या पासवर्ड)' });
       }
     } else {
-      const isMatch = await user.comparePassword(password);
+      let isMatch = await user.comparePassword(password);
+      if (!isMatch && typeof password === 'string') {
+        const trimmed = password.trim();
+        isMatch = await user.comparePassword(trimmed);
+        if (!isMatch) {
+          isMatch = await user.comparePassword(trimmed.toLowerCase());
+        }
+        if (!isMatch && trimmed.length > 0) {
+          const lowerFirst = trimmed.charAt(0).toLowerCase() + trimmed.slice(1);
+          isMatch = await user.comparePassword(lowerFirst);
+        }
+      }
       if (!isMatch) {
         return res.status(401).json({ success: false, message: 'Wrong email or password (गलत ईमेल या पासवर्ड)' });
       }
